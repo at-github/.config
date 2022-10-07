@@ -10,7 +10,6 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="robbyrussell"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -101,3 +100,37 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+# PROMPT
+source ~/.local/bin/lib/colors.sh
+
+PROMPT=%{$FYELLOW%}%n%{$RESET%}
+if [[ $(whoami) == 'root' ]]; then
+  PROMPT=%{$BORANGE%}%{$FBASE03%}
+else
+  PROMPT=%{$FYELLOW%}
+fi
+
+if [[ $DOCKER_MODE == true ]]; then
+  PROMPT+=%{$FCYAN%}' '%{$FYELLOW%}
+  PROMPT+=' '
+fi
+
+PROMPT+=%n%{$RESET%}
+PROMPT+=%{$RESET%}' @ '%{$FYELLOW%}%M$'%{$RESET%}\n'
+PROMPT+=%{$FBASE0%}'%$PR_PWDLEN<...<%~%<< '%{$RESET%}$'\n'
+#jobs
+PROMPT+=%(1j.%{$FYELLOW%}'%1{⚒ %}%j' %{$RESET%}.)
+#last returned code
+PROMPT+=%(?..%{$FORANGE%}'%1{ %}%1{%?%}' %{$RESET%})
+#                       Escape special char and specify it width
+PROMPT+=$'%{$FYELLOW%}\n%1{➜%} %{$RESET%}'
+
+# Maybe help https://git-scm.com/book/en/v2/Appendix-A:-Git-in-Other-Environments-Git-in-Zsh
+# Maybe help too https://github.com/olivierverdier/zsh-git-prompt/blob/master/zshrc.sh
+RPROMPT=%{$FBASE2%}'$(git_prompt_info)'%{$RESET%}
+
+export ZSH_THEME_GIT_PROMPT_PREFIX=" "
+ZSH_THEME_GIT_PROMPT_SUFFIX="%{$RESET%}"
+ZSH_THEME_GIT_PROMPT_DIRTY="%{$FRED%}✖ %{$RESET%}"
+ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[green]%}✔ %{$reset_color%}%F{108}"
