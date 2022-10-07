@@ -1,0 +1,66 @@
+alias ub='python ~/.local/bin/pullRepositories.py; clear'
+
+alias t='tmux -u -2'
+alias tt='t att -d'
+alias ttt='tmuxTemplateMyconf.sh'
+alias tls='t ls'
+
+alias c='cd'
+#Move to the near root git folder
+alias cdg='cd $(findRepo.sh)'
+alias cetc='c ~/.local/etc'
+alias cbin='c ~/.local/bin'
+alias cdocs='c ~/.local/docs'
+alias cj='c ~/.local/journal'
+alias upjournal='cj && git pull && c -'
+
+alias ls='ls --color=auto'
+alias ll='ls -lFh --group-directories-first'
+alias l='ll'
+alias lla='ll -a'
+alias la='ls -a'
+
+alias grep='grep -n --color=auto'
+alias g='grep'
+alias gg='git grep -n'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+
+alias f='find'
+
+#Process shouldn't have a terminal
+#By user
+alias ps='ps ux'
+
+alias cp='cp -i'
+alias mv='mv -i'
+alias m='mv'
+alias rm='rm -i'
+alias r='rm'
+
+alias cat='cat -n'
+alias hi='highlight.sh'
+
+alias df='df -H'
+alias du='du -ch'
+
+alias todo='g -is todo *'
+
+alias v='vim'
+alias e='nvim'
+alias vi="v -u NONE"
+alias ev='e ~/.vim/.vimrc ~/.vim/.vimrc.bepo'
+alias evn='e ~/.nvim/.nvimrc ~/.nvim/.vimrc.bepo'
+alias cv='c ~/.vim/'
+alias cnv='c ~/.config/nvim'
+alias cg='editGitModify.sh'
+
+alias ei3='e ${TA_SOURCE_CONF}/.i3/README.md ${TA_SOURCE_CONF}/.i3/config ${TA_SOURCE_CONF}/.i3status.conf'
+
+alias gitdiff="watch --color -n 2 git diff --color=always"
+alias gd="gitdiff"
+alias tgd="tmux split-window -h; tmux send-keys gd ENTER"
+
+alias gitst="watch --color -n 2 git st"
+alias gt="gitst"
+alias tgitst="tmux split-window -h; tmux send-keys gitst ENTER"
