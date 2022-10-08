@@ -126,11 +126,7 @@ PROMPT+=%(?..%{$FORANGE%}'%1{ %}%1{%?%}' %{$RESET%})
 #                       Escape special char and specify it width
 PROMPT+=$'%{$FYELLOW%}\n%1{➜%} %{$RESET%}'
 
-# Maybe help https://git-scm.com/book/en/v2/Appendix-A:-Git-in-Other-Environments-Git-in-Zsh
-# Maybe help too https://github.com/olivierverdier/zsh-git-prompt/blob/master/zshrc.sh
-RPROMPT=%{$FBASE2%}'$(git_prompt_info)'%{$RESET%}
+source ~/.local/etc/zshrc.sh
+RPROMPT=%{$FBASE2%}'$(git_super_status)'%{$RESET%}
 
 export ZSH_THEME_GIT_PROMPT_PREFIX=" "
-ZSH_THEME_GIT_PROMPT_SUFFIX="%{$RESET%}"
-ZSH_THEME_GIT_PROMPT_DIRTY="%{$FRED%}✖ %{$RESET%}"
-ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[green]%}✔ %{$reset_color%}%F{108}"
