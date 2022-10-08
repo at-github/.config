@@ -1,3 +1,4 @@
+alias rz='source $ZDOTDIR/.zshrc; printf "zshrc reloaded!"'
 alias ub='python ~/.local/bin/pullRepositories.py; clear'
 
 alias t='tmux -u -2'
