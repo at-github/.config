@@ -1,5 +1,6 @@
 source "$ZDOTDIR/.aliases"
 
+export USER_BIN="${HOME}/.local/bin"
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -102,7 +103,7 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # PROMPT
-source ~/.local/bin/lib/colors.sh
+source ${USER_BIN}/lib/colors.sh
 
 PROMPT=%{$FYELLOW%}%n%{$RESET%}
 if [[ $(whoami) == 'root' ]]; then
