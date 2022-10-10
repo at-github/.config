@@ -5,7 +5,7 @@ export USER_BIN="${HOME}/.local/bin"
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export OHMYZSH="$HOME/.config/zsh/.oh-my-zsh"
+export ZSH="$HOME/.config/zsh/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -14,7 +14,7 @@ export OHMYZSH="$HOME/.config/zsh/.oh-my-zsh"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in $OHMYZSH/themes/
+# a theme from this variable instead of looking in $ZSH/themes/
 # If set to an empty array, this variable will have no effect.
 # ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
@@ -64,17 +64,17 @@ export OHMYZSH="$HOME/.config/zsh/.oh-my-zsh"
 # see 'man strftime' for details.
 # HIST_STAMPS="mm/dd/yyyy"
 
-# Would you like to use another custom folder than $OHMYZSH/custom?
+# Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
 # Which plugins would you like to load?
-# Standard plugins can be found in $OHMYZSH/plugins/
+# Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git git-prompt)
 
-source $OHMYZSH/oh-my-zsh.sh
+source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
@@ -127,7 +127,7 @@ PROMPT+=%(?..%{$FORANGE%}'%1{ %}%1{%?%}' %{$RESET%})
 #                       Escape special char and specify it width
 PROMPT+=$'%{$FYELLOW%}\n%1{➜%} %{$RESET%}'
 
-source $USER_BIN/lib/zsh-git-prompt/zshrc.sh
+RPROMPT='$(git_super_status)'
 ZSH_THEME_GIT_PROMPT_PREFIX="%1{%} "
 ZSH_THEME_GIT_PROMPT_SUFFIX=""
 ZSH_THEME_GIT_PROMPT_SEPARATOR=" "
@@ -136,7 +136,7 @@ ZSH_THEME_GIT_PROMPT_STAGED="%{$FGREEN%}%{✓ %G%}"
 ZSH_THEME_GIT_PROMPT_STASHED="%{$FYELLOW%}%{⚑ %G%}"
 ZSH_THEME_GIT_PROMPT_CONFLICTS="%{$FRED%}%{✖ %G%}"
 ZSH_THEME_GIT_PROMPT_CHANGED="%{$FYELLOW%}%{⚡%G%}"
-ZSH_THEME_GIT_PROMPT_BEHIND="%{↓%G%}"
-ZSH_THEME_GIT_PROMPT_AHEAD="%{↑%G%}"
+ZSH_THEME_GIT_PROMPT_BEHIND="%{ ↓%G%}"
+ZSH_THEME_GIT_PROMPT_AHEAD="%{ ↑%G%}"
 ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$FMAGENTA%}%{✖ %G%}"
 ZSH_THEME_GIT_PROMPT_CLEAN="%{$FYELLOW%}%{ %G%}"
