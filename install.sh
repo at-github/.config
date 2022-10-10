@@ -2,6 +2,9 @@
 if [ ! -d $HOME/.oh-my-zsh ]; then
   echo "Clone oh my zsh";
   sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  rm -rf $HOME/.oh-my-zsh
+  git submodule init
+  git submodule update
 fi
 
 if [ ! -f $HOME/.config/zsh/.zshenv ]; then
