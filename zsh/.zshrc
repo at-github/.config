@@ -2,7 +2,27 @@ source "$ZDOTDIR/.aliases"
 
 export USER_BIN="${HOME}/.local/bin"
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+if [ -d /sbin ]; then
+    PATH=/sbin:$PATH
+fi
+
+#Source this path so some program like nginx is autocompleted
+if [ -d /usr/sbin ]; then
+    PATH=/usr/sbin:$PATH
+fi
+
+# Locally binaries
+if [ -d ${USER_BIN} ]; then
+    PATH=$PATH:${USER_BIN}
+fi
+
+if [ -d ${TA_SOURCE}/git ]; then
+    PATH=${TA_SOURCE}/git/bin:$PATH
+fi
+
+if [ -d ${HOME}/.config/composer/vendor/bin ]; then
+    PATH=${HOME}/.config/composer/vendor/bin:$PATH
+fi
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.config/zsh/.oh-my-zsh"
