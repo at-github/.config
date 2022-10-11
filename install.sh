@@ -22,11 +22,16 @@ if ! [ -x "$(command -v python)" ]; then
 fi
 
 # Neovim
+# Neovim > 0.7
+sudo apt-get install software-properties-common
+sudo add-apt-repository ppa:neovim-ppa/stable
+sudo apt-get update
+sudo apt-get install neovim
+
 git clone --depth 1 https://github.com/wbthomason/packer.nvim\
  ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 
-# TODO get neovim > 0.7
-sudo apt install ripgrep fd-find python3-pip npm
+sudo apt install ripgrep fd-find python3-pip python3-neovim npm
 
 pip3 install pynvim
 
@@ -36,6 +41,8 @@ php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 php -r "if (hash_file('sha384', 'composer-setup.php') === '55ce33d7678c5a611085589f1f3ddf8b3c52d662cd01d4ba75c0ee0459970c2200a51f492d557530c71c15d8dba01eae') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
 php composer-setup.php
 php -r "unlink('composer-setup.php');"
+
+# TODO prompt telling to install node
 
 sudo mv composer.phar /usr/local/bin/composer
 
