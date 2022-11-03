@@ -45,6 +45,7 @@ php -r "unlink('composer-setup.php');"
 # TODO prompt telling to install node
 
 sudo mv composer.phar /usr/local/bin/composer
+composer global require "squizlabs/php_codesniffer=*"
 
 nvim +PackerSync
 nvim +PackerCompile
