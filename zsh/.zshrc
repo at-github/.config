@@ -24,6 +24,10 @@ if [ -d ${HOME}/.config/composer/vendor/bin ]; then
     PATH=${HOME}/.config/composer/vendor/bin:$PATH
 fi
 
+if [ -d ${HOME}/.local/share/gem/ruby/3.0.0/bin ]; then
+    PATH=${HOME}/.local/share/gem/ruby/3.0.0/bin:$PATH
+fi
+
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.config/zsh/.oh-my-zsh"
 
