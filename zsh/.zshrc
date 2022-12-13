@@ -28,6 +28,10 @@ if [ -d ${HOME}/.local/share/gem/ruby/3.0.0/bin ]; then
     PATH=${HOME}/.local/share/gem/ruby/3.0.0/bin:$PATH
 fi
 
+if [ -f ${HOME}/.zshrc.local ]; then
+  source ${HOME}/.zshrc.local
+fi
+
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.config/zsh/.oh-my-zsh"
 
