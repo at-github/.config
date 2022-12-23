@@ -1,5 +1,12 @@
-.zcompdump*
-composer
-coc
-nvm
-tmuxinator
+# Ignore everything
+*
+
+# Except:
+.gitmodules
+README.md
+install.sh
+
+git
+nvim
+tmux
+zsh
