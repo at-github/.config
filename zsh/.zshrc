@@ -100,7 +100,16 @@ DISABLE_AUTO_TITLE="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git git-prompt wp-cli rails ruby node)
+
+plugins=(git \
+  git-prompt \
+  wp-cli \
+  rails \
+  ruby \
+  node \
+  history-substring-search \
+  colored-man-pages
+)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -129,6 +138,12 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+# history-substring-search
+bindkey '^P' history-substring-search-up
+bindkey '^N' history-substring-search-down
+bindkey -M vicmd 'k' history-substring-search-up
+bindkey -M vicmd 'j' history-substring-search-down
 
 # PROMPT
 source ${USER_BIN}/lib/colors.sh
