@@ -102,13 +102,13 @@ DISABLE_AUTO_TITLE="true"
 # Add wisely, as too many plugins slow down shell startup.
 
 plugins=(git \
+  colored-man-pages \
   git-prompt \
-  wp-cli \
+  history-substring-search \
+  node \
   rails \
   ruby \
-  node \
-  history-substring-search \
-  colored-man-pages
+  wp-cli
 )
 
 source $ZSH/oh-my-zsh.sh
