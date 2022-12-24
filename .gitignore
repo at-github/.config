@@ -2,11 +2,12 @@
 *
 
 # Except:
-.gitmodules
-README.md
-install.sh
+!.gitmodules
+!README.md
+!install.sh
 
-git
-nvim
-tmux
-zsh
+!git
+!nvim
+!tmux
+!zsh
+!kitty

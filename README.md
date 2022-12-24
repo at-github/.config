@@ -10,4 +10,6 @@ See : [nvim/README](https://github.com/at-github/nvim/blob/master/README.md)
 
 ## Zsh
 
+See : [zsh/README](./zsh/README.md)
+
 ## Git

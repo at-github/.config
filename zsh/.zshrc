@@ -108,12 +108,23 @@ plugins=(git \
   node \
   rails \
   ruby \
+  vi-mode \
   wp-cli
 )
 
 source $ZSH/oh-my-zsh.sh
-
 # User configuration
+
+# history-substring-search
+bindkey '^P' history-substring-search-up
+bindkey '^N' history-substring-search-down
+bindkey -M vicmd 'k' history-substring-search-up
+bindkey -M vicmd 'j' history-substring-search-down
+
+# vi-mode
+VI_MODE_SET_CURSOR=true
+MODE_INDICATOR="%F{white}+%f"
+INSERT_MODE_INDICATOR="%F{yellow}+%f"
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -138,12 +149,6 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-
-# history-substring-search
-bindkey '^P' history-substring-search-up
-bindkey '^N' history-substring-search-down
-bindkey -M vicmd 'k' history-substring-search-up
-bindkey -M vicmd 'j' history-substring-search-down
 
 # PROMPT
 source ${USER_BIN}/lib/colors.sh
