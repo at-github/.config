@@ -31,6 +31,9 @@ if [ ! -d $HOME/.config/zsh/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting ];
   git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 fi
 
+# Zoxide
+# curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
+
 # Neovim
 # Neovim > 0.7
 sudo apt-get install software-properties-common

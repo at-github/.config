@@ -104,6 +104,7 @@ DISABLE_AUTO_TITLE="true"
 plugins=(git \
   zsh-autosuggestions \
   zsh-syntax-highlighting \
+  zoxide \
   colored-man-pages \
   git-prompt \
   history-substring-search \

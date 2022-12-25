@@ -55,3 +55,7 @@ Use ESC or CTRL-[ to enter Normal mode.
 ### completion
 
 - `ctrl-space` to accept suggestion from zsh-autosuggestions
+
+### jump with z like smart cd
+
+- `z somewhere`
