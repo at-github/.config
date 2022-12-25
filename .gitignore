@@ -7,7 +7,11 @@
 !install.sh
 
 !git
-!nvim
+!git/*
 !tmux
+!tmux/*
 !zsh
+!zsh/*
+zsh/.zcompdump*
 !kitty
+!kitty/*
