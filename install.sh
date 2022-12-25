@@ -21,6 +21,12 @@ if ! [ -x "$(command -v python)" ]; then
   sudo apt install python-is-python3
 fi
 
+
+if [ ! -d $HOME/.config/zsh/.oh-my-zsh/custom/plugins/zsh-autosuggestions ]; then
+  echo "clone zsh-autosuggestions";
+  git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+fi
+
 # Neovim
 # Neovim > 0.7
 sudo apt-get install software-properties-common

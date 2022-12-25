@@ -102,6 +102,7 @@ DISABLE_AUTO_TITLE="true"
 # Add wisely, as too many plugins slow down shell startup.
 
 plugins=(git \
+  zsh-autosuggestions \
   colored-man-pages \
   git-prompt \
   history-substring-search \
@@ -125,6 +126,9 @@ bindkey -M vicmd 'j' history-substring-search-down
 VI_MODE_SET_CURSOR=true
 MODE_INDICATOR="%F{white}+%f"
 INSERT_MODE_INDICATOR="%F{yellow}+%f"
+
+# zsh-autosuggestions
+bindkey '^ ' autosuggest-accept
 
 # export MANPATH="/usr/local/man:$MANPATH"
 

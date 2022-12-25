@@ -51,3 +51,7 @@ Use ESC or CTRL-[ to enter Normal mode.
 - `R` : Enter replace mode: Each character replaces existing one
 - `x` : Delete count characters under and after the cursor
 - `X` : Delete count characters before the cursor
+
+### completion
+
+- `ctrl-space` to accept suggestion from zsh-autosuggestions
