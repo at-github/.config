@@ -101,18 +101,19 @@ DISABLE_AUTO_TITLE="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 
-plugins=(git \
-  zsh-autosuggestions \
-  zsh-syntax-highlighting \
-  zoxide \
+plugins=(\
   colored-man-pages \
+  git \
   git-prompt \
   history-substring-search \
   node \
   rails \
   ruby \
   vi-mode \
-  wp-cli
+  wp-cli \
+  zoxide \
+  zsh-autosuggestions \
+  zsh-syntax-highlighting
 )
 
 source $ZSH/oh-my-zsh.sh
