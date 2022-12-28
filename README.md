@@ -22,4 +22,9 @@ See : [kitty/README](./kitty/README.md)
 
 ## Testing
 
-`docker run -it -w/root tarik/forconfig:alpha zsh` to launch proper container with copied Makefile
+Launch proper container with copied Makefile
+
+```
+docker build -t tarik/forconfig:alpha < --no-cache if needed>.
+docker run -it tarik/forconfig:alpha
+```
