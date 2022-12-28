@@ -14,6 +14,8 @@ See : [zsh/README](./zsh/README.md)
 
 ## Git
 
+See : [git/README](./git/README.md)
+
 ## Kitty
 
 See : [kitty/README](./kitty/README.md)
