@@ -152,29 +152,48 @@ bindkey '^ ' autosuggest-accept
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
+
+# COLORS
 #
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+RESET="$(tput sgr0)"
+
+LTGRAY=244
+GRAY=234
+CYAN=37
+GREEN=64
+MAGENTA=125
+ORANGE=166
+YELLOW=136
+RED=160
+
+BORANGE="$(tput setab $ORANGE)"
+
+FLTGRAY="$(tput setaf $LTGRAY)"
+FGRAY="$(tput setaf $GRAY)"
+FCYAN="$(tput setaf $CYAN)"
+FGREEN="$(tput setaf $GREEN)"
+FMAGENTA="$(tput setaf $MAGENTA)"
+FRED="$(tput setaf $RED)"
+FYELLOW="$(tput setaf $YELLOW)"
 
 # PROMPT
-source ${USER_BIN}/lib/colors.sh
 
-PROMPT=%{$FYELLOW%}%n%{$RESET%}
-if [[ $(whoami) == 'root' ]]; then
-  PROMPT=%{$BORANGE%}%{$FBASE03%}
-else
-  PROMPT=%{$FYELLOW%}
+DOCKER_STATUS=''
+if [ -f /.dockerenv ]; then
+  DOCKER_STATUS=' '
 fi
 
-if [[ $DOCKER_MODE == true ]]; then
-  PROMPT+=%{$FCYAN%}' '%{$FYELLOW%}
-  PROMPT+=' '
+PROMPT=%{$FYELLOW%}%n%{$RESET%}
+
+if [[ $(whoami) == 'root' ]]; then
+  PROMPT=${DOCKER_STATUS}%{$BORANGE%}%{$FGRAY%}
+else
+  PROMPT=${DOCKER_STATUS}%{$FYELLOW%}
 fi
 
 PROMPT+=%n%{$RESET%}
 PROMPT+=%{$RESET%}' @ '%{$FYELLOW%}%M$'%{$RESET%}\n'
-PROMPT+=%{$FBASE0%}'%$PR_PWDLEN<...<%~%<< '%{$RESET%}$'\n'
+PROMPT+=%{$FLTGRAY%}'%$PR_PWDLEN<...<%~%<< '%{$RESET%}$'\n'
 #jobs
 PROMPT+=%(1j.%{$FYELLOW%}'%1{⚒ %}%j' %{$RESET%}.)
 #last returned code
@@ -182,12 +201,11 @@ PROMPT+=%(?..%{$FORANGE%}'%1{ %}%1{%?%}' %{$RESET%})
 #                       Escape special char and specify it width
 PROMPT+=$'%{$FYELLOW%}\n%1{➜%} %{$RESET%}'
 
-RPROMPT='%{$FBASE0%}$(git_super_status)'
+RPROMPT='%{$FLTGRAY%}$(git_super_status)'
 ZSH_THEME_GIT_PROMPT_PREFIX=""
 ZSH_THEME_GIT_PROMPT_SUFFIX=""
-ZSH_THEME_GIT_PROMPT_SEPARATOR=" %{$FBASE0%}|"
+ZSH_THEME_GIT_PROMPT_SEPARATOR=" %{$FLTGRAY%}|"
 ZSH_THEME_GIT_PROMPT_BRANCH=" "
-ZSH_THEME_GIT_PROMPT_STAGED=" %{$FGREEN%}%{✓%G%}"
 ZSH_THEME_GIT_PROMPT_STASHED=" %{$FYELLOW%}%{⚑%G%}"
 ZSH_THEME_GIT_PROMPT_CONFLICTS=" %{$FRED%}%{⚠%G%}"
 ZSH_THEME_GIT_PROMPT_CHANGED=" %{$FYELLOW%}%{✹%G%}"
