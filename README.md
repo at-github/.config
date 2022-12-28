@@ -19,3 +19,7 @@ See : [git/README](./git/README.md)
 ## Kitty
 
 See : [kitty/README](./kitty/README.md)
+
+## Testing
+
+`docker run -it -w/root tarik/forconfig:alpha zsh` to launch proper container with copied Makefile

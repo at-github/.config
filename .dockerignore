@@ -2,13 +2,13 @@
 *
 
 # Except:
-!.dockerignore
 !.gitmodules
-!Dockerfile
-!Makefile
 !README.md
 !install.sh
+!Makefile
 
+!docker
+!docker/*
 !git
 !git/*
 !tmux
