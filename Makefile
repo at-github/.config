@@ -11,7 +11,7 @@ get-submodules:
 	fi
 
 # Install zsh dependancies
-zsh:
+zsh: get-submodules
 	apt install python-is-python3 -y
 	ln -s ~/.config/zsh/.zshenv ~/.zshenv;
 	git clone https://github.com/zsh-users/zsh-autosuggestions ~/.config/zsh/.oh-my-zsh/custom/plugins/zsh-autosuggestions
