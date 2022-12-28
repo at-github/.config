@@ -6,6 +6,8 @@
 !README.md
 !install.sh
 
+!docker
+!docker/*
 !git
 !git/*
 !tmux
