@@ -14,7 +14,7 @@ get-submodules:
 composer:
 	DEBIAN_FRONTEND=noninteractive apt install php-cli composer -y
 
-# Install zsh dependancies
+# Install zsh dependencies
 zsh: get-submodules
 	apt update
 	apt install python-is-python3 -y
@@ -51,7 +51,15 @@ neovim: get-submodules composer
 	gem install neovim
 	npm install -g neovim
 	apt-get install neovim -y
-	nvim +PackerSync
+	# FIXME: module 'nvim-treesitter.configs' not found
+	# you gotta setup after the call to plug#end because it's when plug will load plugins in the rtp !
+	# https://github.com/nvim-treesitter/nvim-treesitter/issues/914
+	# Vim:tree-sitter CLI not found: `tree-sitter` is not executable
+	# FIXME:
+	# ^I.../site/pack/packer/start/packer.nvim/lua/packer/async.lua:12: in function <.../site/pack/packer/start/packer.nvim/lua/packer/async.lua:11>
+	# FIXME:
+	# packer.nvim: Error running config for nvim-surround: .../packer/start/nvim-surround/lua/nvim-surround/config.lua:812: Vim:tree-sitter CLI not found: `tree-sitter` is not executable!
+	nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 
 # Build image
 docker-build:
