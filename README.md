@@ -24,7 +24,13 @@ See : [kitty/README](./kitty/README.md)
 
 Launch proper container with copied Makefile
 
-```
-docker build -t tarik/forconfig:alpha < --no-cache if needed>.
-docker run -it tarik/forconfig:alpha
+```shell
+make docker-build # Build container
+make docker-jump # Jump into container
+# Makefile was copied into the container during the build
+# So we can edit it & see changes without commit & push
+
+# Inside the container:
+make zsh # Install zsh config
+make neovim # Install neovim config
 ```
