@@ -67,3 +67,5 @@ alias gt="gitst"
 alias tgitst="tmux split-window -h; tmux send-keys gitst ENTER"
 
 alias kssh="kitty +kitten ssh"
+
+alias dc="docker-compose"
