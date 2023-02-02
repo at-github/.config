@@ -1,4 +1,4 @@
-FROM ubuntu:22.10
+FROM ubuntu:latest
 ENV TERM xterm-256color
 RUN apt update
 RUN apt install -y git zsh make iputils-ping curl
