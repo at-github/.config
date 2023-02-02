@@ -33,25 +33,27 @@ neovim: get-submodules composer
 	git clone --depth 1 https://github.com/wbthomason/packer.nvim\
 		~/.local/share/nvim/site/pack/packer/start/packer.nvim
 	apt install \
-		cargo \
-		eslint \
 		fd-find \
-		gcc \
 		gem \
-		luarocks \
 		npm \
 		python3-neovim \
 		python3-pip \
-		ripgrep \
 		ruby \
 		ruby-dev \
-		wget \
 		-y
 	pip3 install pynvim
-	gem install neovim
 	npm install -g tree-sitter-cli neovim 
-	apt-get install neovim -y
-	nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+
+	apt-get install ninja-build \
+   		gettext libtool libtool-bin \
+   		autoconf automake cmake g++ \
+   		pkg-config unzip -y
+	mkdir -p ~/.local/bin/nvim
+	git clone https://github.com/neovim/neovim.git
+	cd neovim && git checkout tags/v0.8.3 -b v0.8.3 && make CMAKE_BUILD_TYPE=Release \
+		CMAKE_INSTALL_PREFIX=~/.local/bin/nvim install
+
+	~/.local/bin/nvim/bin/nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 
 # Build image
 docker-build:
