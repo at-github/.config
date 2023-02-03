@@ -1,3 +1,5 @@
+MAKEFLAGS += --silent
+
 .PHONY: check-and-reinit-submodules zsh docker-build docker-build-without-cache docker-jump help composer
 
 help:
@@ -18,13 +20,13 @@ composer:
 zsh: get-submodules
 	apt update
 	apt install python-is-python3 -y
-	ln -s ~/.config/zsh/.zshenv ~/.zshenv;
-	git clone https://github.com/zsh-users/zsh-autosuggestions \
-		~/.config/zsh/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
-		~/.config/zsh/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-	curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh \
-		| bash
+	([ ! -f ~/.zshenv ]) && ln -s ~/.config/zsh/.zshenv ~/.zshenv || echo 'Alias already exist'
+	([ ! -d ~/.config/zsh/.oh-my-zsh/custom/plugins/zsh-autosuggestions ]) && git clone https://github.com/zsh-users/zsh-autosuggestions \
+		~/.config/zsh/.oh-my-zsh/custom/plugins/zsh-autosuggestions || echo 'zsh-autosuggestions already installed'
+	([ ! -d ~/.config/zsh/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting ]) && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
+		~/.config/zsh/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting || echo 'zsh-syntax-highlighting already installed'
+	(! type zoxide > /dev/null) && curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh \
+		| bash || echo 'Zoxide already installed'
 	zsh
 
 # Install neovim
