@@ -1,0 +1,16 @@
+{
+    "require": {
+        "squizlabs/php_codesniffer": "*"
+    },
+    "require-dev": {
+        "phpcompatibility/php-compatibility": "^9.3",
+        "phpcompatibility/phpcompatibility-symfony": "*",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
+        "symplify/easy-coding-standard": "*"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
+}

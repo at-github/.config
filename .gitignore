@@ -9,6 +9,11 @@
 !README.md
 !install.sh
 
+!composer
+!composer/*
+composer/composer.lock
+composer/keys*
+composer/.htaccess
 !git
 !git/*
 !tmux
