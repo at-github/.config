@@ -4,6 +4,7 @@
 # Except:
 !.dockerignore
 !.gitmodules
+!.irbrc
 !Dockerfile
 !Makefile
 !README.md
