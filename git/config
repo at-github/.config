@@ -48,7 +48,7 @@
     pfl  = push --force-with-lease
 
 [core]
-    pager = less
+    pager = more
     editor = nvim
     whitespace = -trailing-space
     # core.trustctime
