@@ -4,7 +4,6 @@
 # Except:
 !.dockerignore
 !.gitmodules
-!.irbrc
 !Dockerfile
 !Makefile
 !README.md
@@ -15,6 +14,9 @@
 composer/composer.lock
 composer/keys*
 composer/.htaccess
+!irb
+!irb/*
+irb/irb_history
 !git
 !git/*
 !i3
