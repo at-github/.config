@@ -36,31 +36,7 @@ bindsym $mod+Return exec kitty
 # kill focused window
 bindsym $mod+Shift+q kill
 
-## dmenu
-# -i case insensitively
-# -b demenu at bottom
-# -l items vertically
-# -p prompt
-# -nb normal color (background)
-# -nf foreground (text)
-# -sb bg for selected item
-# -sf fg for selected item
-# -fn font
-#
-# To manage more easely font, i had to download this
-# http://dl.suckless.org/tools/dmenu-4.5.tar.gz
-# http://tools.suckless.org/dmenu/patches/dmenu-4.5-xft-debian.diff
-# and do this
-# tar zxvf dmenu-4.5.tar.gz
-# cd dmenu-4.5
-# mv ../dmenu-4.5-xft.diff .
-# patch -p1 < dmenu-4.5-xft.diff
-# install libxft-dev libxft2 libxinerama-dev
-# make
-# sudo make install
-#
-bindsym $mod+d exec dmenu_run -i -b -l 20 -p '➜' -nb '$grey4' -nf '$grey5' -sb '$primary-bg' -sf '$grey6' -fn 'Powerline DejaVu Sans Mono-10'
-
+bindsym $mod+d exec rofi -show run
 # change focus
 bindsym $mod+j focus left
 bindsym $mod+k focus down

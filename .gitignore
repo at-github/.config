@@ -21,6 +21,8 @@ composer/.htaccess
 !i3/*
 !i3status
 !i3status/*
+!rofi
+!rofi/*
 !tmux
 !tmux/*
 !zsh
