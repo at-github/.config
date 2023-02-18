@@ -172,7 +172,9 @@ bindsym $mod+r mode "resize"
 bindsym $mod+Shift+p exec ~/.local/bin/i3lockWallpaper.sh
 bindsym $mod+n exec nautilus ~ --no-desktop
 
-smart_borders no_gaps
+# GAPS
+gaps inner 30px
+gaps top 5px
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
