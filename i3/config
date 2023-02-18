@@ -201,6 +201,8 @@ bar {
         inactive_workspace  $default-darker-bg $default-darker-bg $secondary-txt
         urgent_workspace    #dc322f #dc322f #002b36
     }
+
+    workspace_min_width 40
 }
 
 #######################################################################
