@@ -203,7 +203,7 @@ bar {
     # For install py3status on debian
     # apt-get install python-stdeb
     # pypi-install py3status
-    status_command py3status -c ~/.config/i3/i3status.conf
+    status_command py3status -c ~/.config/i3status/config
 
     strip_workspace_numbers yes
 
