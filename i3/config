@@ -36,7 +36,7 @@ bindsym $mod+Return exec kitty
 # kill focused window
 bindsym $mod+Shift+q kill
 
-bindsym $mod+d exec rofi -show run
+bindsym $mod+d exec rofi -show drun
 
 # change focus
 bindsym $mod+j focus left
