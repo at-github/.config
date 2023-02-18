@@ -17,6 +17,10 @@ composer/keys*
 composer/.htaccess
 !git
 !git/*
+!i3
+!i3/*
+!i3status
+!i3status/*
 !tmux
 !tmux/*
 !zsh
