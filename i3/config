@@ -196,9 +196,16 @@ exec i3-config-wizard
 exec_always "~/.config-screens.sh; ~/.local/bin/wallpaper.sh"
 exec --no-startup-id i3-msg 'exec xscreensaver -no-splash'
 
+#######################################################################
+#
+# Local specific stuff like:
+#
+# exec spotify
+# exec variety
+# exec blanket -h
+# exec signal-desktop
+# exec com.brave.Browser
+#
+#######################################################################
 
-exec spotify
-exec variety
-exec blanket -h
-exec signal-desktop
-exec com.brave.Browser
+include ~/.i3.local
