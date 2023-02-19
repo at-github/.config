@@ -199,5 +199,6 @@ exec --no-startup-id i3-msg 'exec xscreensaver -no-splash'
 
 exec spotify
 exec variety
+exec blanket -h
 exec signal-desktop
 exec com.brave.Browser
