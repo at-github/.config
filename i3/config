@@ -164,9 +164,6 @@ gaps top 5px
 font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 font pango:FontAwesome 10
 
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
-
 set $primary-bg  #113c55
 set $primary-txt  #aaaaaa
 set $secondary-bg #081e2b
@@ -182,28 +179,7 @@ client.focused_inactive $default-bg  $default-bg  $secondary-txt
 client.unfocused        $default-bg  $default-bg  $secondary-txt
 client.urgent           $black  $black  $black
 
-bar {
-    # For install py3status on debian
-    # apt-get install python-stdeb
-    # pypi-install py3status
-    status_command py3status -c ~/.config/i3status/config
-
-    strip_workspace_numbers yes
-
-    position top
-
-    colors {
-        background $default-bg
-        statusline $primary-txt
-
-        focused_workspace   $primary-bg $primary-bg $primary-txt
-        active_workspace    $default-bg $default-bg $secondary-txt
-        inactive_workspace  $default-darker-bg $default-darker-bg $secondary-txt
-        urgent_workspace    #dc322f #dc322f #002b36
-    }
-
-    workspace_min_width 40
-}
+exec_always --no-startup-id ~/.config/polybar/launch.sh
 
 #######################################################################
 # automatically start i3-config-wizard to offer the user to create a

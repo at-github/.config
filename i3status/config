@@ -7,10 +7,10 @@ general {
     interval = 1
 }
 
-#order += "disk /" #TODO home
-#order += "wireless wlp0s26u1u4" #depend of the interface
-#order += "ethernet eth0"
-#order += "volume master"
+order += "disk /" #TODO home
+order += "wireless wlp0s26u1u4" #depend of the interface
+order += "ethernet eth0"
+order += "volume master"
 order += "time"
 
 #order += "cpu_temperature 0"
