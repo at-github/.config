@@ -83,8 +83,8 @@ bindsym $mod+Shift+e exit
 
 set $workspacePersonal 
 set $workspacePro  
-set $workspaceStudent 
-set $workspaceMusic 
+set $workspaceStudent 󱨠
+set $workspaceMusic 
 
 bindsym $mod+1 workspace 1: $workspacePersonal
 bindsym $mod+2 workspace 2: $workspacePro
