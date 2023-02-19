@@ -189,12 +189,14 @@ exec_always --no-startup-id ~/.config/polybar/launch.sh
 # i3-config-wizard will not launch if there already is a config file
 # in ~/.i3/config.
 #
-# Please remove the following exec line:
 #######################################################################
 exec i3-config-wizard
 
+#######################################################################
+# My startup applications
 exec_always "~/.config-screens.sh; ~/.local/bin/wallpaper.sh"
 exec --no-startup-id i3-msg 'exec xscreensaver -no-splash'
+exec --no-startup-id picom -b
 
 #######################################################################
 #
