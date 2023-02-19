@@ -8,7 +8,7 @@ polybar-msg cmd quit
 
 # Launch main and workspaces
 echo "---" | tee -a /tmp/polybar-main.log /tmp/polybar-dock.log
-polybar main 2>&1 | tee -a /tmp/polybar-main.log & disown
-polybar dock 2>&1 | tee -a /tmp/polybar-dock.log & disown
+polybar -r main 2>&1 | tee -a /tmp/polybar-main.log & disown
+polybar -r dock 2>&1 | tee -a /tmp/polybar-dock.log & disown
 
 echo "Bars launched..."
