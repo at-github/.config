@@ -1,16 +1,122 @@
-configuration{
-    modi: "run,drun";
-    show-icons: true;
-    terminal: "kitty";
-    drun-display-format: "{icon} {name}";
-    location: 0;
-    disable-history: false;
-    hide-scrollbar: true;
-    display-drun: " 󰵆 Apps ";
-    display-run: "   Run ";
-    display-window: "   Window";
-    display-Network: " 󰤨  Network";
-    sidebar-mode: true;
+configuration {
+  modi: "run,drun";
+  show-icons: true;
+  terminal: "kitty";
+  drun-display-format: "{icon} {name}";
+  location: 0;
+  disable-history: false;
+  display-drun: " 󰵆 Apps ";
+  display-run: "   Run ";
+  display-window: "   Window";
+  display-Network: " 󰤨  Network";
+  sidebar-mode: true;
 }
 
-@theme "catppuccin-mocha"
+* {
+  width: 800;
+  font: "FantasqueSansMono Nerd Font 12";
+}
+
+element-text, element-icon , mode-switcher {
+  background-color: inherit;
+  text-color:       inherit;
+}
+
+window {
+  border: 3px;
+  border-color: @background;
+  background-color: @background;
+}
+
+mainbox {
+  background-color: @background;
+}
+
+inputbar {
+  children: [prompt,entry];
+  padding: 20px;
+}
+
+prompt {
+  background-color: @color1;
+  text-color: @color0;
+  font: "FantasqueSansMono Nerd Font bold 12";
+  padding: 20px;
+}
+
+textbox-prompt-colon {
+  expand: false;
+  str: " > ";
+}
+
+entry {
+  padding: 6px;
+  margin: 10px 0px 0px 10px;
+  text-color: @color1;
+  font: "FantasqueSansMono Nerd Font bold 14";
+}
+
+
+/*******/
+
+listview {
+  border: 0px 0px 0px;
+  padding: 6px 0px 0px;
+  margin: 10px 0px 0px 20px;
+  columns: 1;
+  lines: 5;
+  fixed-height: false;
+  background-color: @background;
+  scrollbar: false;
+}
+
+element {
+  padding: 15px;
+}
+
+element.normal.normal, element.alternate.normal {
+  background-color: @background;
+  text-color: @color1;
+}
+
+element selected.normal {
+	background-color: @color1;
+	text-color: @background;
+}
+
+element-icon {
+  size: 30px;
+}
+
+mode-switcher {
+  spacing: 0;
+}
+
+button {
+  padding: 10px;
+  background-color: @background;
+  text-color: @color1;
+  vertical-align: 0.5; 
+  horizontal-align: 0.5;
+}
+
+button selected {
+  background-color: @color1;
+  text-color: @background;
+}
+
+message {
+  background-color: @color4;
+  margin: 10px 10px 10px 20px;
+  padding: 20px;
+  border: none;
+}
+
+textbox {
+  padding: 6px;
+  margin: 20px 0px 0px 20px;
+  text-color: #FF0000;
+  background-color: #00FFFF;
+}
+
+@import "~/.cache/wal/colors-rofi-dark"
