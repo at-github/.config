@@ -165,22 +165,17 @@ gaps top 5px
 font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 font pango:FontAwesome 10
 
-set $primary-bg  #113c55
-set $primary-txt  #aaaaaa
-set $secondary-bg #081e2b
-set $secondary-txt #777777
-set $default-bg #333333
-set $default-darker-bg #222222
+set_from_resource $primary-bg  i3wm.color1 #113c55
+set_from_resource $primary-txt i3wm.color0 #aaaaaa
+set_from_resource $secondary-txt i3wm.color2 #FF0000
 
 set $black #000000
 
-# color_class           bbd          bg           txt
-client.focused          $primary-bg  $primary-bg  $primary-txt
-client.focused_inactive $default-bg  $default-bg  $secondary-txt
-client.unfocused        $default-bg  $default-bg  $secondary-txt
-client.urgent           $black  $black  $black
-
-exec_always --no-startup-id ~/.config/polybar/launch.sh
+# color_class           bbd           bg            txt
+client.focused          $primary-bg   $primary-bg   $primary-txt
+client.focused_inactive $primary-txt  $primary-txt  $secondary-txt
+client.unfocused        $primary-txt  $primary-txt  $secondary-txt
+client.urgent           $black        $black        #FF0000
 
 #######################################################################
 # automatically start i3-config-wizard to offer the user to create a
@@ -197,6 +192,7 @@ exec i3-config-wizard
 exec_always "~/.config-screens.sh; ~/.local/bin/wallpaper.sh"
 exec --no-startup-id i3-msg 'exec xscreensaver -no-splash'
 exec --no-startup-id picom -b
+exec_always --no-startup-id wal -i /usr/share/backgrounds && ~/.config/polybar/launch.sh
 
 #######################################################################
 #
