@@ -154,8 +154,21 @@ bindkey '^ ' autosuggest-accept
 # For a full list of active aliases, run `alias`.
 
 # COLORS
-#
-RESET="$(tput sgr0)"
+
+# Import colorscheme from 'wal' asynchronously
+# &   # Run the process in the background.
+# ( ) # Hide shell job control messages.
+# Not supported in the "fish" shell.
+(\cat ~/.cache/wal/sequences &)
+
+# Alternative (blocks terminal for 0-3ms)
+# cat ~/.cache/wal/sequences
+
+# To add support for TTYs this line can be optionally added.
+source ~/.cache/wal/colors-tty.sh
+source ~/.cache/wal/colors.sh
+
+RESET=%f
 
 LTGRAY=244
 GRAY=234
@@ -168,13 +181,12 @@ RED=160
 
 BORANGE="$(tput setab $ORANGE)"
 
-FLTGRAY="$(tput setaf $LTGRAY)"
-FGRAY="$(tput setaf $GRAY)"
-FCYAN="$(tput setaf $CYAN)"
-FGREEN="$(tput setaf $GREEN)"
-FMAGENTA="$(tput setaf $MAGENTA)"
-FRED="$(tput setaf $RED)"
-FYELLOW="$(tput setaf $YELLOW)"
+FLTGRAY='#999999'
+FGRAY='#666666'
+FGREEN='#5ec24c'
+FMAGENTA='#813181'
+FRED='#EE2222'
+FYELLOW='#c7c71b'
 
 # PROMPT
 
@@ -183,34 +195,31 @@ if [ -f /.dockerenv ]; then
   DOCKER_STATUS=' '
 fi
 
-PROMPT=%{$FYELLOW%}%n%{$RESET%}
-
 if [[ $(whoami) == 'root' ]]; then
   PROMPT=${DOCKER_STATUS}%{$BORANGE%}%{$FGRAY%}
 else
-  PROMPT=${DOCKER_STATUS}%{$FYELLOW%}
+  PROMPT=${DOCKER_STATUS}%F{${color2-${FYELLOW}}%}
 fi
 
-PROMPT+=%n%{$RESET%}
-PROMPT+=%{$RESET%}' @ '%{$FYELLOW%}%M$'%{$RESET%}\n'
-PROMPT+=%{$FLTGRAY%}'%$PR_PWDLEN<...<%~%<< '%{$RESET%}$'\n'
+PROMPT+=%F{${color4:-${FYELLOW}}}%n%{$RESET%}
+PROMPT+=%F{${color3:-${FGRAY}}}' @ '%F{${color4:-${FYELLOW}}%}%M$'%{$RESET%}\n'
+PROMPT+=%F{${color1:-${FLTGRAY}}}'%$PR_PWDLEN<...<%~%<< '%{$RESET%}$'\n'
 #jobs
-PROMPT+=%(1j.%{$FYELLOW%}'%1{⚒ %}%j' %{$RESET%}.)
+PROMPT+=%(1j.%F{${color5:-${FYELLOW}}}'%1{⚒ %}%j' %{$RESET%}.)
 #last returned code
-PROMPT+=%(?..%{$FORANGE%}'%1{ %}%1{%?%}' %{$RESET%})
-#                       Escape special char and specify it width
-PROMPT+=$'%{$FYELLOW%}\n%1{➜%} %{$RESET%}'
+PROMPT+=%(?..%F{${color5:-${FYELLOW}}}'%1{ %}%1{%?%}' %{$RESET%})
+PROMPT+=$'%F{${color4:-${FYELLOW}}}\n%1{➜%} %{$RESET%}'
 
-RPROMPT='%{$FLTGRAY%}$(git_super_status)'
+RPROMPT='%F{${color1:-${FLTGRAY}}}$(git_super_status)'
 ZSH_THEME_GIT_PROMPT_PREFIX=""
 ZSH_THEME_GIT_PROMPT_SUFFIX=""
-ZSH_THEME_GIT_PROMPT_SEPARATOR=" %{$FLTGRAY%}|"
+ZSH_THEME_GIT_PROMPT_SEPARATOR=" %F{$FLTGRAY%}|"
 ZSH_THEME_GIT_PROMPT_BRANCH=" "
-ZSH_THEME_GIT_PROMPT_STASHED=" %{$FYELLOW%}%{⚑%G%}"
-ZSH_THEME_GIT_PROMPT_STAGED=" %{$FGREEN%}%{✓%G%}"
-ZSH_THEME_GIT_PROMPT_CONFLICTS=" %{$FRED%}%{⚠%G%}"
-ZSH_THEME_GIT_PROMPT_CHANGED=" %{$FYELLOW%}%{✹%G%}"
-ZSH_THEME_GIT_PROMPT_UNTRACKED=" %{$FMAGENTA%}%{•%G%}"
-ZSH_THEME_GIT_PROMPT_CLEAN=" %{$FYELLOW%}%{☮ %G%}"
+ZSH_THEME_GIT_PROMPT_STASHED=" %F{$FYELLOW%}%{⚑%G%}"
+ZSH_THEME_GIT_PROMPT_STAGED=" %F{$FGREEN%}%{✓%G%}"
+ZSH_THEME_GIT_PROMPT_CONFLICTS=" %F{$FRED%}%{⚠%G%}"
+ZSH_THEME_GIT_PROMPT_CHANGED=" %F{$FYELLOW%}%{✹%G%}"
+ZSH_THEME_GIT_PROMPT_UNTRACKED=" %F{$FMAGENTA%}%{•%G%}"
+ZSH_THEME_GIT_PROMPT_CLEAN=" %F{$FYELLOW%}%{☮ %G%}"
 ZSH_THEME_GIT_PROMPT_BEHIND=" %{↓%G%}"
 ZSH_THEME_GIT_PROMPT_AHEAD=" %{↑%G%}"
