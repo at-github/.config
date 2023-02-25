@@ -159,14 +159,21 @@ bindkey '^ ' autosuggest-accept
 # &   # Run the process in the background.
 # ( ) # Hide shell job control messages.
 # Not supported in the "fish" shell.
-(\cat ~/.cache/wal/sequences &)
+if [ -f ${HOME}/.cache/wal/sequences ]; then
+  (\cat ${HOME}/.cache/wal/sequences &)
+fi
 
 # Alternative (blocks terminal for 0-3ms)
 # cat ~/.cache/wal/sequences
 
 # To add support for TTYs this line can be optionally added.
-source ~/.cache/wal/colors-tty.sh
-source ~/.cache/wal/colors.sh
+if [ -f ${HOME}/.cache/wal/colors-tty.sh ]; then
+  source ${HOME}/.cache/wal/colors-tty.sh
+fi
+
+if [ -f ${HOME}/.cache/wal/colors.sh ]; then
+  source ${HOME}/.cache/wal/colors.sh
+fi
 
 RESET=%f
 
