@@ -152,10 +152,8 @@ mode "resize" {
     bindsym Escape mode "default"
 }
 
-# WINDOW
-title_align center
-tiling_drag modifier titlebar
-for_window [all] title_window_icon padding 10px
+# BORDERS
+default_border pixel 10px
 
 # GAPS
 gaps inner 30px
