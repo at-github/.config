@@ -82,7 +82,7 @@ bindsym $mod+Shift+e exit
 # switch to workspace
 
 set $workspacePersonal 
-set $workspacePro  
+set $workspacePro 󰨈
 set $workspaceStudent 󱨠
 set $workspaceMusic 
 
