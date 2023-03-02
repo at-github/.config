@@ -48,45 +48,55 @@
     pfl  = push --force-with-lease
 
 [core]
-    pager = more
-    editor = nvim
-    whitespace = -trailing-space
-    # core.trustctime
-    # If false, the ctime differences between the index and the working tree are ignored;
-    # useful when the inode change time is regularly modified by something outside Git (file system crawlers and some backup systems).
-    # See git-update-index(1). True by default
-    trustctime = false
+  pager = delta
+  editor = nvim
+  whitespace = -trailing-space
+  # If false, the ctime differences between the index and the working tree are ignored;
+  # useful when the inode change time is regularly modified by something outside Git (file system crawlers and some backup systems).
+  trustctime = false
+
+
+[interactive]
+  diffFilter = delta --color-only
+
+[delta]
+  navigate = true    # use n and N to move between diff sections
+  light = false      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
+  features = decorations
+  line-numbers = true
+  colorMoved = default
 
 [diff]
-    #Todo: to document
-    mnemonicPrefix = true
-    #Todo: to document, minimal regex for diff words ?
-    wordRegex = [[:alnum:]]+|[^[:space:]]
-    tool = vimdiff
+  # Dynamic prefix instead of `a/` & `b/`
+  mnemonicPrefix = true
+  # How to split word
+  wordRegex = [[:alnum:]]+|[^[:space:]]
+  tool = vimdiff
+  colorMoved = default
 
 [fetch]
-    #Todo: to document
-    recurseSubmodules = on-demand
-    prune = true
+  # Try to push submodule automatically
+  recurseSubmodules = on-demand
+  prune = true
 
 [grep]
-    #Todo: to document
-    extendedRegexp = true
+  #Use POSIX extended/basic regexp for patterns. Default is to use basic regexp
+  extendedRegexp = true
 
 [log]
-    #Todo: to document
-    abbrevCommit = true
+  #Instead of showing the full 40-byte hexadecimal commit object name, show a prefix that names the object uniquely
+  abbrevCommit = true
 
 [merge]
-    # conflictStyle = diff3
+  conflictStyle = diff3
 
 [mergetool]
-    #Todo: to document
-    keepBackup = false
-    #Todo: to document
-    keepTemporaries = false
-    #Todo: to document
-    prompt = false
+  #After performing a merge, the original file with conflict markers can be saved as a file with a .orig extension
+  keepBackup = false
+  #When invoking a custom merge tool, Git uses a set of temporary files to pass to the tool. If the tool returns an error and this variable is set to true, then these temporary files will be preserved, otherwise they will be removed after the tool has exited
+  keepTemporaries = false
+  #Prompt before each invocation of the merge resolution program to give the user a chance to skip the path
+  prompt = false
 
 [pull]
     rebase = true
