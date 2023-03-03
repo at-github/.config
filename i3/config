@@ -116,7 +116,13 @@ bindsym XF86AudioMute exec amixer -D pulse set Master 1+ toggle
 
 # player controls with playerctl
 # https://github.com/acrisci/playerctl/releases
-bindsym XF86AudioPlay exec playerctl play-pause
+
+# How to know the keycode?
+# `sudo showkey` but not helping
+# `xev -event keyboard` then key press then see the log
+# `-a` for all player but …
+# `-i` ignore browser player
+bindsym XF86AudioPlay exec playerctl -a -i chromium play-pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
