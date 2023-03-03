@@ -104,7 +104,10 @@ bindsym $mod+Shift+8 move container to workspace 8
 bindsym $mod+Shift+9 move container to workspace 9
 bindsym $mod+Shift+0 move container to workspace 10
 
+# How to know the class ?
+# `xprop | grep WM_CLASS | awk '{ print $4 }'` then click on the program
 for_window [class="Spotify"] move to workspace 10
+for_window [class="Signal"] move to workspace 1
 
 # pulse audio volume control
 bindsym XF86AudioLowerVolume exec amixer -D pulse sset Master '5%-'
