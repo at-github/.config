@@ -14,6 +14,8 @@
 composer/composer.lock
 composer/keys*
 composer/.htaccess
+!dunst
+!dunst/*
 !irb
 !irb/*
 irb/irb_history
