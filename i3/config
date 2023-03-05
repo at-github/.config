@@ -165,6 +165,7 @@ exec i3-config-wizard
 # My startup applications
 exec --no-startup-id i3-msg 'exec xscreensaver -no-splash'
 exec --no-startup-id picom -b
+exec --no-startup-id dunst
 exec_always --no-startup-id wal -i /usr/share/backgrounds && ~/.config/polybar/launch.sh
 
 #######################################################################
