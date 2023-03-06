@@ -139,8 +139,10 @@ gaps top 5px
 font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 font pango:FontAwesome 10
 
-set_from_resource $primary-bg  i3wm.color1 #113c55
-set_from_resource $primary-txt i3wm.color0 #aaaaaa
+# Tip dark theme is set with lxappearance
+
+set_from_resource $primary-bg    i3wm.color1 #113c55
+set_from_resource $primary-txt   i3wm.color0 #aaaaaa
 set_from_resource $secondary-txt i3wm.color2 #FF0000
 
 set $black #000000
