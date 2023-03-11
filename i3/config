@@ -128,7 +128,7 @@ bindsym XF86AudioPlay exec "playerctl -a -i Blanket,chromium play-pause"
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
-bindsym $mod+n exec xdg-open ~ --no-desktop
+bindsym $mod+n exec xdg-open ~
 
 # BORDERS
 default_border pixel 10px
