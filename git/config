@@ -125,3 +125,6 @@
 [gitreview]
     remote = origin
     review = '!git-review'
+
+[init]
+	defaultBranch = master
