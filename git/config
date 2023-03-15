@@ -128,3 +128,6 @@
 
 [init]
 	defaultBranch = master
+
+[include]
+  path = ~/.gitconfig.local
