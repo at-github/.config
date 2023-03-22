@@ -230,3 +230,6 @@ ZSH_THEME_GIT_PROMPT_UNTRACKED=" %F{$FMAGENTA%}%{•%G%}"
 ZSH_THEME_GIT_PROMPT_CLEAN=" %F{$FYELLOW%}%{☮ %G%}"
 ZSH_THEME_GIT_PROMPT_BEHIND=" %{↓%G%}"
 ZSH_THEME_GIT_PROMPT_AHEAD=" %{↑%G%}"
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
