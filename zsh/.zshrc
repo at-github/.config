@@ -32,6 +32,10 @@ if [ -f ${HOME}/.zshrc.local ]; then
   source ${HOME}/.zshrc.local
 fi
 
+if [ -f $HOME/.rvm/scripts/completion ]; then
+  source $HOME/.rvm/scripts/completion
+fi
+
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.config/zsh/.oh-my-zsh"
 
