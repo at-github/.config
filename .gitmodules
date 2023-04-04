@@ -4,3 +4,7 @@
 [submodule "nvim"]
 	path = nvim
 	url = https://github.com/at-github/nvim.git
+
+[submodule "polybar/modules/weather-polybar-plugin"]
+  path = polybar/modules/weather-polybar-plugin
+  url = https://github.com/GuidoFe/weather-polybar-plugin.git
