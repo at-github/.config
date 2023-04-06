@@ -11,6 +11,11 @@ if [ -d /usr/sbin ]; then
     PATH=/usr/sbin:$PATH
 fi
 
+#Snap
+if [ -d /snap/bin ]; then
+    PATH=/snap/bin:$PATH
+fi
+
 # Locally binaries
 if [ -d ${USER_BIN} ]; then
     PATH=$PATH:${USER_BIN}
