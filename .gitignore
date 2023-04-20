@@ -29,6 +29,8 @@ irb/irb_history
 !picom/*
 !polybar
 !polybar/**
+!postgresql
+!postgresql/*
 !rofi
 !rofi/*
 !tmux
