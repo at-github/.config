@@ -1,22 +1,21 @@
-# Add color coding based on Rails environment for safety
+banner = "♦️  #{RUBY_VERSION}"
 
 if defined? Rails
-  banner = if Rails.env.production?
-    "\e[41;97;1m #{Rails.env} \e[0m "
-  else
-    "\e[42;97;1m #{Rails.env} \e[0m "
-  end
+  # Add color coding based on Rails environment for safety
+  banner += Rails.env.production? ? " \e[41;97;1m #{Rails.env} \e[0m" : " \e[42;97;1m #{Rails.env} \e[0m"
 
+  banner += " 🛤️  #{Rails.version}"
+end
+
+banner += " "
 
 IRB.conf[:PROMPT][:MY_PROMPT] = { # name of prompt mode
-  :AUTO_INDENT => true,           # enables auto-indent mode
-  :PROMPT_I => "➜ ",              # simple prompt
-  :PROMPT_S => '➜ ',               # prompt for continuated strings
-  :PROMPT_C => '➜ ',               # prompt for continuated statement
-  :RETURN   => "👉 %s\n"          # format to return value
+  AUTO_INDENT: true, # enables auto-indent mode
+  PROMPT_I: "#{banner}➜ ", # simple prompt
+  PROMPT_S: "#{banner}➜ ", # prompt for continuated strings
+  PROMPT_C: "#{banner}➜ ", # prompt for continuated statement
+  RETURN: "👉 %s\n"  # format to return value
 }
 
   # Use custom prompt by default
-  IRB.conf[:PROMPT_MODE] = :MY_PROMPT
-end
-
+IRB.conf[:PROMPT_MODE] = :MY_PROMPT
