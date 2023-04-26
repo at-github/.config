@@ -5,9 +5,15 @@ if defined? Rails
   banner += Rails.env.production? ? " \e[41;97;1m #{Rails.env} \e[0m" : " \e[42;97;1m #{Rails.env} \e[0m"
 
   banner += " 🛤️  #{Rails.version}"
+
+  local_path = "#{__dir__}/../../.irbrc.local.rb"
+  if File.exist?(local_path)
+    require local_path
+    banner += " #{get_custom_banner}"
+  end
 end
 
-banner += " "
+banner += ' '
 
 IRB.conf[:PROMPT][:MY_PROMPT] = { # name of prompt mode
   AUTO_INDENT: true, # enables auto-indent mode
