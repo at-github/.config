@@ -41,6 +41,10 @@ if [ -f $HOME/.rvm/scripts/completion ]; then
   source $HOME/.rvm/scripts/completion
 fi
 
+if [ -f $HOME/.rvm/scripts/rvm ]; then
+  source $HOME/.rvm/scripts/rvm
+fi
+
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.config/zsh/.oh-my-zsh"
 
