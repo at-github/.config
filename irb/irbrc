@@ -1,11 +1,11 @@
 banner = "♦️  #{RUBY_VERSION}"
 
 if defined? Rails
-  banner += " 🗃️  #{ActiveRecord::Base.connection.current_database}"
   # Add color coding based on Rails environment for safety
   banner += Rails.env.production? ? " \e[41;97;1m #{Rails.env} \e[0m" : " \e[42;97;1m #{Rails.env} \e[0m"
 
   banner += " 🛤️  #{Rails.version}"
+  banner += " 🗃️  #{ActiveRecord::Base.connection.current_database}"
 
   local_path = "#{__dir__}/../../.irbrc.local.rb"
   if File.exist?(local_path)
