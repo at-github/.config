@@ -31,6 +31,8 @@ irb/irb_history
 !polybar/**
 !postgresql
 !postgresql/*
+!python
+!python/*
 !rofi
 !rofi/*
 !tmux
