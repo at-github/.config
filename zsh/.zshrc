@@ -1,6 +1,5 @@
 source "$ZDOTDIR/.aliases"
 
-export USER_BIN="${HOME}/.local/bin"
 # If you come from bash you might have to change your $PATH.
 if [ -d /sbin ]; then
     PATH=/sbin:$PATH
@@ -44,9 +43,6 @@ fi
 if [ -f $HOME/.rvm/scripts/rvm ]; then
   source $HOME/.rvm/scripts/rvm
 fi
-
-# Path to your oh-my-zsh installation.
-export ZSH="$HOME/.config/zsh/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -232,6 +228,3 @@ ZSH_THEME_GIT_PROMPT_UNTRACKED=" %F{$FMAGENTA%}%{•%G%}"
 ZSH_THEME_GIT_PROMPT_CLEAN=" %F{$FYELLOW%}%{☮ %G%}"
 ZSH_THEME_GIT_PROMPT_BEHIND=" %{↓%G%}"
 ZSH_THEME_GIT_PROMPT_AHEAD=" %{↑%G%}"
-
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
