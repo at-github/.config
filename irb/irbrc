@@ -5,6 +5,7 @@ if defined? Rails
   banner += Rails.env.production? ? " \e[41;97;1m #{Rails.env} \e[0m" : " \e[42;97;1m #{Rails.env} \e[0m"
 
   banner += " 🛤️  #{Rails.version}"
+  # Restart spring if database is not refreshed
   banner += " 🗃️  #{ActiveRecord::Base.connection.current_database}"
 
   local_path = "#{__dir__}/../../.irbrc.local.rb"
