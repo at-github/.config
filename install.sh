@@ -7,7 +7,7 @@ if [ ! -d $HOME/.oh-my-zsh ]; then
   git submodule update
 fi
 
-if [ ! -f $HOME/.config/zsh/.zshenv ]; then
+if [ ! -f $HOME/.zshenv ]; then
   ln -s $HOME/.config/zsh/.zshenv $HOME/.zshenv
 fi
 
