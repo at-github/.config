@@ -37,6 +37,7 @@ irb/irb_history
 !rofi/*
 !tint2
 !tint2/*
+tint2/tint2rc.backup*
 !tmux
 !tmux/*
 !zsh
