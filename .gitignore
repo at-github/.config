@@ -35,6 +35,8 @@ irb/irb_history
 !python/*
 !rofi
 !rofi/*
+!tint2
+!tint2/*
 !tmux
 !tmux/*
 !zsh
