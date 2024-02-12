@@ -42,6 +42,7 @@ tint2/tint2rc.backup*
 !tmux/*
 !zsh
 !zsh/*
+zsh/.zsh_history
 zsh/.zcompdump*
 !kitty
 !kitty/*
