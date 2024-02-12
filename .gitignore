@@ -33,6 +33,8 @@ irb/irb_history
 !postgresql/*
 !python
 !python/*
+!pypoetry
+!pypoetry/*
 !rofi
 !rofi/*
 !tint2
