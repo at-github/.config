@@ -110,12 +110,18 @@ DISABLE_AUTO_TITLE="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 
+# Poetry
+#
+# mkdir $ZSH_CUSTOM/plugins/poetry
+# poetry completions zsh > $ZSH_CUSTOM/plugins/poetry/_poetry
+
 plugins=(\
   colored-man-pages \
   git \
   git-prompt \
   history-substring-search \
   node \
+  poetry \
   rails \
   ruby \
   vi-mode \
