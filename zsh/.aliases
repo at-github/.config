@@ -6,6 +6,8 @@ alias tt='t att -d'
 alias ttt='tmuxTemplateMyconf.sh'
 alias tls='t ls'
 
+alias tx='tmuxinator'
+
 alias c='cd'
 #Move to the near root git folder
 alias cdg='cd $(findRepo.sh)'
