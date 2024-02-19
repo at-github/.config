@@ -44,6 +44,11 @@ if [ -f $HOME/.rvm/scripts/rvm ]; then
   source $HOME/.rvm/scripts/rvm
 fi
 
+# Python env/venv
+if [ -f .venv/bin/activate ]; then
+  source .venv/bin/activate
+fi
+
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
