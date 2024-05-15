@@ -1,7 +1,7 @@
 #!/bin/bash
 if [ $(playerctl -p Blanket status) == "Playing" ]
 then
-  echo " 󰔢"
+  echo " 󰔢  "
 else
-  echo " 󰨚"
+  echo " 󰨚  "
 fi
