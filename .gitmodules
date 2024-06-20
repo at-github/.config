@@ -7,4 +7,4 @@
 
 [submodule "polybar/modules/weather-polybar-plugin"]
   path = polybar/modules/weather-polybar-plugin
-  url = https://github.com/GuidoFe/weather-polybar-plugin.git
+	url = git@github.com:at-github/weather-polybar-plugin.git
