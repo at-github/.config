@@ -29,7 +29,7 @@ alias gg='git grep -n'
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
 
-alias f='find'
+alias f="fzf --tmux center --preview 'fzf-preview.sh {}'"
 
 #Process shouldn't have a terminal
 #By user
