@@ -139,7 +139,7 @@ gaps top 5px
 
 # Fonts
 font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
-font pango:FontAwesome 10
+font pango:FontAwesome 9
 
 # Tip dark theme is set with lxappearance
 
