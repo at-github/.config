@@ -124,7 +124,7 @@ bindsym XF86AudioMute exec amixer -D pulse set Master 1+ toggle
 # `xev -event keyboard` then key press then see the log
 # `-a` for all player but …
 # `-i` ignore browser player & Blanket
-bindsym XF86AudioPlay exec "playerctl -a -i Blanket,chromium play-pause"
+bindsym XF86AudioPlay exec "playerctl -p spotify play-pause"
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
