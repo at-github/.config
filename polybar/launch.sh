@@ -4,7 +4,7 @@
 # If all your bars have ipc enabled, you can use 
 polybar-msg cmd quit
 # Otherwise you can use the nuclear option:
-# killall -q polybar
+killall -q polybar
 
 # Launch main and workspaces
 echo "---" | tee -a /tmp/polybar-main.log /tmp/polybar-dock.log
