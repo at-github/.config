@@ -21,6 +21,8 @@ composer/.htaccess
 irb/irb_history
 !git
 !git/*
+!hypr
+!hypr/*
 !i3
 !i3/*
 !i3status
