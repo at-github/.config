@@ -15,8 +15,11 @@ set $up k
 set $right l
 # Your preferred terminal emulator
 set $term /usr/bin/kitty
+
+
+
 # Your preferred application launcher
-set $menu wmenu-run
+set $menu rofi -show drun
 
 ### Output configuration
 #
