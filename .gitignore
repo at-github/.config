@@ -39,6 +39,8 @@ irb/irb_history
 !pypoetry/*
 !rofi
 !rofi/*
+!sway
+!sway/**
 !tint2
 !tint2/*
 tint2/tint2rc.backup*
