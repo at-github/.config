@@ -37,5 +37,16 @@
     "on-click": "playerctl play-pause",
     "on-scroll-up": "playerctl next",
     "on-scroll-down": "playerctl previous"
+  },
+  "custom/weather": {
+    "format": "{}",
+    "tooltip": true,
+    "interval": 3600,
+    // accepts -c/--city <city> -t/--temperature <C/F> -d/--distance <km/miles>
+    "exec": "/usr/share/sway/scripts/weather.py -c Parly",
+    "return-type": "json",
+    "on-click": "xdg-open \"https://meteofrance.com/previsions-meteo-france/parly/89240\"",
+    "on-click-right": "waybar-signal weather",
+    "signal": 16
   }
 }
