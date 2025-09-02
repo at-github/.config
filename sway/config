@@ -19,15 +19,13 @@ set $right l
 # Your preferred terminal emulator
 set $term /usr/bin/kitty
 
-
-
 # Your preferred application launcher
 set $menu rofi -show drun
 
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+# output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 #
 # Example configuration:
 #
@@ -92,6 +90,16 @@ output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 
     # Exit sway (logs you out of your Wayland session)
     bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+
+    # Open default file manager
+    bindsym $mod+n exec xdg-open .
+
+    # Control media
+    # Média
+    bindsym XF86AudioPlay exec playerctl play-pause
+    bindsym XF86AudioNext exec playerctl next
+    bindsym XF86AudioPrev exec playerctl previous
+
 #
 # Moving around:
 #
@@ -129,7 +137,7 @@ output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
     bindsym $mod+plus                                   workspace number 7
     bindsym $mod+minus                                  workspace number 8
     bindsym $mod+slash                                  workspace number 9
-    bindsym $mod+asterisk                               workspace number 10
+    bindsym $mod+asterisk                               workspace ""
 
     # Move focused container to                         workspace
     bindsym $mod+Shift+quotedbl       move container to workspace number 1
@@ -141,7 +149,10 @@ output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
     bindsym $mod+Shift+plus           move container to workspace number 7
     bindsym $mod+Shift+minus          move container to workspace number 8
     bindsym $mod+Shift+slash          move container to workspace number 9
-    bindsym $mod+Shift+asterisk       move container to workspace number 10
+    bindsym $mod+Shift+asterisk       move container to workspace ""
+
+    set $ws10 ""
+
     # Note: workspaces can have any name you want, not just numbers.
     # We just use 1-10 as the default.
 #
@@ -223,18 +234,36 @@ bindsym $mod+r mode "resize"
 # Status Bar:
 #
 # Read `man 5 sway-bar` for more information about this section.
-bar {
-    position top
+# bar {
+#     position top
+#
+#     # When the status_command prints a new line to stdout, swaybar updates.
+#     # The default just shows the current date and time.
+#     status_command while date +'%Y-%m-%d %X'; do sleep 1; done
+#
+#     colors {
+#         statusline #ffffff
+#         background #323232
+#         inactive_workspace #32323200 #32323200 #5c5c5c
+#     }
+# }
 
-    # When the status_command prints a new line to stdout, swaybar updates.
-    # The default just shows the current date and time.
-    status_command while date +'%Y-%m-%d %X'; do sleep 1; done
+# border → couleur de la bordure de la fenêtre
+# background → couleur de la barre de titre
+# text → couleur du texte dans la barre
+# indicator → petite indication (souvent la ligne sur le côté ou le point de focus)
+client.unfocused $background $background $color9 $foreground
+client.focused $color10 $color10 $foreground $background 
 
-    colors {
-        statusline #ffffff
-        background #323232
-        inactive_workspace #32323200 #32323200 #5c5c5c
-    }
-}
+# Tip: find identifier with `swaymsg -t get_tree | grep -i xxx`
+for_window [instance="spotify"] move container to workspace ""
+exec spotify
 
-include $HOME/.config/sway/config.d/*
+for_window [app_id="Element"] move container to workspace 2
+exec element-desktop
+
+for_window [app_id="Slack"] move container to workspace 2
+
+exec_always sh -c 'pkill -x waybar; waybar'
+
+exec --no-startup-id ~/.config/sway/autostart.sh
