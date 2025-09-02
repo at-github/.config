@@ -1,0 +1,41 @@
+{
+    "include": [
+        "/usr/share/sway/templates/waybar/config.jsonc"
+    ],
+  "modules-left": ["sway/workspaces"],
+  "modules-center": [
+    "clock",
+    "network",
+    "pulseaudio",
+    "custom/weather",
+    "custom/spotify"
+  ],
+  "modules-right": [
+    "custom/pacman",
+    "custom/sunset",
+    "tray",
+    "custom/idle_inhibitor",
+    "custom/reboot",
+    "custom/poweroff"
+  ],
+  "custom/poweroff": {
+    "format": " ⏻ ",
+    "tooltip": "true",
+    "tooltip-format": "Bonne nuit",
+    "on-click": "systemctl poweroff"
+  },
+  "custom/reboot": {
+    "format": "  ",
+    "tooltip": "true",
+    "tooltip-format": "À tout de suite",
+    "on-click": "systemctl reboot"
+  },
+  "custom/spotify": {
+    "exec": "printf '   %s %s\n' \"$(playerctl metadata --format '{{ artist }} - {{ title }}')\" \"$(playerctl status | sed -e 's/Playing//' -e 's/Paused//')\"",
+    "interval": 2,
+    "tooltip": "Contrôle Spotify",
+    "on-click": "playerctl play-pause",
+    "on-scroll-up": "playerctl next",
+    "on-scroll-down": "playerctl previous"
+  }
+}
