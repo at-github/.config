@@ -27,6 +27,8 @@ irb/irb_history
 !i3/*
 !i3status
 !i3status/*
+!kitty
+!kitty/*
 !picom
 !picom/*
 !polybar
@@ -46,9 +48,9 @@ irb/irb_history
 tint2/tint2rc.backup*
 !tmux
 !tmux/*
+!waybar
+!waybar/*
 !zsh
 !zsh/*
 zsh/.zsh_history
 zsh/.zcompdump*
-!kitty
-!kitty/*
