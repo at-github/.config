@@ -190,7 +190,8 @@ window#waybar {
 }
 
 #workspaces button.focused {
-    border-color: @color6;
+    background: @foreground;
+    color: @color6;
 }
 
 #workspaces button.urgent {
