@@ -1,7 +1,7 @@
 {
-    "include": [
-        "/usr/share/sway/templates/waybar/config.jsonc"
-    ],
+  "include": [
+    "/usr/share/sway/templates/waybar/config.jsonc"
+  ],
   "modules-left": ["sway/workspaces"],
   "modules-center": [
     "clock",
