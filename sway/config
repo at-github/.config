@@ -256,8 +256,8 @@ client.unfocused $background $background $color9 $foreground
 client.focused $color10 $color10 $foreground $background 
 
 # Tip: find identifier with `swaymsg -t get_tree | grep -i xxx`
-for_window [instance="spotify"] move container to workspace "󰎆"
-exec deezer
+for_window [app_id="deezer-desktop"] move container to workspace "󰎆"
+exec deezer-desktop
 
 for_window [app_id="Element"] move container to workspace 2
 exec element-desktop
