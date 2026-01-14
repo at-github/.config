@@ -93,6 +93,9 @@ window#waybar {
 /* -----------------------------------------------------------------------------
  * Module styles
  * -------------------------------------------------------------------------- */
+.horizontal-top {
+    background: @background;
+}
 
 #custom-scratchpad,
 #custom-menu,
@@ -179,31 +182,6 @@ window#waybar {
     color: @error_color;
 }
 
-#workspaces button {
-    border-top: 2px solid transparent;
-    /* To compensate for the top border and still have vertical centering */
-    padding-bottom: 2px;
-    padding-left: 10px;
-    padding-right: 10px;
-    color: @foreground;
-    background: @background;
-}
-
-#workspaces button.focused {
-    background: @foreground;
-    color: @background;
-}
-
-#workspaces button.urgent {
-    border-color: @color6;
-    color: @foreground;
-}
-
-#workspaces button:hover {
-  background: @foreground;
-  color: @background;
-}
-
 #custom-pacman {
     color: @warning_color;
 }
@@ -219,4 +197,51 @@ window#waybar {
 
 #custom-valent.dangerously-empty {
     color: @warning_color;
+}
+
+#custom-cam {
+  color: red;
+  font-weight: bold;
+}
+
+.vertical-left {
+  background: rgba(0,0,0,0.5);
+}
+.vertical-left .modules-right {
+  padding-bottom: 20px;
+}
+
+.vertical-left .modules-right * {
+  margin-top: 20px;
+  font-size: 1.25rem;
+}
+
+.vertical-left .modules-right #custom-idle_inhibitor {
+  margin: 0;
+}
+
+#workspaces button {
+    border-top: 2px solid transparent;
+    padding-bottom: 2px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: @foreground;
+    background: @background;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+#workspaces button.focused {
+    background: @foreground;
+    color: @background;
+}
+
+#workspaces button.urgent {
+    border-color: @color6;
+    color: @foreground;
+}
+
+#workspaces button:hover {
+  background: @foreground;
+  color: @background;
 }

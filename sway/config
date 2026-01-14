@@ -137,7 +137,7 @@ set $menu rofi -show drun
     bindsym $mod+plus                                   workspace number 7
     bindsym $mod+minus                                  workspace number 8
     bindsym $mod+slash                                  workspace number 9
-    bindsym $mod+asterisk                               workspace ""
+    bindsym $mod+asterisk                               workspace "󰎆"
 
     # Move focused container to                         workspace
     bindsym $mod+Shift+quotedbl       move container to workspace number 1
@@ -149,9 +149,9 @@ set $menu rofi -show drun
     bindsym $mod+Shift+plus           move container to workspace number 7
     bindsym $mod+Shift+minus          move container to workspace number 8
     bindsym $mod+Shift+slash          move container to workspace number 9
-    bindsym $mod+Shift+asterisk       move container to workspace ""
+    bindsym $mod+Shift+asterisk       move container to workspace "󰎆"
 
-    set $ws10 ""
+    set $ws10 "󰎆"
 
     # Note: workspaces can have any name you want, not just numbers.
     # We just use 1-10 as the default.
@@ -256,8 +256,8 @@ client.unfocused $background $background $color9 $foreground
 client.focused $color10 $color10 $foreground $background 
 
 # Tip: find identifier with `swaymsg -t get_tree | grep -i xxx`
-for_window [instance="spotify"] move container to workspace ""
-exec spotify
+for_window [instance="spotify"] move container to workspace "󰎆"
+exec deezer
 
 for_window [app_id="Element"] move container to workspace 2
 exec element-desktop
