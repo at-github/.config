@@ -7,7 +7,7 @@
   "position": "top",
   "modules-left": [],
   "modules-center": [
-    "custom/mic",
+    "custom/solar",
     "custom/cam",
     "clock",
     "network",
@@ -24,6 +24,13 @@
     "on-click": "playerctl play-pause",
     "on-scroll-up": "playerctl next",
     "on-scroll-down": "playerctl previous"
+  },
+  "custom/solar": {
+    "format": "{text}",
+    "tooltip-format": true,
+    "interval": 900,
+    "exec": "python /home/tarik/.config/waybar/scripts/solar.py",
+    "return-type": "json"
   },
   "custom/weather": {
     "format": "{}",
