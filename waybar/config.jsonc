@@ -27,7 +27,7 @@
   },
   "custom/solar": {
     "format": "{text}",
-    "tooltip-format": true,
+    "tooltip": true,
     "interval": 900,
     "exec": "python /home/tarik/.config/waybar/scripts/solar.py",
     "return-type": "json"

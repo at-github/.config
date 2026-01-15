@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 import subprocess
 import json
 import sys
@@ -19,9 +19,10 @@ try:
 
     data = json.loads(result.stdout.strip())
     text = (
+        f" {'🔌' if data.get('decharge_ac_active') else ''}"
         f"🔋 {data.get('niveau_de_charge', '?')}"
         f" ({data.get('puissance_solaire', '?')})"
-        f" {data.get('temperature', '?')} |"
+        f" {data.get('temperature', '?')} "
     )
     tooltip_lines = [f"{k}: {v}" for k, v in data.items()]
     tooltip = "\n".join(tooltip_lines)
