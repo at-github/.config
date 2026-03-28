@@ -185,10 +185,6 @@ if [ -f ${HOME}/.cache/wal/colors.sh ]; then
   source ${HOME}/.cache/wal/colors.sh
 fi
 
-if [ -f ${HOME}/.cache/wal/colors.sh ]; then
-  source ${HOME}/.cache/wal/colors.sh
-fi
-
 source <(fzf --zsh)
 
 RESET=%f
