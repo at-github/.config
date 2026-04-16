@@ -163,20 +163,30 @@ client.urgent           $black        $black        #FF0000
 # in ~/.i3/config.
 #
 #######################################################################
-exec i3-config-wizard
 
 #######################################################################
 # My startup applications
 exec --no-startup-id i3-msg 'exec xscreensaver -no-splash'
+
+# Compositor for transparency & shadow
 exec --no-startup-id picom -b
+
+# Notification daemon
 exec --no-startup-id dunst
-exec_always --no-startup-id wal -i /usr/share/backgrounds && ~/.config/polybar/launch.sh
+
+# Define colors from background
+exec_always --no-startup-id wal -x -i /usr/share/backgrounds
+
+# Load colors from background
+exec_always --no-startup-id xrdb -merge ~/.cache/wal/colors.Xresources
+
+# Bar(s)
+exec_always ~/.config/polybar/launch.sh
 
 #######################################################################
 #
 # Local specific stuff like:
 #
-# exec spotify
 # exec variety
 # exec blanket -h
 # exec signal-desktop
