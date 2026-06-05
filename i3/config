@@ -174,14 +174,14 @@ exec --no-startup-id picom -b
 # Notification daemon
 exec --no-startup-id dunst
 
-# Define colors from background
-exec_always --no-startup-id wal -x -i /usr/share/backgrounds
-
-# Load colors from background
-exec_always --no-startup-id xrdb -merge ~/.cache/wal/colors.Xresources
-
-# Bar(s)
-exec_always ~/.config/polybar/launch.sh
+# Put in .xinitrc before i3 :
+# ```sh
+# ```
+#   wal -i /usr/share/backgrounds/wallpapers/3840x2160 -e \ # Define colors from background
+#   && xrdb -merge ~/.cache/wal/colors.Xresources \         # Load colors from background
+#   && feh --bg-scale "$(\cat ~/.cache/wal/wal)"            # Apply background
+#   ~/.config/polybar/launch.sh \
+# ```
 
 #######################################################################
 #
