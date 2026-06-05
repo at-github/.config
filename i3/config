@@ -138,22 +138,18 @@ gaps inner 30px
 gaps top 5px
 
 # Fonts
-font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
-font pango:FontAwesome 9
+font pango:RobotoMono Nerd Font 8
 
-# Tip dark theme is set with lxappearance
+set_from_resource $primary-bg    i3wm.color2 #FF0000
+set_from_resource $secondary-bg  i3wm.color1 #00FF00
+set_from_resource $thirty-bg     i3wm.color3 #0000FF
+set_from_resource $primary-txt   i3wm.color6 #FF00FF
 
-set_from_resource $primary-bg    i3wm.color1 #113c55
-set_from_resource $primary-txt   i3wm.color0 #aaaaaa
-set_from_resource $secondary-txt i3wm.color2 #FF0000
-
-set $black #000000
-
-# color_class           bbd           bg            txt
+# color_class           border        bg            txt
 client.focused          $primary-bg   $primary-bg   $primary-txt
-client.focused_inactive $primary-txt  $primary-txt  $secondary-txt
-client.unfocused        $primary-txt  $primary-txt  $secondary-txt
-client.urgent           $black        $black        #FF0000
+client.focused_inactive $secondary-bg $secondary-bg $primary-txt
+client.unfocused        $thirty-bg    $thirty-bg    $primary-txt
+client.urgent           #990000       #990000       #FF0000
 
 #######################################################################
 # automatically start i3-config-wizard to offer the user to create a
