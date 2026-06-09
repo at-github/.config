@@ -1,0 +1,41 @@
+; TODO
+; scroll on workspace
+; active workspace color
+; wal colors !
+; respect i3 gaps
+; try on the right
+
+(deflisten color0 :initial "#00FF00" "xrdb -get color1")
+
+(defwindow bar
+  :geometry (geometry
+    :x "0px"
+    :y "32px"
+    :width "40"
+    :height "100%")
+  :anchor "top left"
+
+  (box :orientation "v"
+    :style "background-color: ${color0}"
+    (workspaces)
+  )
+)
+
+(defwidget bar []
+    (workspaces)
+)
+
+(defwidget workspaces []
+  (box :class "workspaces"
+       :orientation "v"
+    :valign "start"
+    
+    (button :onclick "wmctrl -s 0" 1)
+    (button :onclick "wmctrl -s 1" 2)
+    (button :onclick "wmctrl -s 2" 3)
+    (button :onclick "wmctrl -s 3" 4)
+    (button :onclick "wmctrl -s 4" 5)
+    (button :onclick "wmctrl -s 5" 6)
+    (button :onclick "wmctrl -s 6" 7)
+    (button :onclick "wmctrl -s 7" 8)
+    (button :onclick "wmctrl -s 8" 9)))

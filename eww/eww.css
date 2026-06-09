@@ -1,0 +1,24 @@
+/* @import "/home/tarik/.cache/wal/colors.scss"; */
+
+* {
+  all: unset;
+}
+
+window {
+  background: #222;
+  color: white;
+}
+
+label {
+  padding: 8px;
+}
+
+.workspaces {
+}
+
+button {
+  min-width: 32px;
+  min-height: 32px;
+  padding: 5px;
+  margin: 0;
+}
