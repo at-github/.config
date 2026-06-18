@@ -50,9 +50,8 @@ if [ -f .venv/bin/activate ]; then
 fi
 
 # Node
-if [ -f /usr/share/nvm/init-nvm.sh ]; then
-  source /usr/share/nvm/init-nvm.sh
-fi
+export NVM_DIR="$HOME/.nvm"
+[ -f /usr/share/nvm/init-nvm.sh ] && source /usr/share/nvm/init-nvm.sh
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
