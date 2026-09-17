@@ -29,6 +29,12 @@ irb/irb_history
 !i3status/*
 !kitty
 !kitty/*
+!opencode
+!opencode/**
+opencode/node_modules
+opencode/package.json
+opencode/package-lock.json
+opencode/bun.lock
 !picom
 !picom/*
 !polybar
