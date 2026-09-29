@@ -28,9 +28,18 @@
   (pour les questions hors code : `git rev-parse HEAD` seul). En cas d'écart, relire le code
   concerné avant de répondre, et le signaler seulement si l'écart peut affecter la demande.
 
+### Style de code
+
+- Langue du code : identifiants techniques en anglais ; le vocabulaire métier garde
+  sa langue d'origine et n'est jamais traduit (dossier reste dossier, un terme métier
+  anglais reste anglais). Les commentaires peuvent être en français ou en anglais.
+
 ### Exécution
 
 - Lancer les tests associés après chaque modification
+- Précautions d'édition : jamais de remplacement global (`replace all`) sur un mot
+  court pouvant être sous-chaîne d'un autre identifiant ; préférer des remplacements
+  ciblés sur la ligne/expression complète, et relire via Read après chaque édition sensible.
 - Ne jamais committer, ni push, ni effectuer de `git add` (stage).
   Laisser les fichiers modifiés tels quels ; l'utilisateur relit, puis prépare et valide lui-même les commits.
 
