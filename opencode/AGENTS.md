@@ -33,6 +33,12 @@
 - Langue du code : identifiants techniques en anglais ; le vocabulaire métier garde
   sa langue d'origine et n'est jamais traduit (dossier reste dossier, un terme métier
   anglais reste anglais). Les commentaires peuvent être en français ou en anglais.
+- Ne pas modifier un objet transmis par l'appelant : la fonction rend la nouvelle
+  valeur et l'appelant affecte le résultat. L'effet est visible au lieu d'être un
+  effet de bord, et un oubli ne passe pas inaperçu.
+- Nouvelles docstrings : en français, sans sections `Args:` / `Returns:` /
+  `Raises:` dès que la signature est typée. Conserver telles quelles les
+  docstrings existantes.
 
 ### Exécution
 
