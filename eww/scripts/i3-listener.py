@@ -7,7 +7,7 @@ from pathlib import Path
 
 import i3ipc
 
-BAR_WIDTH = 40
+BAR_WIDTH = 60
 POLYBAR_CONFIG = Path.home() / ".config/polybar/config.ini"
 
 # Same icons as polybar's workspaces module
