@@ -45,6 +45,8 @@ opencode/bun.lock
 !python/*
 !pypoetry
 !pypoetry/*
+!redshift
+!redshift/*
 !rofi
 !rofi/*
 !sway

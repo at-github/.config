@@ -15,27 +15,46 @@
 (deflisten network :initial `{"icon":"","speed":""}` "scripts/network.py")
 (defpoll weather :initial `{"icon":"","temp":"","wind_icon":"","wind":""}` :interval "3600s" "scripts/weather.py")
 (defpoll home_assistant :initial "[]" :interval "60s" "scripts/home-assistant.py")
+(defpoll toggles :initial `{"redshift_icon":"","mic_icon":"","mic_in_use":false,"xscreensaver_icon":""}` :interval "1s" "scripts/toggles.sh")
 
 (defwidget info [icon text]
   (box :class "info" :orientation "v" :space-evenly false
     (label :class "icon" :text icon)
     (label :text text)))
 
+(defwidget ha-block [block]
+  (box :orientation "v" :space-evenly false
+    (box :class "${block.label != "" ? "info" : ""}" :orientation "v" :space-evenly false
+      (label :class "block-label" :visible {block.label != ""} :text {block.label})
+      (for line in {block.lines}
+        (box :class "${line.icon != "" ? "info" : ""}" :orientation "v" :space-evenly false
+          (label :class "icon" :visible {line.icon != ""} :text {line.icon})
+          (label :text {line.text}))))
+    (box :class "separator")))
+
+(defwidget toggles []
+  (box :orientation "v" :space-evenly false
+    (eventbox :onclick "~/.config/polybar/scripts/redshift.sh toggle"
+      (label :class "icon toggle" :text {toggles.redshift_icon}))
+    (label :class "icon toggle ${toggles.mic_in_use ? "mic-in-use" : ""}" :text {toggles.mic_icon})
+    (eventbox :onclick "~/.config/polybar/scripts/toggle-xscreensaver.sh"
+      (label :class "icon toggle" :text {toggles.xscreensaver_icon}))
+    (box :class "separator")))
+
 (defwidget infos []
   (box :class "infos"
        :orientation "v"
        :space-evenly false
        :valign "end"
+    (toggles)
     (box :orientation "v" :space-evenly false
       (for block in home_assistant
-        (box :orientation "v" :space-evenly false
-          (box :class "${block.label != "" ? "info" : ""}" :orientation "v" :space-evenly false
-            (label :class "block-label" :visible {block.label != ""} :text {block.label})
-            (for line in {block.lines}
-              (box :class "${line.icon != "" ? "info" : ""}" :orientation "v" :space-evenly false
-                (label :class "icon" :visible {line.icon != ""} :text {line.icon})
-                (label :text {line.text}))))
-          (box :class "separator"))))
+        (box :visible {block.label != ""}
+          (ha-block :block block))))
+    (box :orientation "v" :space-evenly false
+      (for block in home_assistant
+        (box :visible {block.label == ""}
+          (ha-block :block block))))
     (info :icon {weather.icon} :text {weather.temp})
     (box :visible {weather.wind != ""}
       (info :icon {weather.wind_icon} :text {weather.wind}))

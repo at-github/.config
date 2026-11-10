@@ -65,6 +65,14 @@ button.urgent {
   font-weight: bold;
 }
 
+.toggle {
+  margin-bottom: 8px;
+}
+
+.mic-in-use {
+  color: #ff0000;
+}
+
 .caps {
   background: $color3;
   font-size: 18px;
