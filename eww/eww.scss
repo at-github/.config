@@ -1,6 +1,8 @@
 // Same colors as polybar (pywal)
 @import "/home/tarik/.cache/wal/colors.scss";
 
+$alert: #ff0000;
+
 * {
   all: unset;
 }
@@ -69,8 +71,9 @@ button.urgent {
   margin-bottom: 8px;
 }
 
-.mic-in-use {
-  color: #ff0000;
+.mic-in-use,
+.alert {
+  color: $alert;
 }
 
 .caps {

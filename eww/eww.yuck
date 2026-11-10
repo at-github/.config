@@ -29,7 +29,7 @@
       (for line in {block.lines}
         (box :class "${line.icon != "" ? "info" : ""}" :orientation "v" :space-evenly false
           (label :class "icon" :visible {line.icon != ""} :text {line.icon})
-          (label :text {line.text}))))
+          (label :class "${line.alert ? "alert" : ""}" :text {line.text}))))
     (box :class "separator")))
 
 (defwidget toggles []
