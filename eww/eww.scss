@@ -63,6 +63,26 @@ button.urgent {
   font-size: 27px;
 }
 
+.clock {
+  color: lighten($color1, 20%);
+  font-size: 18px;
+  margin-top: 12px;
+}
+
+.time {
+  font-size: 27px;
+  font-weight: bold;
+}
+
+.day {
+  margin-top: 12px;
+}
+
+// The workspace buttons already have space above their icon
+.clock .separator {
+  margin: 15px 15px 0;
+}
+
 .block-label {
   font-weight: bold;
 }

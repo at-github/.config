@@ -7,7 +7,9 @@
   :geometry (geometry :width "60px" :height "100%")
   :anchor "top left"
   (centerbox :orientation "v"
-    (workspaces)
+    (box :orientation "v" :space-evenly false :valign "start"
+      (clock)
+      (workspaces))
     (box)
     (infos)))
 
@@ -15,6 +17,9 @@
 (deflisten network :initial `{"icon":"","speed":""}` "scripts/network.py")
 (defpoll weather :initial `{"icon":"","temp":"","wind_icon":"","wind":""}` :interval "3600s" "scripts/weather.py")
 (defpoll home_assistant :initial "[]" :interval "60s" "scripts/home-assistant.py")
+; `date` rather than formattime, to get the day name in the system locale
+(defpoll datetime :initial `{"hour":"","minute":"","day":"","date":""}` :interval "1s"
+  `date +'{"hour":"%H","minute":"%M","day":"%a","date":"%d/%m"}'`)
 (defpoll toggles :initial `{"redshift_icon":"","mic_icon":"","mic_in_use":false,"xscreensaver_icon":""}` :interval "1s" "scripts/toggles.sh")
 
 (defwidget info [icon text]
@@ -39,6 +44,14 @@
     (label :class "icon toggle ${toggles.mic_in_use ? "mic-in-use" : ""}" :text {toggles.mic_icon})
     (eventbox :onclick "~/.config/polybar/scripts/toggle-xscreensaver.sh"
       (label :class "icon toggle" :text {toggles.xscreensaver_icon}))
+    (box :class "separator")))
+
+(defwidget clock []
+  (box :class "clock" :orientation "v" :space-evenly false
+    (label :class "time" :text {datetime.hour})
+    (label :class "time" :text {datetime.minute})
+    (label :class "day" :text {datetime.day})
+    (label :text {datetime.date})
     (box :class "separator")))
 
 (defwidget infos []
