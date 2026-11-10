@@ -13,6 +13,7 @@
 
 (defpoll keyboard :initial `{"layout":"","caps":false}` :interval "1s" "scripts/keyboard.sh")
 (deflisten network :initial `{"icon":"","speed":""}` "scripts/network.py")
+(defpoll weather :initial `{"icon":"","temp":"","wind_icon":"","wind":""}` :interval "3600s" "scripts/weather.py")
 
 (defwidget info [icon text]
   (box :class "info" :orientation "v" :space-evenly false
@@ -24,6 +25,10 @@
        :orientation "v"
        :space-evenly false
        :valign "end"
+    (info :icon {weather.icon} :text {weather.temp})
+    (box :visible {weather.wind != ""}
+      (info :icon {weather.wind_icon} :text {weather.wind}))
+    (box :class "separator")
     (info :icon "󰋊" :text "${round(EWW_DISK["/"].used_perc, 0)}%")
     (info :icon "󰍛" :text "${round(EWW_RAM.used_mem_perc, 0)}%")
     (info :icon "󰻠" :text "${round(EWW_CPU.avg, 0)}%")

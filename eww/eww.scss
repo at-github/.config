@@ -51,6 +51,12 @@ button.urgent {
   margin-bottom: 8px;
 }
 
+.separator {
+  min-height: 1px;
+  margin: 2px 10px 10px;
+  background: lighten($color1, 20%);
+}
+
 .icon {
   font-size: 18px;
 }
