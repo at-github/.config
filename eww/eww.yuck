@@ -19,6 +19,13 @@
   (box :class "calendar-window"
     (calendar :onclick "scripts/calendar.sh day {0} {1} {2}")))
 
+; Opened by a click on the power icon, just left of the bottom of the bar
+(defwindow power
+  :geometry (geometry :anchor "bottom right" :x "-60px" :y "0px")
+  (box :class "power-window" :orientation "v" :space-evenly false
+    (button :onclick "systemctl reboot" :tooltip "Redémarrer" "󰑓")
+    (button :onclick "systemctl poweroff" :tooltip "Éteindre" "󰤂")))
+
 (defpoll keyboard :initial `{"layout":"","caps":false}` :interval "1s" "scripts/keyboard.sh")
 (deflisten network :initial `{"icon":"","speed":""}` "scripts/network.py")
 (defpoll weather :initial `{"icon":"","temp":"","wind_icon":"","wind":""}` :interval "3600s" "scripts/weather.py")
@@ -91,7 +98,10 @@
     (box :orientation "v" :space-evenly false
       (for update in updates
         (eventbox :onclick "scripts/updates.sh upgrade ${update.source}"
-          (info :icon {update.icon} :text {update.count}))))))
+          (info :icon {update.icon} :text {update.count}))))
+    (box :class "separator")
+    (eventbox :onclick "eww open --toggle power" :tooltip "Menu d'arrêt"
+      (label :class "icon power-button" :text "󰐥"))))
 
 (defwidget workspaces []
   (eventbox :onscroll "i3-msg workspace $([ {} = up ] && echo prev_on_output || echo next_on_output)"
