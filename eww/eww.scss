@@ -41,3 +41,23 @@ button.urgent {
   color: $color0;
   box-shadow: inset -2px 0 0 $color3;
 }
+
+.infos {
+  color: lighten($color1, 20%);
+  font-size: 12px;
+}
+
+.info {
+  margin-bottom: 8px;
+}
+
+.icon {
+  font-size: 18px;
+}
+
+.caps {
+  background: $color3;
+  font-size: 18px;
+  margin-bottom: 8px;
+  min-height: 28px;
+}

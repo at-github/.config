@@ -6,7 +6,30 @@
 (defwindow bar
   :geometry (geometry :width "40px" :height "100%")
   :anchor "top left"
-  (workspaces))
+  (centerbox :orientation "v"
+    (workspaces)
+    (box)
+    (infos)))
+
+(defpoll keyboard :initial `{"layout":"","caps":false}` :interval "1s" "scripts/keyboard.sh")
+(deflisten network :initial `{"icon":"","speed":""}` "scripts/network.py")
+
+(defwidget info [icon text]
+  (box :class "info" :orientation "v" :space-evenly false
+    (label :class "icon" :text icon)
+    (label :text text)))
+
+(defwidget infos []
+  (box :class "infos"
+       :orientation "v"
+       :space-evenly false
+       :valign "end"
+    (info :icon "󰋊" :text "${round(EWW_DISK["/"].used_perc, 0)}%")
+    (info :icon "󰍛" :text "${round(EWW_RAM.used_mem_perc, 0)}%")
+    (info :icon "󰻠" :text "${round(EWW_CPU.avg, 0)}%")
+    (label :class "caps" :visible {keyboard.caps} :text "󰌎")
+    (info :icon "" :text {keyboard.layout})
+    (info :icon {network.icon} :text {network.speed})))
 
 (defwidget workspaces []
   (eventbox :onscroll "i3-msg workspace $([ {} = up ] && echo prev_on_output || echo next_on_output)"
