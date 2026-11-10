@@ -83,6 +83,40 @@ button.urgent {
   margin: 15px 15px 0;
 }
 
+.calendar-window {
+  color: lighten($color1, 20%);
+  font-size: 18px;
+  // Nothing at the bottom: the last week already has its row spacing below it.
+  // The top padding makes the window square.
+  padding: 16px 12px 0;
+  border-left: 2px solid $color1;
+  border-bottom: 2px solid $color1;
+}
+
+// GTK draws each day's number at the top of its cell, the padding adds the spacing below
+calendar {
+  padding: 12px 6px;
+}
+
+calendar.button {
+  color: $color1;
+}
+
+calendar.highlight {
+  color: $color1;
+}
+
+// Today (the selected day) in bold only. GTK ignores font-weight here,
+// so 1px text shadows of the same color on both sides thicken the strokes
+calendar:selected {
+  text-shadow: 1px 0 0 lighten($color1, 20%), -1px 0 0 lighten($color1, 20%);
+}
+
+// Days of the previous and next months
+calendar:indeterminate {
+  color: darken($color1, 10%);
+}
+
 .block-label {
   font-weight: bold;
 }

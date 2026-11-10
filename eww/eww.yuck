@@ -13,6 +13,12 @@
     (box)
     (infos)))
 
+; Opened by a click on the clock, just left of the bar (x offset = bar width)
+(defwindow calendar
+  :geometry (geometry :anchor "top right" :x "-60px" :y "0px")
+  (box :class "calendar-window"
+    (calendar :onclick "scripts/calendar.sh day {0} {1} {2}")))
+
 (defpoll keyboard :initial `{"layout":"","caps":false}` :interval "1s" "scripts/keyboard.sh")
 (deflisten network :initial `{"icon":"","speed":""}` "scripts/network.py")
 (defpoll weather :initial `{"icon":"","temp":"","wind_icon":"","wind":""}` :interval "3600s" "scripts/weather.py")
@@ -48,10 +54,12 @@
 
 (defwidget clock []
   (box :class "clock" :orientation "v" :space-evenly false
-    (label :class "time" :text {datetime.hour})
-    (label :class "time" :text {datetime.minute})
-    (label :class "day" :text {datetime.day})
-    (label :text {datetime.date})
+    (eventbox :onclick "scripts/calendar.sh toggle"
+      (box :orientation "v" :space-evenly false
+        (label :class "time" :text {datetime.hour})
+        (label :class "time" :text {datetime.minute})
+        (label :class "day" :text {datetime.day})
+        (label :text {datetime.date})))
     (box :class "separator")))
 
 (defwidget infos []
