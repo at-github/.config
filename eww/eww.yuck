@@ -26,6 +26,7 @@
 ; `date` rather than formattime, to get the day name in the system locale
 (defpoll datetime :initial `{"hour":"","minute":"","day":"","date":""}` :interval "1s"
   `date +'{"hour":"%H","minute":"%M","day":"%a","date":"%d/%m"}'`)
+(defpoll updates :initial "[]" :interval "3600s" "scripts/updates.sh")
 (defpoll toggles :initial `{"redshift_icon":"","mic_icon":"","mic_in_use":false,"xscreensaver_icon":""}` :interval "1s" "scripts/toggles.sh")
 
 (defwidget info [icon text]
@@ -85,7 +86,12 @@
     (info :icon "󰻠" :text "${round(EWW_CPU.avg, 0)}%")
     (label :class "caps" :visible {keyboard.caps} :text "󰌎")
     (info :icon "" :text {keyboard.layout})
-    (info :icon {network.icon} :text {network.speed})))
+    (info :icon {network.icon} :text {network.speed})
+    (box :class "separator")
+    (box :orientation "v" :space-evenly false
+      (for update in updates
+        (eventbox :onclick "scripts/updates.sh upgrade ${update.source}"
+          (info :icon {update.icon} :text {update.count}))))))
 
 (defwidget workspaces []
   (eventbox :onscroll "i3-msg workspace $([ {} = up ] && echo prev_on_output || echo next_on_output)"
