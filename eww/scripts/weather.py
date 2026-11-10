@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Affiche en JSON la météo (pour defpoll), à partir du plugin polybar.
+"""Print the weather as JSON (for defpoll), using the polybar plugin.
 
-La barre est fermée à chaque plein écran et defpoll relance le script à la
-réouverture : le cache évite d'appeler l'API météo à chaque fois.
+The bar closes on every fullscreen and defpoll restarts the script when it
+reopens: the cache avoids calling the weather API every time.
 """
 import json
 import re
@@ -17,7 +17,7 @@ CACHE = Path.home() / ".cache/eww/weather.json"
 
 
 def fetch():
-    """Extrait icône, température et vent de la sortie formatée pour polybar."""
+    """Extract icon, temperature and wind from the polybar-formatted output."""
     output = subprocess.run(
         [PLUGIN, CITY], capture_output=True, text=True, timeout=30
     ).stdout
@@ -25,8 +25,8 @@ def fetch():
     temperature = re.search(r"(-?\d+)%\{T2\}", output)
     if not icons or not temperature:
         return None
-    # Le plugin n'affiche le vent qu'à partir de 11 km/h : l'icône du vent vient
-    # alors en premier, et celle du temps reste la dernière
+    # The plugin only shows the wind from 11 km/h: the wind icon then comes
+    # first, and the weather icon stays last
     wind = re.search(r"(\d+) km/h", output)
     return {
         "icon": icons[-1],

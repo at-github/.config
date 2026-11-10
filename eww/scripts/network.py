@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Affiche en JSON l'icône du réseau et le débit descendant (pour deflisten)."""
+"""Print the network icon and download speed as JSON (for deflisten)."""
 import json
 import time
 from pathlib import Path
 
-INTERVAL = 5  # secondes, comme le module réseau de polybar
+INTERVAL = 5  # seconds, like polybar's network module
 
 ICON_WIRED = "\U000f0002"
 ICON_WIFI = "\U000f05a9"

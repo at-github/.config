@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Affiche en JSON la disposition du clavier et l'état de Caps Lock (pour defpoll)
+# Print the keyboard layout and Caps Lock state as JSON (for defpoll)
 
 query=$(setxkbmap -query)
 layout=$(awk '/^variant:/ {print $2}' <<<"$query")

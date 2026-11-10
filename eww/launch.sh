@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Relance la barre verticale (daemon eww + pilote i3)
+# Restart the vertical bar (eww daemon + i3 driver)
 
 pkill -f eww/scripts/i3-listener.py
 eww kill

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Pilote la barre eww depuis les événements i3 : workspaces, position, plein écran."""
+"""Drive the eww bar from i3 events: workspaces, position, fullscreen."""
 import json
 import re
 import subprocess
@@ -10,7 +10,7 @@ import i3ipc
 BAR_WIDTH = 40
 POLYBAR_CONFIG = Path.home() / ".config/polybar/config.ini"
 
-# Mêmes icônes que le module workspaces de polybar
+# Same icons as polybar's workspaces module
 ICONS = dict(re.findall(r"^icon-\d+ = (\d+);(\S+)", POLYBAR_CONFIG.read_text(), re.M))
 
 last_geometry = None
@@ -28,7 +28,7 @@ def has_fullscreen(tree, focused):
 
 
 def bar_geometry(tree, focused):
-    """Colonne entre les docks i3 (polybar) du haut et du bas."""
+    """Column between the top and bottom i3 docks (polybar)."""
     output = next(node for node in tree.nodes if node.name == focused.output)
     docks = {node.name: node.rect for node in output.nodes}
     top, bottom = docks["topdock"].height, docks["bottomdock"].height
@@ -54,7 +54,7 @@ def refresh(i3, _=None):
     )
     eww("update", f"workspaces={workspaces}")
 
-    # La barre échappe à i3 : c'est à nous de la retirer devant un plein écran
+    # The bar escapes i3 management: we must remove it in front of a fullscreen window
     tree = i3.get_tree()
     focused = next(ws for ws in spaces if ws.focused)
     geometry = None if has_fullscreen(tree, focused) else bar_geometry(tree, focused)

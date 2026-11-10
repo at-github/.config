@@ -1,4 +1,4 @@
-// Mêmes couleurs que polybar (pywal)
+// Same colors as polybar (pywal)
 @import "/home/tarik/.cache/wal/colors.scss";
 
 * {
@@ -18,7 +18,7 @@ button {
   min-height: 48px;
 }
 
-// Centre le picto dans l'espace laissé par le liseré
+// Center the icon in the space left by the accent border
 button.focused,
 button.urgent {
   min-width: 38px;
