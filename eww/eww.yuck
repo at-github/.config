@@ -14,6 +14,7 @@
 (defpoll keyboard :initial `{"layout":"","caps":false}` :interval "1s" "scripts/keyboard.sh")
 (deflisten network :initial `{"icon":"","speed":""}` "scripts/network.py")
 (defpoll weather :initial `{"icon":"","temp":"","wind_icon":"","wind":""}` :interval "3600s" "scripts/weather.py")
+(defpoll home_assistant :initial "[]" :interval "60s" "scripts/home-assistant.py")
 
 (defwidget info [icon text]
   (box :class "info" :orientation "v" :space-evenly false
@@ -25,6 +26,16 @@
        :orientation "v"
        :space-evenly false
        :valign "end"
+    (box :orientation "v" :space-evenly false
+      (for block in home_assistant
+        (box :orientation "v" :space-evenly false
+          (box :class "${block.label != "" ? "info" : ""}" :orientation "v" :space-evenly false
+            (label :class "block-label" :visible {block.label != ""} :text {block.label})
+            (for line in {block.lines}
+              (box :class "${line.icon != "" ? "info" : ""}" :orientation "v" :space-evenly false
+                (label :class "icon" :visible {line.icon != ""} :text {line.icon})
+                (label :text {line.text}))))
+          (box :class "separator"))))
     (info :icon {weather.icon} :text {weather.temp})
     (box :visible {weather.wind != ""}
       (info :icon {weather.wind_icon} :text {weather.wind}))
