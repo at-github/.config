@@ -58,5 +58,7 @@ tint2/tint2rc.backup*
 !waybar/**
 !zsh
 !zsh/*
+!eww
+!eww/**
 zsh/.zsh_history
 zsh/.zcompdump*

@@ -1,0 +1,43 @@
+// Mêmes couleurs que polybar (pywal)
+@import "/home/tarik/.cache/wal/colors.scss";
+
+* {
+  all: unset;
+}
+
+window {
+  background: $color0;
+  color: $color1;
+  font-family: "FantasqueSansM Nerd Font Propo";
+  font-size: 18px;
+}
+
+
+button {
+  min-width: 40px;
+  min-height: 48px;
+}
+
+// Centre le picto dans l'espace laissé par le liseré
+button.focused,
+button.urgent {
+  min-width: 38px;
+  padding-left: 2px;
+}
+
+button:hover {
+  background: $color2;
+  color: $color0;
+}
+
+button.focused {
+  background: $color1;
+  color: $color0;
+  box-shadow: inset 2px 0 0 $color4;
+}
+
+button.urgent {
+  background: #993333;
+  color: $color0;
+  box-shadow: inset 2px 0 0 $color3;
+}
