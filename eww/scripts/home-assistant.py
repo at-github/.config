@@ -23,6 +23,16 @@ FORMATS = {
     "ac_input_power": lambda value: f"{value:.0f}W",
     "cell_temperature": lambda value: f"{value:.0f}°",
 }
+TOOLTIPS = {
+    "temperature": "Température",
+    "humidity": "Humidité",
+    "battery_level": "Charge de la batterie",
+    "output_power": "Puissance de sortie totale",
+    "solar_power": "Puissance d'entrée solaire",
+    "ac_input_power": "Puissance d'entrée secteur",
+    "cell_temperature": "Température des cellules — rouge sous 5° ou au-dessus de 45°",
+}
+UNAVAILABLE_TOOLTIP = "Home Assistant ne répond pas ou la valeur est indisponible"
 # (low, high) bounds outside of which a value is worrying.
 # Cell temperature: charging resumes above 5°C, 45°C is the manual's upper limit.
 ALERT_BOUNDS = {
@@ -71,6 +81,7 @@ def build_line(name, reference, entities, states):
         "icon": ICONS.get(name, ""),
         "text": UNAVAILABLE if value is None else FORMATS[name](value),
         "alert": is_alert(name, value),
+        "tooltip": UNAVAILABLE_TOOLTIP if value is None else TOOLTIPS[name],
     }
 
 
@@ -78,9 +89,13 @@ def build_block(display, entities, states):
     lines = [
         build_line(name, reference, entities, states)
         for name, reference in display.items()
-        if name != "label"
+        if name not in ("label", "name")
     ]
-    return {"label": display.get("label", ""), "lines": lines}
+    return {
+        "label": display.get("label", ""),
+        "name": display.get("name", ""),
+        "lines": lines,
+    }
 
 
 def main():

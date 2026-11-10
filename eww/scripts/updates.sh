@@ -39,9 +39,9 @@ flatpak_count() {
 }
 
 print_counts() {
-  printf '[{"source":"pacman","icon":"%s","count":"%s"},' $'\U000f08c7' "$(pacman_count)"
-  printf '{"source":"aur","icon":"%s","count":"%s"},' $'\U000f0849' "$(aur_count)"
-  printf '{"source":"flatpak","icon":"%s","count":"%s"}]\n' $'' "$(flatpak_count)"
+  printf '[{"source":"pacman","name":"pacman","icon":"%s","count":"%s"},' $'\U000f08c7' "$(pacman_count)"
+  printf '{"source":"aur","name":"AUR","icon":"%s","count":"%s"},' $'\U000f0849' "$(aur_count)"
+  printf '{"source":"flatpak","name":"flatpak","icon":"%s","count":"%s"}]\n' $'' "$(flatpak_count)"
 }
 
 case "$1" in

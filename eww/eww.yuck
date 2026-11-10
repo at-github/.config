@@ -31,22 +31,22 @@
 (defpoll weather :initial `{"icon":"","temp":"","wind_icon":"","wind":""}` :interval "3600s" "scripts/weather.py")
 (defpoll home_assistant :initial "[]" :interval "60s" "scripts/home-assistant.py")
 ; `date` rather than formattime, to get the day name in the system locale
-(defpoll datetime :initial `{"hour":"","minute":"","day":"","date":""}` :interval "1s"
-  `date +'{"hour":"%H","minute":"%M","day":"%a","date":"%d/%m"}'`)
+(defpoll datetime :initial `{"hour":"","minute":"","day":"","date":"","full":""}` :interval "1s"
+  `date +'{"hour":"%H","minute":"%M","day":"%a","date":"%d/%m","full":"%A %-d %B %Y"}'`)
 (defpoll updates :initial "[]" :interval "3600s" "scripts/updates.sh")
-(defpoll toggles :initial `{"redshift_icon":"","mic_icon":"","mic_in_use":false,"xscreensaver_icon":""}` :interval "1s" "scripts/toggles.sh")
+(defpoll toggles :initial `{"redshift_active":false,"redshift_icon":"","mic_muted":false,"mic_icon":"","mic_in_use":false,"xscreensaver_active":false,"xscreensaver_icon":""}` :interval "1s" "scripts/toggles.sh")
 
-(defwidget info [icon text]
-  (box :class "info" :orientation "v" :space-evenly false
+(defwidget info [icon text tooltip]
+  (box :class "info" :orientation "v" :space-evenly false :tooltip tooltip
     (label :class "icon" :text icon)
     (label :text text)))
 
 (defwidget ha-block [block]
   (box :orientation "v" :space-evenly false
     (box :class "${block.label != "" ? "info" : ""}" :orientation "v" :space-evenly false
-      (label :class "block-label" :visible {block.label != ""} :text {block.label})
+      (label :class "block-label" :visible {block.label != ""} :text {block.label} :tooltip {block.name})
       (for line in {block.lines}
-        (box :class "${line.icon != "" ? "info" : ""}" :orientation "v" :space-evenly false
+        (box :class "${line.icon != "" ? "info" : ""}" :orientation "v" :space-evenly false :tooltip {line.tooltip}
           (label :class "icon" :visible {line.icon != ""} :text {line.icon})
           (label :class "${line.alert ? "alert" : ""}" :text {line.text}))))
     (box :class "separator")))
@@ -54,15 +54,18 @@
 (defwidget toggles []
   (box :orientation "v" :space-evenly false
     (eventbox :onclick "~/.config/polybar/scripts/redshift.sh toggle"
+              :tooltip {toggles.redshift_active ? "Redshift actif — clic pour le désactiver" : "Redshift désactivé — clic pour l'activer"}
       (label :class "icon toggle" :text {toggles.redshift_icon}))
-    (label :class "icon toggle ${toggles.mic_in_use ? "mic-in-use" : ""}" :text {toggles.mic_icon})
+    (label :class "icon toggle ${toggles.mic_in_use ? "mic-in-use" : ""}" :text {toggles.mic_icon}
+           :tooltip "${toggles.mic_muted ? "Micro coupé" : "Micro ouvert"}${toggles.mic_in_use ? " — utilisé par une application" : ""}")
     (eventbox :onclick "~/.config/polybar/scripts/toggle-xscreensaver.sh"
+              :tooltip {toggles.xscreensaver_active ? "Écran de veille actif — clic pour le désactiver" : "Écran de veille désactivé — clic pour l'activer"}
       (label :class "icon toggle" :text {toggles.xscreensaver_icon}))
     (box :class "separator")))
 
 (defwidget clock []
   (box :class "clock" :orientation "v" :space-evenly false
-    (eventbox :onclick "scripts/calendar.sh toggle"
+    (eventbox :onclick "scripts/calendar.sh toggle" :tooltip "${datetime.full} — clic : calendrier"
       (box :orientation "v" :space-evenly false
         (label :class "time" :text {datetime.hour})
         (label :class "time" :text {datetime.minute})
@@ -84,21 +87,23 @@
       (for block in home_assistant
         (box :visible {block.label == ""}
           (ha-block :block block))))
-    (info :icon {weather.icon} :text {weather.temp})
+    (info :icon {weather.icon} :text {weather.temp} :tooltip "Météo")
     (box :visible {weather.wind != ""}
-      (info :icon {weather.wind_icon} :text {weather.wind}))
+      (info :icon {weather.wind_icon} :text {weather.wind} :tooltip "Vent : ${weather.wind} km/h"))
     (box :class "separator")
-    (info :icon "󰋊" :text "${round(EWW_DISK["/"].used_perc, 0)}%")
-    (info :icon "󰍛" :text "${round(EWW_RAM.used_mem_perc, 0)}%")
-    (info :icon "󰻠" :text "${round(EWW_CPU.avg, 0)}%")
-    (label :class "caps" :visible {keyboard.caps} :text "󰌎")
-    (info :icon "" :text {keyboard.layout})
-    (info :icon {network.icon} :text {network.speed})
+    (info :icon "󰋊" :text "${round(EWW_DISK["/"].used_perc, 0)}%" :tooltip "Disque (/) utilisé")
+    (info :icon "󰍛" :text "${round(EWW_RAM.used_mem_perc, 0)}%" :tooltip "Mémoire utilisée")
+    (info :icon "󰻠" :text "${round(EWW_CPU.avg, 0)}%" :tooltip "Processeur utilisé")
+    (label :class "caps" :visible {keyboard.caps} :text "󰌎" :tooltip "Majuscules verrouillées")
+    (info :icon "" :text {keyboard.layout} :tooltip "Disposition du clavier")
+    (info :icon {network.icon} :text {network.speed}
+          :tooltip {network.speed != "" ? "Débit descendant : ${network.speed}/s" : "Hors ligne"})
     (box :class "separator")
     (box :orientation "v" :space-evenly false
       (for update in updates
         (eventbox :onclick "scripts/updates.sh upgrade ${update.source}"
-          (info :icon {update.icon} :text {update.count}))))
+          (info :icon {update.icon} :text {update.count}
+                :tooltip {update.count == "!" ? "Mises à jour ${update.name} : la vérification a échoué" : "Mises à jour ${update.name} en attente — clic pour mettre à jour"}))))
     (box :class "separator")
     (eventbox :onclick "eww open --toggle power" :tooltip "Menu d'arrêt"
       (label :class "icon power-button" :text "󰐥"))))
@@ -112,4 +117,5 @@
       (for ws in workspaces
         (button :class "${ws.focused ? "focused" : ""} ${ws.urgent ? "urgent" : ""}"
                 :onclick "i3-msg workspace number ${ws.num}"
+                :tooltip "Workspace ${ws.num}"
           "${ws.icon}")))))
