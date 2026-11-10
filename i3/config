@@ -136,6 +136,7 @@ default_border pixel 10px
 # GAPS
 gaps inner 30px
 gaps top 5px
+gaps right 28px
 
 # Fonts
 font pango:RobotoMono Nerd Font 8
@@ -143,12 +144,13 @@ font pango:RobotoMono Nerd Font 8
 set_from_resource $primary-bg    i3wm.color2 #FF0000
 set_from_resource $secondary-bg  i3wm.color1 #00FF00
 set_from_resource $thirty-bg     i3wm.color3 #0000FF
-set_from_resource $primary-txt   i3wm.color6 #FF00FF
+set_from_resource $primary-txt   i3wm.color0 #FF00FF
+set_from_resource $secondary-txt   i3wm.color8 #FF00FF
 
 # color_class           border        bg            txt
-client.focused          $primary-bg   $primary-bg   $primary-txt
+client.focused          $thirty-bg    $thirty-bg  $primary-txt
 client.focused_inactive $secondary-bg $secondary-bg $primary-txt
-client.unfocused        $thirty-bg    $thirty-bg    $primary-txt
+client.unfocused        $secondary-bg $secondary-bg $secondary-txt
 client.urgent           #990000       #990000       #FF0000
 
 #######################################################################
@@ -169,6 +171,9 @@ exec --no-startup-id picom -b
 
 # Notification daemon
 exec --no-startup-id dunst
+
+# Barre verticale eww (a besoin qu'i3 tourne, les couleurs pywal viennent de .xinitrc)
+exec_always --no-startup-id ~/.config/eww/launch.sh
 
 # Put in .xinitrc before i3 :
 # ```sh
