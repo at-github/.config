@@ -1,4 +1,4 @@
-; Barre verticale à gauche pour i3, pilotée par scripts/i3-listener.py
+; Barre verticale à droite pour i3, pilotée par scripts/i3-listener.py
 ; (lancer avec launch.sh : position et masquage en plein écran viennent du script).
 
 (defvar workspaces "[]")
