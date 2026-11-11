@@ -1,58 +1,123 @@
 #!/usr/bin/env python3
-"""Print the weather as JSON (for defpoll), using the polybar plugin.
+"""Print the weather from OpenWeatherMap as JSON (for defpoll).
 
+Same settings and icons as the polybar weather plugin it replaces.
 The bar closes on every fullscreen and defpoll restarts the script when it
 reopens: the cache avoids calling the weather API every time.
 """
 import json
-import re
-import subprocess
 import time
 from pathlib import Path
 
+import requests
+
 CITY = "Parly"
+COUNTRY = "FR"
+URL = "https://api.openweathermap.org/data/2.5/weather"
+KEY_FILE = Path.home() / ".owm-key"
 CACHE_SECONDS = 3600
-PLUGIN = Path.home() / ".config/polybar/modules/weather-polybar-plugin/weather-plugin.sh"
 CACHE = Path.home() / ".cache/eww/weather.json"
+FIELDS = ("icon", "temp", "wind_icon", "wind", "tooltip")
+# The wind only shows from this speed (km/h)
+MIN_WIND = 11
+
+# (highest weather id, day icon, night icon), see openweathermap.org/weather-conditions
+CONDITION_ICONS = (
+    (232, "\ue30f", "\ue32a"),  # Thunderstorm
+    (321, "\ue306", "\ue326"),  # Drizzle
+    (531, "\ue308", "\ue325"),  # Rain
+    (622, "\uf2dc", "\uf2dc"),  # Snow
+    (771, "\ue313", "\ue313"),  # Fog
+    # The plugin shows the other ids up to 804 as overcast
+    (780, "\ue312", "\ue312"),
+    (781, "\ue351", "\ue351"),  # Tornado
+    (799, "\ue312", "\ue312"),
+    (800, "\ue30d", "\uf186"),  # Clear sky
+    (801, "\ue376", "\ue377"),  # Few clouds
+    (804, "\ue312", "\ue312"),  # Overcast
+)
+UNKNOWN_ICON = "\uf128"
+
+# (highest speed in km/h, Beaufort icon), from force 0 to 11; force 12 above
+BEAUFORT_ICONS = (
+    (1, "\ue3af"),
+    (5, "\ue3b0"),
+    (11, "\ue3b1"),
+    (19, "\ue3b2"),
+    (28, "\ue3b3"),
+    (38, "\ue3b4"),
+    (49, "\ue3b5"),
+    (61, "\ue3b6"),
+    (74, "\ue3b7"),
+    (88, "\ue3b8"),
+    (102, "\ue3b9"),
+    (117, "\ue3ba"),
+)
+HURRICANE_ICON = "\ue3bb"
+
+
+def condition_icon(weather_id, is_day):
+    for highest_id, day_icon, night_icon in CONDITION_ICONS:
+        if weather_id <= highest_id:
+            return day_icon if is_day else night_icon
+    return UNKNOWN_ICON
+
+
+def beaufort_icon(speed):
+    return next((icon for highest, icon in BEAUFORT_ICONS if speed <= highest), HURRICANE_ICON)
 
 
 def fetch():
-    """Extract icon, temperature and wind from the polybar-formatted output."""
-    output = subprocess.run(
-        [PLUGIN, CITY], capture_output=True, text=True, timeout=30
-    ).stdout
-    icons = re.findall(r"%\{T4\}\s*(\S)", output)
-    temperature = re.search(r"(-?\d+)%\{T2\}", output)
-    if not icons or not temperature:
-        return None
-    # The plugin only shows the wind from 11 km/h: the wind icon then comes
-    # first, and the weather icon stays last
-    wind = re.search(r"(\d+) km/h", output)
+    response = requests.get(
+        URL,
+        params={
+            "q": f"{CITY},{COUNTRY}",
+            "appid": KEY_FILE.read_text().strip(),
+            "units": "metric",
+            "lang": "fr",
+        },
+        timeout=30,
+    )
+    response.raise_for_status()
+    data = response.json()
+    now = time.time()
+    is_day = data["sys"]["sunrise"] <= now <= data["sys"]["sunset"]
+    # m/s to km/h, decimals cut like the plugin
+    wind = int(data["wind"]["speed"] * 3.6)
     return {
-        "icon": icons[-1],
-        "temp": f"{temperature.group(1)}°",
-        "wind_icon": icons[0] if wind and len(icons) > 1 else "",
-        "wind": wind.group(1) if wind else "",
+        "icon": condition_icon(data["weather"][0]["id"], is_day),
+        "temp": f"{round(data['main']['temp'])}°",
+        "wind_icon": beaufort_icon(wind) if wind >= MIN_WIND else "",
+        "wind": str(wind) if wind >= MIN_WIND else "",
+        "tooltip": f"Météo à {CITY} : {data['weather'][0]['description']}",
     }
 
 
 def read_cache():
-    return CACHE.read_text() if CACHE.exists() else None
+    """Cached weather, if it has all the fields (older caches lack some)."""
+    try:
+        weather = json.loads(CACHE.read_text())
+    except (OSError, ValueError):
+        return None
+    return weather if all(field in weather for field in FIELDS) else None
 
 
 def main():
-    if CACHE.exists() and time.time() - CACHE.stat().st_mtime < CACHE_SECONDS:
-        print(read_cache())
+    cached = read_cache()
+    if cached and time.time() - CACHE.stat().st_mtime < CACHE_SECONDS:
+        print(json.dumps(cached, ensure_ascii=False))
         return
     try:
         weather = fetch()
-    except (OSError, subprocess.TimeoutExpired):
+    except (OSError, requests.RequestException, ValueError, KeyError, IndexError):
         weather = None
     if weather is None:
-        print(read_cache() or json.dumps({"icon": "", "temp": "?", "wind_icon": "", "wind": ""}))
+        fallback = {"icon": "", "temp": "?", "wind_icon": "", "wind": "", "tooltip": "Météo indisponible"}
+        print(json.dumps(cached or fallback, ensure_ascii=False))
         return
+    CACHE.parent.mkdir(parents=True, exist_ok=True)
     CACHE.write_text(json.dumps(weather, ensure_ascii=False))
-    print(CACHE.read_text())
+    print(json.dumps(weather, ensure_ascii=False))
 
 
 main()
