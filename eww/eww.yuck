@@ -66,8 +66,8 @@
 
 (defwidget clock []
   (box :class "clock" :orientation "v" :space-evenly false
-    (eventbox :onclick "scripts/calendar.sh toggle" :cursor "hand2" :tooltip "${datetime.full} — clic : calendrier"
-      (box :orientation "v" :space-evenly false
+    (eventbox :class "clickable" :onclick "scripts/calendar.sh toggle" :cursor "hand2" :tooltip "${datetime.full} — clic : calendrier"
+      (box :class "clock-content" :orientation "v" :space-evenly false
         (label :class "time" :text {datetime.hour})
         (label :class "time" :text {datetime.minute})
         (label :class "day" :text {datetime.day})
@@ -99,14 +99,14 @@
     (info :icon "" :text {keyboard.layout} :tooltip "Disposition du clavier")
     (info :icon {network.icon} :text {network.speed}
           :tooltip {network.speed != "" ? "Débit descendant : ${network.speed}/s" : "Hors ligne"})
-    (box :class "separator")
-    (box :orientation "v" :space-evenly false
+    (box :class "separator above-clickable")
+    (box :class "updates" :orientation "v" :space-evenly false
       (for update in updates
-        (eventbox :onclick "scripts/updates.sh upgrade ${update.source}" :cursor "hand2"
+        (eventbox :class "clickable" :onclick "scripts/updates.sh upgrade ${update.source}" :cursor "hand2"
           (info :icon {update.icon} :text {update.count}
                 :tooltip {update.count == "!" ? "Mises à jour ${update.name} : la vérification a échoué" : "Mises à jour ${update.name} en attente — clic pour mettre à jour"}))))
-    (box :class "separator")
-    (eventbox :onclick "eww open --toggle power" :cursor "hand2" :tooltip "Menu d'arrêt"
+    (box :class "separator above-clickable")
+    (eventbox :class "clickable" :onclick "eww open --toggle power" :cursor "hand2" :tooltip "Menu d'arrêt"
       (label :class "icon power-button" :text "󰐥"))))
 
 (defwidget workspaces []

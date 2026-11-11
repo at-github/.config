@@ -57,7 +57,11 @@ button.urgent {
 .clock {
   color: lighten($color1, 20%);
   font-size: 18px;
-  margin-top: 12px;
+}
+
+// The spacing is inside the hover background, which reaches the separator
+.clock-content {
+  padding: 12px 0 15px;
 }
 
 .time {
@@ -71,7 +75,7 @@ button.urgent {
 
 // The workspace buttons already have space above their icon
 .clock .separator {
-  margin: 15px 15px 0;
+  margin: 0 15px;
 }
 
 .calendar-window {
@@ -131,8 +135,21 @@ calendar:indeterminate {
   color: $color0;
 }
 
+// Hover backgrounds reach the next separator, like the workspace buttons...
+.clickable + .separator,
+.updates + .separator {
+  margin-top: 0;
+}
+
+// and the previous one (CSS cannot select a previous sibling, hence the class)
+.separator.above-clickable {
+  margin-bottom: 0;
+}
+
 // Same height as a margin, but inside the hover background
-.clickable .toggle {
+.clickable .toggle,
+.clickable .info,
+.clickable .power-button {
   margin-bottom: 0;
   padding: 6px 0;
 }
