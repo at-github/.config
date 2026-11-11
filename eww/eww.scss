@@ -17,7 +17,12 @@ window {
 
 button {
   min-width: 60px;
-  min-height: 72px;
+}
+
+// Square elements (the bar width): buttons, icons and infos
+button,
+.cell {
+  min-height: 60px;
 }
 
 button:hover {
@@ -40,13 +45,9 @@ button.urgent {
   font-size: 18px;
 }
 
-.info {
-  margin-bottom: 12px;
-}
-
 .separator {
   min-height: 1px;
-  margin: 3px 15px 15px;
+  margin: 8px 15px;
   background: lighten($color1, 20%);
 }
 
@@ -112,10 +113,6 @@ calendar:indeterminate {
   color: darken($color1, 10%);
 }
 
-.power-button {
-  margin-bottom: 12px;
-}
-
 .power-window {
   border-left: 2px solid $color1;
   border-top: 2px solid $color1;
@@ -123,10 +120,6 @@ calendar:indeterminate {
 
 .block-label {
   font-weight: bold;
-}
-
-.toggle {
-  margin-bottom: 12px;
 }
 
 // Clickable areas light up on hover like the workspace buttons
@@ -146,14 +139,6 @@ calendar:indeterminate {
   margin-bottom: 0;
 }
 
-// Same height as a margin, but inside the hover background
-.clickable .toggle,
-.clickable .info,
-.clickable .power-button {
-  margin-bottom: 0;
-  padding: 6px 0;
-}
-
 .mic-in-use,
 .alert {
   color: $alert;
@@ -161,7 +146,4 @@ calendar:indeterminate {
 
 .caps {
   background: $color3;
-  font-size: 27px;
-  margin-bottom: 12px;
-  min-height: 42px;
 }

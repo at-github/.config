@@ -37,31 +37,32 @@
 (defpoll updates :initial "[]" :interval "3600s" "scripts/updates.sh")
 (defpoll toggles :initial `{"redshift_active":false,"redshift_icon":"","mic_muted":false,"mic_icon":"","mic_in_use":false,"xscreensaver_active":false,"xscreensaver_icon":""}` :interval "1s" "scripts/toggles.sh")
 
+; Square cell (bar width), content centered
 (defwidget info [icon text tooltip]
-  (box :class "info" :orientation "v" :space-evenly false :tooltip tooltip
-    (label :class "icon" :text icon)
-    (label :text text)))
+  (box :class "cell" :tooltip tooltip
+    (box :orientation "v" :space-evenly false :valign "center"
+      (label :class "icon" :text icon)
+      (label :text text))))
 
 (defwidget ha-block [block]
   (box :orientation "v" :space-evenly false
-    (box :class "${block.label != "" ? "info" : ""}" :orientation "v" :space-evenly false
+    (box :orientation "v" :space-evenly false
       (label :class "block-label" :visible {block.label != ""} :text {block.label} :tooltip {block.name})
       (for line in {block.lines}
-        (box :class "${line.icon != "" ? "info" : ""}" :orientation "v" :space-evenly false :tooltip {line.tooltip}
-          (label :class "icon" :visible {line.icon != ""} :text {line.icon})
-          (label :class "${line.alert ? "alert" : ""}" :text {line.text}))))
+        (box :class "${line.icon != "" ? "cell" : ""}" :tooltip {line.tooltip}
+          (box :orientation "v" :space-evenly false :valign "center"
+            (label :class "icon" :visible {line.icon != ""} :text {line.icon})
+            (label :class "${line.alert ? "alert" : ""}" :text {line.text})))))
     (box :class "separator")))
 
 (defwidget toggles []
   (box :orientation "v" :space-evenly false
     (eventbox :class "clickable" :onclick "scripts/toggles.sh redshift" :cursor "hand2"
               :tooltip {toggles.redshift_active ? "Redshift actif — clic pour le désactiver" : "Redshift désactivé — clic pour l'activer"}
-      (label :class "icon toggle" :text {toggles.redshift_icon}))
-    (label :class "icon toggle ${toggles.mic_in_use ? "mic-in-use" : ""}" :text {toggles.mic_icon}
-           :tooltip "${toggles.mic_muted ? "Micro coupé" : "Micro ouvert"}${toggles.mic_in_use ? " — utilisé par une application" : ""}")
+      (label :class "icon cell" :text {toggles.redshift_icon}))
     (eventbox :class "clickable" :onclick "scripts/toggles.sh xscreensaver" :cursor "hand2"
               :tooltip {toggles.xscreensaver_active ? "Écran de veille actif — clic pour le désactiver" : "Écran de veille désactivé — clic pour l'activer"}
-      (label :class "icon toggle" :text {toggles.xscreensaver_icon}))
+      (label :class "icon cell" :text {toggles.xscreensaver_icon}))
     (box :class "separator")))
 
 (defwidget clock []
@@ -92,10 +93,12 @@
     (box :visible {weather.wind != ""}
       (info :icon {weather.wind_icon} :text {weather.wind} :tooltip "Vent : ${weather.wind} km/h"))
     (box :class "separator")
+    (label :class "icon cell ${toggles.mic_in_use ? "mic-in-use" : ""}" :text {toggles.mic_icon}
+           :tooltip "${toggles.mic_muted ? "Micro coupé" : "Micro ouvert"}${toggles.mic_in_use ? " — utilisé par une application" : ""}")
     (info :icon "󰋊" :text "${round(EWW_DISK["/"].used_perc, 0)}%" :tooltip "Disque (/) utilisé")
     (info :icon "󰍛" :text "${round(EWW_RAM.used_mem_perc, 0)}%" :tooltip "Mémoire utilisée")
     (info :icon "󰻠" :text "${round(EWW_CPU.avg, 0)}%" :tooltip "Processeur utilisé")
-    (label :class "caps" :visible {keyboard.caps} :text "󰌎" :tooltip "Majuscules verrouillées")
+    (label :class "icon cell caps" :visible {keyboard.caps} :text "󰌎" :tooltip "Majuscules verrouillées")
     (info :icon "" :text {keyboard.layout} :tooltip "Disposition du clavier")
     (info :icon {network.icon} :text {network.speed}
           :tooltip {network.speed != "" ? "Débit descendant : ${network.speed}/s" : "Hors ligne"})
@@ -107,7 +110,7 @@
                 :tooltip {update.count == "!" ? "Mises à jour ${update.name} : la vérification a échoué" : "Mises à jour ${update.name} en attente — clic pour mettre à jour"}))))
     (box :class "separator above-clickable")
     (eventbox :class "clickable" :onclick "eww open --toggle power" :cursor "hand2" :tooltip "Menu d'arrêt"
-      (label :class "icon power-button" :text "󰐥"))))
+      (label :class "icon cell" :text "󰐥"))))
 
 (defwidget workspaces []
   (eventbox :onscroll "i3-msg workspace $([ {} = up ] && echo prev_on_output || echo next_on_output)"
