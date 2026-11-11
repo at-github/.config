@@ -164,6 +164,8 @@ client.urgent           #990000       #990000       #FF0000
 
 #######################################################################
 # My startup applications
+exec --no-startup-id dbus-update-activation-environment --systemd DISPLAY XAUTHORITY && systemctl --user start redshift
+
 exec --no-startup-id i3-msg 'exec xscreensaver -no-splash'
 
 # Compositor for transparency & shadow
@@ -181,7 +183,6 @@ exec_always --no-startup-id ~/.config/eww/launch.sh
 #   wal -i /usr/share/backgrounds/wallpapers/3840x2160 -e \ # Define colors from background
 #   && xrdb -merge ~/.cache/wal/colors.Xresources \         # Load colors from background
 #   && feh --bg-scale "$(\cat ~/.cache/wal/wal)"            # Apply background
-#   ~/.config/polybar/launch.sh \
 # ```
 
 #######################################################################

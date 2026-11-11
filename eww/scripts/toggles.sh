@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # Print redshift, microphone and xscreensaver states as JSON (for defpoll)
-# Same icons as the polybar modules
+# Same icons as the polybar modules, except redshift: empty or full lightbulb
 
 redshift_active=false
-redshift_icon=$''
+redshift_icon=$'\U000f0336'
 if systemctl --user is-active --quiet redshift; then
   redshift_active=true
-  redshift_icon=$''
+  redshift_icon=$'\U000f0335'
 fi
 
 mic_muted=false
