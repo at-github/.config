@@ -20,13 +20,6 @@ button {
   min-height: 72px;
 }
 
-// Center the icon in the space left by the accent border
-button.focused,
-button.urgent {
-  min-width: 58px;
-  padding-right: 2px;
-}
-
 button:hover {
   background: $color2;
   color: $color0;
@@ -35,13 +28,11 @@ button:hover {
 button.focused {
   background: $color1;
   color: $color0;
-  box-shadow: inset -2px 0 0 $color4;
 }
 
 button.urgent {
   background: #993333;
   color: $color0;
-  box-shadow: inset -2px 0 0 $color3;
 }
 
 .infos {
@@ -132,6 +123,18 @@ calendar:indeterminate {
 
 .toggle {
   margin-bottom: 12px;
+}
+
+// Clickable areas light up on hover like the workspace buttons
+.clickable:hover {
+  background: $color2;
+  color: $color0;
+}
+
+// Same height as a margin, but inside the hover background
+.clickable .toggle {
+  margin-bottom: 0;
+  padding: 6px 0;
 }
 
 .mic-in-use,

@@ -54,12 +54,12 @@
 
 (defwidget toggles []
   (box :orientation "v" :space-evenly false
-    (eventbox :onclick "scripts/toggles.sh redshift" :cursor "hand2"
+    (eventbox :class "clickable" :onclick "scripts/toggles.sh redshift" :cursor "hand2"
               :tooltip {toggles.redshift_active ? "Redshift actif — clic pour le désactiver" : "Redshift désactivé — clic pour l'activer"}
       (label :class "icon toggle" :text {toggles.redshift_icon}))
     (label :class "icon toggle ${toggles.mic_in_use ? "mic-in-use" : ""}" :text {toggles.mic_icon}
            :tooltip "${toggles.mic_muted ? "Micro coupé" : "Micro ouvert"}${toggles.mic_in_use ? " — utilisé par une application" : ""}")
-    (eventbox :onclick "scripts/toggles.sh xscreensaver" :cursor "hand2"
+    (eventbox :class "clickable" :onclick "scripts/toggles.sh xscreensaver" :cursor "hand2"
               :tooltip {toggles.xscreensaver_active ? "Écran de veille actif — clic pour le désactiver" : "Écran de veille désactivé — clic pour l'activer"}
       (label :class "icon toggle" :text {toggles.xscreensaver_icon}))
     (box :class "separator")))
