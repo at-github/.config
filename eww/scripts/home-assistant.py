@@ -38,7 +38,7 @@ UNAVAILABLE_TOOLTIP = "Home Assistant ne répond pas ou la valeur est indisponib
 ALERT_BOUNDS = {
     "cell_temperature": (5, 45),
 }
-# Same icons as polybar's ecoflow module; the AC input mirrors the output
+# Line icons; the AC input one mirrors the output one
 ICONS = {
     "battery_level": "\U000f0080",
     "cell_temperature": "\U000f050f",

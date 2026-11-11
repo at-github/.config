@@ -4,7 +4,7 @@
 #   toggles.sh redshift       start or stop redshift
 #   toggles.sh xscreensaver   start or stop xscreensaver
 #
-# Same icons as the polybar modules, except redshift: empty or full lightbulb
+# Redshift shows an empty or full lightbulb
 
 print_states() {
   redshift_active=false

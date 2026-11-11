@@ -21,7 +21,7 @@ def has_fullscreen(tree, focused):
 
 
 def bar_geometry(tree, focused):
-    """Column between the top and bottom i3 docks (polybar)."""
+    """Column between the top and bottom i3 docks (other bars, if any)."""
     output = next(node for node in tree.nodes if node.name == focused.output)
     docks = {node.name: node.rect for node in output.nodes}
     top, bottom = docks["topdock"].height, docks["bottomdock"].height

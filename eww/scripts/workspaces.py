@@ -4,7 +4,7 @@ import json
 
 import i3ipc
 
-# Same icons as polybar's workspaces module, other workspaces show their name
+# Icon of each workspace, by name; the others show their name
 ICONS = {
     "1": "\U000f0644",
     "2": "\U000f0c11",

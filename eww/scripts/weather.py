@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Print the weather from OpenWeatherMap as JSON (for defpoll).
 
-Same settings and icons as the polybar weather plugin it replaces.
+Weather Icons glyphs, day and night variants; the wind shows from 11 km/h
+with its Beaufort force.
 The bar closes on every fullscreen and defpoll restarts the script when it
 reopens: the cache avoids calling the weather API every time.
 """
@@ -28,7 +29,7 @@ CONDITION_ICONS = (
     (531, "\ue308", "\ue325"),  # Rain
     (622, "\uf2dc", "\uf2dc"),  # Snow
     (771, "\ue313", "\ue313"),  # Fog
-    # The plugin shows the other ids up to 804 as overcast
+    # The other ids up to 804 show as overcast
     (780, "\ue312", "\ue312"),
     (781, "\ue351", "\ue351"),  # Tornado
     (799, "\ue312", "\ue312"),
@@ -82,7 +83,7 @@ def fetch():
     data = response.json()
     now = time.time()
     is_day = data["sys"]["sunrise"] <= now <= data["sys"]["sunset"]
-    # m/s to km/h, decimals cut like the plugin
+    # m/s to km/h, decimals cut
     wind = int(data["wind"]["speed"] * 3.6)
     return {
         "icon": condition_icon(data["weather"][0]["id"], is_day),

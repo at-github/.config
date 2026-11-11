@@ -4,7 +4,7 @@ import json
 import time
 from pathlib import Path
 
-INTERVAL = 5  # seconds, like polybar's network module
+INTERVAL = 5  # seconds
 
 ICON_WIRED = "\U000f0002"
 ICON_WIFI = "\U000f05a9"

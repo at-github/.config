@@ -3,7 +3,7 @@
 #   updates.sh                  print icons and counts as JSON (for defpoll), "!" on error
 #   updates.sh upgrade SOURCE   upgrade SOURCE (pacman, aur or flatpak) in kitty, then refresh
 #
-# Same icons as polybar's modules, account-group for the AUR
+# Icons: Arch logo for pacman, account-group for the AUR, package for flatpak
 
 lines() { grep -c .; }
 
