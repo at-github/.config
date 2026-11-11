@@ -1,17 +1,10 @@
 #!/usr/bin/env python3
-"""Drive the eww bar from i3 events: workspaces, position, fullscreen."""
-import json
-import re
+"""Drive the eww bar from i3 events: position, fullscreen."""
 import subprocess
-from pathlib import Path
 
 import i3ipc
 
 BAR_WIDTH = 60
-POLYBAR_CONFIG = Path.home() / ".config/polybar/config.ini"
-
-# Same icons as polybar's workspaces module
-ICONS = dict(re.findall(r"^icon-\d+ = (\d+);(\S+)", POLYBAR_CONFIG.read_text(), re.M))
 
 last_geometry = None
 
@@ -39,24 +32,9 @@ def bar_geometry(tree, focused):
 def refresh(i3, _=None):
     global last_geometry
 
-    spaces = i3.get_workspaces()
-    workspaces = json.dumps(
-        [
-            {
-                "num": ws.num,
-                "icon": ICONS.get(ws.name, ws.name),
-                "focused": ws.focused,
-                "urgent": ws.urgent,
-            }
-            for ws in spaces
-        ],
-        ensure_ascii=False,
-    )
-    eww("update", f"workspaces={workspaces}")
-
     # The bar escapes i3 management: we must remove it in front of a fullscreen window
     tree = i3.get_tree()
-    focused = next(ws for ws in spaces if ws.focused)
+    focused = next(ws for ws in i3.get_workspaces() if ws.focused)
     geometry = None if has_fullscreen(tree, focused) else bar_geometry(tree, focused)
     if geometry == last_geometry:
         return

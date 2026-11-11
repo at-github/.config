@@ -1,7 +1,7 @@
 ; Vertical bar on the right for i3, driven by scripts/i3-listener.py
 ; (start it with launch.sh: position and fullscreen hiding come from the script).
 
-(defvar workspaces "[]")
+(deflisten workspaces :initial "[]" "scripts/workspaces.py")
 
 (defwindow bar
   :geometry (geometry :width "60px" :height "100%")
