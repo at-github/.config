@@ -17,14 +17,15 @@
 (defwindow calendar
   :geometry (geometry :anchor "top right" :x "-60px" :y "0px")
   (box :class "calendar-window"
-    (calendar :onclick "scripts/calendar.sh day {0} {1} {2}")))
+    (eventbox :cursor "hand2"
+      (calendar :onclick "scripts/calendar.sh day {0} {1} {2}"))))
 
 ; Opened by a click on the power icon, just left of the bottom of the bar
 (defwindow power
   :geometry (geometry :anchor "bottom right" :x "-60px" :y "0px")
   (box :class "power-window" :orientation "v" :space-evenly false
-    (button :onclick "systemctl reboot" :tooltip "Redémarrer" "󰑓")
-    (button :onclick "systemctl poweroff" :tooltip "Éteindre" "󰤂")))
+    (eventbox :cursor "hand2" (button :onclick "systemctl reboot" :tooltip "Redémarrer" "󰑓"))
+    (eventbox :cursor "hand2" (button :onclick "systemctl poweroff" :tooltip "Éteindre" "󰤂"))))
 
 (defpoll keyboard :initial `{"layout":"","caps":false}` :interval "1s" "scripts/keyboard.sh")
 (deflisten network :initial `{"icon":"","speed":""}` "scripts/network.py")
@@ -53,19 +54,19 @@
 
 (defwidget toggles []
   (box :orientation "v" :space-evenly false
-    (eventbox :onclick "~/.config/polybar/scripts/redshift.sh toggle"
+    (eventbox :onclick "scripts/toggles.sh redshift" :cursor "hand2"
               :tooltip {toggles.redshift_active ? "Redshift actif — clic pour le désactiver" : "Redshift désactivé — clic pour l'activer"}
       (label :class "icon toggle" :text {toggles.redshift_icon}))
     (label :class "icon toggle ${toggles.mic_in_use ? "mic-in-use" : ""}" :text {toggles.mic_icon}
            :tooltip "${toggles.mic_muted ? "Micro coupé" : "Micro ouvert"}${toggles.mic_in_use ? " — utilisé par une application" : ""}")
-    (eventbox :onclick "~/.config/polybar/scripts/toggle-xscreensaver.sh"
+    (eventbox :onclick "scripts/toggles.sh xscreensaver" :cursor "hand2"
               :tooltip {toggles.xscreensaver_active ? "Écran de veille actif — clic pour le désactiver" : "Écran de veille désactivé — clic pour l'activer"}
       (label :class "icon toggle" :text {toggles.xscreensaver_icon}))
     (box :class "separator")))
 
 (defwidget clock []
   (box :class "clock" :orientation "v" :space-evenly false
-    (eventbox :onclick "scripts/calendar.sh toggle" :tooltip "${datetime.full} — clic : calendrier"
+    (eventbox :onclick "scripts/calendar.sh toggle" :cursor "hand2" :tooltip "${datetime.full} — clic : calendrier"
       (box :orientation "v" :space-evenly false
         (label :class "time" :text {datetime.hour})
         (label :class "time" :text {datetime.minute})
@@ -101,11 +102,11 @@
     (box :class "separator")
     (box :orientation "v" :space-evenly false
       (for update in updates
-        (eventbox :onclick "scripts/updates.sh upgrade ${update.source}"
+        (eventbox :onclick "scripts/updates.sh upgrade ${update.source}" :cursor "hand2"
           (info :icon {update.icon} :text {update.count}
                 :tooltip {update.count == "!" ? "Mises à jour ${update.name} : la vérification a échoué" : "Mises à jour ${update.name} en attente — clic pour mettre à jour"}))))
     (box :class "separator")
-    (eventbox :onclick "eww open --toggle power" :tooltip "Menu d'arrêt"
+    (eventbox :onclick "eww open --toggle power" :cursor "hand2" :tooltip "Menu d'arrêt"
       (label :class "icon power-button" :text "󰐥"))))
 
 (defwidget workspaces []
@@ -115,7 +116,8 @@
          :space-evenly false
          :valign "start"
       (for ws in workspaces
-        (button :class "${ws.focused ? "focused" : ""} ${ws.urgent ? "urgent" : ""}"
-                :onclick "i3-msg workspace number ${ws.num}"
-                :tooltip "Workspace ${ws.num}"
-          "${ws.icon}")))))
+        (eventbox :cursor "hand2"
+          (button :class "${ws.focused ? "focused" : ""} ${ws.urgent ? "urgent" : ""}"
+                  :onclick "i3-msg workspace number ${ws.num}"
+                  :tooltip "Workspace ${ws.num}"
+            "${ws.icon}"))))))
