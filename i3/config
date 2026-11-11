@@ -137,7 +137,7 @@ default_border pixel 10px
 # GAPS
 gaps inner 30px
 gaps top 5px
-gaps right 28px
+gaps right 48px
 
 # Fonts
 font pango:RobotoMono Nerd Font 8
