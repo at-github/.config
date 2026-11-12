@@ -16,6 +16,7 @@ composer/keys*
 composer/.htaccess
 !dunst
 !dunst/*
+!dunst/dunstrc.d/50-wal.conf
 !irb
 !irb/*
 irb/irb_history
@@ -25,6 +26,8 @@ irb/irb_history
 !hypr/*
 !i3
 !i3/*
+!i3/scripts/osd.sh
+!i3/scripts/kodi.py
 !i3status
 !i3status/*
 !kitty
@@ -62,6 +65,9 @@ tint2/tint2rc.backup*
 !zsh/*
 !eww
 !eww/**
+!wal
+!wal/templates
+!wal/templates/dunst.conf
 zsh/.zsh_history
 zsh/.zcompdump*
 
