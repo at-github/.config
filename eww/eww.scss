@@ -144,8 +144,10 @@ calendar:indeterminate {
   color: $alert;
 }
 
+// Dark text on the light background, readable whatever the wallpaper
 .caps {
   background: $color3;
+  color: $color0;
 }
 
 // OSD (i3/scripts/osd.sh): same colors as the former dunst OSD (rofi-like):

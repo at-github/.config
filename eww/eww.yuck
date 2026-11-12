@@ -28,7 +28,7 @@
     (eventbox :cursor "hand2" (button :onclick "systemctl reboot" :tooltip "Redémarrer" "󰑓"))
     (eventbox :cursor "hand2" (button :onclick "systemctl poweroff" :tooltip "Éteindre" "󰤂"))))
 
-(defpoll keyboard :initial `{"layout":"","caps":false}` :interval "1s" "scripts/keyboard.sh")
+(deflisten keyboard :initial `{"layout":"","caps":false}` "scripts/keyboard.py")
 (deflisten network :initial `{"icon":"","speed":""}` "scripts/network.py")
 (defpoll weather :initial `{"icon":"","temp":"","wind_icon":"","wind":"","tooltip":""}` :interval "3600s" "scripts/weather.py")
 (defpoll home_assistant :initial "[]" :interval "60s" "scripts/home-assistant.py")
