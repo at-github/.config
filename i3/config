@@ -113,9 +113,10 @@ for_window [class="Evolution"] move to workspace 2, border pixel 10
 for_window [class="Yad"] floating enable move position 93 ppt 50 px
 
 # pulse audio volume control
-bindsym XF86AudioLowerVolume exec amixer -D pulse sset Master '5%-'
-bindsym XF86AudioRaiseVolume exec amixer -D pulse sset Master '5%+'
-bindsym XF86AudioMute exec amixer -D pulse set Master 1+ toggle
+# (osd.sh also shows the new level in an eww window)
+bindsym XF86AudioLowerVolume exec --no-startup-id ~/.config/i3/scripts/osd.sh volume down
+bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.config/i3/scripts/osd.sh volume up
+bindsym XF86AudioMute exec --no-startup-id ~/.config/i3/scripts/osd.sh volume mute
 
 # player controls with playerctl
 # https://github.com/acrisci/playerctl/releases
@@ -125,9 +126,9 @@ bindsym XF86AudioMute exec amixer -D pulse set Master 1+ toggle
 # `xev -event keyboard` then key press then see the log
 # `-a` for all player but …
 # `-i` ignore browser player & Blanket
-bindsym XF86AudioPlay exec "playerctl -p spotify play-pause"
-bindsym XF86AudioNext exec playerctl next
-bindsym XF86AudioPrev exec playerctl previous
+bindsym XF86AudioPlay exec --no-startup-id ~/.config/i3/scripts/osd.sh media play-pause
+bindsym XF86AudioNext exec --no-startup-id ~/.config/i3/scripts/osd.sh media next
+bindsym XF86AudioPrev exec --no-startup-id ~/.config/i3/scripts/osd.sh media previous
 
 bindsym $mod+n exec xdg-open ~
 
