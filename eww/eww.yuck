@@ -129,3 +129,33 @@
                   :onclick "i3-msg workspace number ${ws.num}"
                   :tooltip "Workspace ${ws.num}"
             "${ws.icon}"))))))
+
+; On-screen display for volume and media keys, centered on the screen.
+; Driven by i3/scripts/osd.sh: it fills `osd` with `eww update`, opens the
+; window and closes it once the keys have not been pressed for a while.
+; `media` holds the current track, or nothing: a list rather than :visible,
+; since eww sizes the window with hidden widgets too.
+(defvar osd `{"media":[],"volume_glyph":"","level":0}`)
+
+(defwindow osd
+  :geometry (geometry :anchor "center" :width "1020px")
+  :stacking "fg"
+  :wm-ignore true
+  :focusable false
+  (box :class "osd" :orientation "v" :space-evenly false
+    ; Current track (if any): status glyph, title (already wrapped), artist (if any)
+    ; `for` appends its items at the end of its parent: own box, so they stay
+    ; above the bar (empty, it takes no space)
+    (box :orientation "v" :space-evenly false
+      (for track in {osd.media}
+        (box :class "osd-media" :space-evenly false
+          (label :class "osd-glyph" :valign "start" :text {track.status_glyph})
+          (box :orientation "v" :space-evenly false
+            (label :class "osd-title" :xalign 0 :text {track.title})
+            ; Same reason: the artist stays under the title
+            (box :orientation "v" :space-evenly false
+              (for artist in {track.artists}
+                (label :class "osd-artist" :xalign 0 :text artist)))))))
+    (box :space-evenly false
+      (label :class "osd-glyph" :text {osd.volume_glyph})
+      (progress :class "osd-bar" :hexpand true :valign "center" :value {osd.level}))))

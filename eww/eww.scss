@@ -147,3 +147,47 @@ calendar:indeterminate {
 .caps {
   background: $color3;
 }
+
+// OSD (i3/scripts/osd.sh): same colors as the former dunst OSD (rofi-like):
+// dark background, accent text, most saturated color for the volume bar.
+// Sizes match the former dunst OSD, which dunst scaled by ~1.46 (auto scale
+// from the screen's physical DPI, ~140); eww does not scale anything.
+.osd {
+  background: $background;
+  color: $color2;
+  font-family: "FantasqueSansM Nerd Font Mono";
+  font-size: 27px;
+  // Same on every side: the corners of the padding are squares
+  padding: 115px;
+}
+
+.osd-media {
+  margin-bottom: 36px;
+}
+
+// The Mono variant shrinks glyphs to one cell: Propo keeps them full size.
+// Fixed width so the title lines up under the status glyph's column
+.osd-glyph {
+  font-family: "FantasqueSansM Nerd Font Propo";
+  font-size: 33px;
+  min-width: 70px;
+}
+
+.osd-title {
+  font-weight: bold;
+  margin-bottom: 9px;
+}
+
+.osd-artist {
+  font-style: italic;
+}
+
+.osd-bar trough {
+  min-height: 60px;
+  background: rgba($color6, 0.25);
+}
+
+.osd-bar progress {
+  min-height: 60px;
+  background: $color6;
+}
