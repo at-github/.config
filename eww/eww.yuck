@@ -36,7 +36,7 @@
 (defpoll datetime :initial `{"hour":"","minute":"","day":"","date":"","full":""}` :interval "1s"
   `date +'{"hour":"%H","minute":"%M","day":"%a","date":"%d/%m","full":"%A %-d %B %Y"}'`)
 (defpoll updates :initial "[]" :interval "3600s" "scripts/updates.sh")
-(defpoll toggles :initial `{"redshift_active":false,"redshift_icon":"","mic_muted":false,"mic_icon":"","mic_in_use":false,"xscreensaver_active":false,"xscreensaver_icon":""}` :interval "1s" "scripts/toggles.sh")
+(deflisten toggles :initial `{"redshift_active":false,"redshift_icon":"","mic_muted":false,"mic_icon":"","mic_in_use":false,"xscreensaver_active":false,"xscreensaver_icon":""}` "scripts/toggles.sh")
 
 ; Square cell (bar width), content centered
 (defwidget info [icon text tooltip]
