@@ -2,16 +2,14 @@
 # On-screen display for volume and media keys, rendered by eww (window `osd`
 # in ~/.config/eww/eww.yuck, look in eww.scss). Every key press updates the
 # same window: current track (if any), then the volume glyph and a bar. The
-# window closes TIMEOUT seconds after the last key press.
+# window closes TIMEOUT after the last key press.
 #
 # Usage:
 #   osd.sh volume up|down|mute
 #   osd.sh media [playerctl options] play-pause|next|previous
 #   (media keys drive Kodi when it plays something, see kodi.py)
 
-TIMEOUT=1.5
-# Last key press wins: only the matching delayed close may close the window
-TOKEN_FILE="${XDG_RUNTIME_DIR:-/tmp}/eww-osd.token"
+TIMEOUT=1500ms
 KODI="$(dirname "$0")/kodi.py"
 
 # Nerd Font (Font Awesome) glyphs
@@ -99,11 +97,6 @@ media_info() {
     [ -n "$raw_artist" ] && artist=$(truncate_text "$raw_artist" "$LINE_CHARS")
 }
 
-# Number of media lines (title lines and artist) of an `osd` JSON value
-osd_lines() {
-    jq '[.media[] | (.title | split("\n") | length) + (.artists | length)] | add // 0' <<<"$1"
-}
-
 # Show the OSD. Arguments: playerctl options selecting the player.
 show_osd() {
     # Last line looks like: "Front Right: Playback 52441 [80%] [on]"
@@ -131,7 +124,7 @@ show_osd() {
     # media: [] without a track, [{status_glyph, title, artists}] otherwise,
     # artists being [] or [artist] (lists, since eww sizes windows with
     # hidden widgets too)
-    local osd before
+    local osd
     osd=$(jq -nc \
         --arg status_glyph "$status_glyph" --arg title "$title" --arg artist "$artist" \
         --arg volume_glyph "$g" --argjson level "$level" \
@@ -139,21 +132,10 @@ show_osd() {
                     [{$status_glyph, $title, artists: (if $artist == "" then [] else [$artist] end)}]
                   end),
           $volume_glyph, $level}')
-    before=$(eww get osd)
     eww update osd="$osd"
-    if ! eww active-windows | grep -q '^osd:'; then
-        eww open osd
-    elif [ "$(osd_lines "$osd")" -lt "$(osd_lines "$before")" ]; then
-        # An open window grows with its content but never shrinks: reopen it
-        eww close osd
-        eww open osd
-    fi
-
-    local token="$$-$EPOCHREALTIME"
-    printf '%s' "$token" >"$TOKEN_FILE"
-    # Detached, so the key binding returns at once
-    setsid bash -c 'sleep "$1"; [ "$(cat "$2")" = "$3" ] && eww close osd' \
-        _ "$TIMEOUT" "$TOKEN_FILE" "$token" >/dev/null 2>&1 &
+    # Opening an open window recreates it (so it also shrinks to its content)
+    # and restarts its close timer
+    eww open osd --duration "$TIMEOUT"
 }
 
 volume_osd() {
