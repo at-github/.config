@@ -154,8 +154,14 @@ calendar:indeterminate {
 // dark background, accent text, most saturated color for the volume bar.
 // Sizes match the former dunst OSD, which dunst scaled by ~1.46 (auto scale
 // from the screen's physical DPI, ~140); eww does not scale anything.
+// Translucent background only (text, cover and bar stay opaque): the window
+// itself (class = window name) must not paint the opaque `window` background
+window.osd {
+  background: transparent;
+}
+
 .osd {
-  background: $background;
+  background: rgba($background, 0.75);
   color: $color2;
   font-family: "FantasqueSansM Nerd Font Mono";
   font-size: 27px;
@@ -173,6 +179,11 @@ calendar:indeterminate {
   font-family: "FantasqueSansM Nerd Font Propo";
   font-size: 33px;
   min-width: 70px;
+}
+
+// Fits in 120px (eww.yuck), same gap as above the volume bar
+.osd-cover {
+  margin-right: 36px;
 }
 
 .osd-title {

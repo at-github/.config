@@ -143,17 +143,24 @@
   :wm-ignore true
   :focusable false
   (box :class "osd" :orientation "v" :space-evenly false
-    ; Current track (if any): status glyph, title (already wrapped), artist (if any)
+    ; Current track (if any): status glyph, cover (if any), title (already
+    ; wrapped), artist (if any)
     ; `for` appends its items at the end of its parent: own box, so they stay
     ; above the bar (empty, it takes no space)
     (box :orientation "v" :space-evenly false
       (for track in {osd.media}
         (box :class "osd-media" :space-evenly false
           (label :class "osd-glyph" :valign "start" :text {track.status_glyph})
+          ; Same reason: the cover stays left of the title
+          (box :space-evenly false :valign "start"
+            (for cover in {track.covers}
+              (image :class "osd-cover" :valign "start" :path cover
+                     :image-width 120 :image-height 120)))
           (box :orientation "v" :space-evenly false
             (label :class "osd-title" :xalign 0 :text {track.title})
-            ; Same reason: the artist stays under the title
-            (box :orientation "v" :space-evenly false
+            ; Same reason: the artist stays under the title. Bottom of the
+            ; column: lined up with the bottom of the cover (if any)
+            (box :orientation "v" :space-evenly false :vexpand true :valign "end"
               (for artist in {track.artists}
                 (label :class "osd-artist" :xalign 0 :text artist)))))))
     (box :space-evenly false

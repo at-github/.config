@@ -5,17 +5,27 @@ Kodi does not expose MPRIS, so playerctl cannot see it. osd.sh uses this
 script instead whenever Kodi has an active player.
 
 Usage:
-  kodi.py status                       print "Status<TAB>title<TAB>subtitle"
+  kodi.py status                       print "Status<US>title<US>subtitle<US>cover"
   kodi.py play-pause|next|previous     control the active player
+
+<US> is the unit separator (\\x1f): unlike a tab, the shell keeps the empty
+fields when it splits on it. cover is a local image file, or empty.
 
 Exits with status 1 when Kodi is not running or nothing is playing.
 """
 import json
+import os
 import socket
 import sys
+import urllib.parse
 
 HOST, PORT = "127.0.0.1", 9090
 TIMEOUT = 0.5
+SEPARATOR = "\x1f"
+# Kodi's image cache (special://thumbnails)
+THUMBNAILS = os.path.expanduser("~/.kodi/userdata/Thumbnails")
+# Cover of the item, by preference: posters (movies, shows), then album covers
+ART_KEYS = ("poster", "tvshow.poster", "thumb", "album.thumb")
 
 
 def rpc(method, params=None):
@@ -41,11 +51,34 @@ def active_player():
     return players[0]["playerid"]
 
 
+def cover(item):
+    """Local file of the item's cover: Kodi's cached copy, else the original
+    when it is a local file; empty when there is none."""
+    art = item.get("art") or {}
+    url = next((art[key] for key in ART_KEYS if art.get(key)), item.get("thumbnail", ""))
+    if not url:
+        return ""
+    # image://<percent-encoded original>/
+    original = url
+    if url.startswith("image://"):
+        original = urllib.parse.unquote(url[len("image://"):].rstrip("/"))
+    for candidate in (original, url):
+        textures = rpc("Textures.GetTextures", {
+            "filter": {"field": "url", "operator": "is", "value": candidate},
+            "properties": ["cachedurl"],
+        }) or {}
+        for texture in textures.get("textures") or []:
+            path = os.path.join(THUMBNAILS, texture["cachedurl"])
+            if os.path.isfile(path):
+                return path
+    return original if os.path.isfile(original) else ""
+
+
 def status(player):
     speed = rpc("Player.GetProperties", {"playerid": player, "properties": ["speed"]})["speed"]
     item = rpc("Player.GetItem", {
         "playerid": player,
-        "properties": ["title", "artist", "showtitle", "season", "episode"],
+        "properties": ["title", "artist", "showtitle", "season", "episode", "art", "thumbnail"],
     })["item"]
 
     title = item.get("title") or item.get("label", "")
@@ -56,7 +89,8 @@ def status(player):
     else:
         subtitle = ", ".join(item.get("artist") or [])
 
-    print(f"{'Playing' if speed else 'Paused'}\t{title}\t{subtitle}")
+    fields = ("Playing" if speed else "Paused", title, subtitle, cover(item))
+    print(SEPARATOR.join(fields))
 
 
 def main():
