@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Print the weather from OpenWeatherMap as JSON (for defpoll).
 
-Weather Icons glyphs, day and night variants; the wind shows from 11 km/h
-with its Beaufort force.
+Weather Icons glyphs, day and night variants; the wind with its Beaufort
+force.
 The bar closes on every fullscreen and defpoll restarts the script when it
 reopens: the cache avoids calling the weather API every time.
 """
@@ -19,8 +19,6 @@ KEY_FILE = Path.home() / ".owm-key"
 CACHE_SECONDS = 3600
 CACHE = Path.home() / ".cache/eww/weather.json"
 FIELDS = ("icon", "temp", "wind_icon", "wind", "tooltip")
-# The wind only shows from this speed (km/h)
-MIN_WIND = 11
 
 # (highest weather id, day icon, night icon), see openweathermap.org/weather-conditions
 CONDITION_ICONS = (
@@ -88,8 +86,8 @@ def fetch():
     return {
         "icon": condition_icon(data["weather"][0]["id"], is_day),
         "temp": f"{round(data['main']['temp'])}°",
-        "wind_icon": beaufort_icon(wind) if wind >= MIN_WIND else "",
-        "wind": str(wind) if wind >= MIN_WIND else "",
+        "wind_icon": beaufort_icon(wind),
+        "wind": str(wind),
         "tooltip": f"Météo à {CITY} : {data['weather'][0]['description']}",
     }
 
