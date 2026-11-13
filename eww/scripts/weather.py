@@ -6,26 +6,14 @@ the outdoor probe and the wind with its Beaufort force. A cell that cannot be
 read shows a red bug icon, the reason in its tooltip.
 """
 import json
-import os
-import sys
-from datetime import datetime
-from pathlib import Path
 
-import requests
-from dotenv import load_dotenv
-
-BIN = Path.home() / ".local/bin"
-sys.path.insert(0, str(BIN))
-
-from home_assistant import HomeAssistant  # noqa: E402
+from ha_errors import BUG_ICON, Unreadable, entity, fetch_states, number
 
 CITY = "Parly"
 FORECAST = "weather.meteo_france_forecast_for_city_parly_bourgogne_89_fr_parly"
 PROBE = "sensor.capteur_thermique_exterieur_sud_temperature"
 SUN = "sun.sun"
-UNREADABLE_STATES = ("unavailable", "unknown")
 
-BUG_ICON = "\U000f00e4"
 PROBE_ICON = ""
 
 # Home Assistant condition: (day icon, night icon, French description)
@@ -66,10 +54,6 @@ BEAUFORT_ICONS = (
 HURRICANE_ICON = ""
 
 
-class Unreadable(Exception):
-    """A value the bar cannot show; the message goes to the tooltip."""
-
-
 def cell(icon, text, tooltip):
     return {"icon": icon, "text": text, "tooltip": tooltip, "alert": False}
 
@@ -80,24 +64,6 @@ def bug_cell(what, reason):
 
 def beaufort_icon(speed):
     return next((icon for highest, icon in BEAUFORT_ICONS if speed <= highest), HURRICANE_ICON)
-
-
-def entity(states, entity_id):
-    try:
-        state = states[entity_id]
-    except KeyError:
-        raise Unreadable(f"l'entité {entity_id} n'existe pas dans Home Assistant") from None
-    if state["state"] in UNREADABLE_STATES:
-        since = datetime.fromisoformat(state["last_changed"]).astimezone().strftime("%d/%m %H:%M")
-        raise Unreadable(f"{entity_id} est « {state['state']} » depuis le {since}")
-    return state
-
-
-def number(value, entity_id, what):
-    try:
-        return float(value)
-    except (TypeError, ValueError):
-        raise Unreadable(f"{what} de {entity_id} n'est pas un nombre ({value!r})") from None
 
 
 def sky_cell(states):
@@ -137,27 +103,11 @@ CELLS = {
 }
 
 
-def request_error(error):
-    """What went wrong with the Home Assistant request, in plain words."""
-    if isinstance(error, requests.Timeout):
-        return "ne répond pas à temps (serveur lent ou éteint ?)"
-    if isinstance(error, requests.ConnectionError):
-        return "est injoignable (serveur éteint ou réseau coupé ?)"
-    if isinstance(error, requests.HTTPError):
-        status = error.response.status_code
-        hint = " : jeton HA_TOKEN refusé ?" if status in (401, 403) else ""
-        return f"répond par une erreur HTTP {status}{hint}"
-    return f"a échoué ({type(error).__name__})"
-
-
 def main():
-    load_dotenv(BIN / ".env")
-    url = os.environ["HA_URL"]
     try:
-        states = HomeAssistant(url=url, token=os.environ["HA_TOKEN"]).states()
-    except requests.RequestException as error:
-        reason = f"Home Assistant ({url}) {request_error(error)}"
-        print(json.dumps({key: bug_cell(what, reason) for key, (what, _) in CELLS.items()}, ensure_ascii=False))
+        states = fetch_states()
+    except Unreadable as error:
+        print(json.dumps({key: bug_cell(what, error) for key, (what, _) in CELLS.items()}, ensure_ascii=False))
         return
     weather = {}
     for key, (what, build) in CELLS.items():

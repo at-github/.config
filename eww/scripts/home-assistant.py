@@ -1,19 +1,12 @@
 #!/usr/bin/env python3
-"""Print the bar's Home Assistant blocks as JSON (for defpoll)."""
+"""Print the bar's Home Assistant blocks as JSON (for defpoll).
+
+A line that cannot be read shows a red bug icon, the reason in its tooltip.
+"""
 import json
-import os
-import sys
-from pathlib import Path
 
-import requests
-from dotenv import load_dotenv
+from ha_errors import BIN, BUG_ICON, Unreadable, entity, fetch_states, number
 
-BIN = Path.home() / ".local/bin"
-sys.path.insert(0, str(BIN))
-
-from home_assistant import HomeAssistant  # noqa: E402
-
-UNAVAILABLE = "?"
 FORMATS = {
     "temperature": lambda value: f"{value:.0f}°",
     "humidity": lambda value: f"{value:.0f}%",
@@ -32,7 +25,6 @@ TOOLTIPS = {
     "ac_input_power": "Puissance d'entrée secteur",
     "cell_temperature": "Température des cellules — rouge sous 5° ou au-dessus de 45°",
 }
-UNAVAILABLE_TOOLTIP = "Home Assistant ne répond pas ou la valeur est indisponible"
 # (low, high) bounds outside of which a value is worrying.
 # Cell temperature: charging resumes above 5°C, 45°C is the manual's upper limit.
 ALERT_BOUNDS = {
@@ -48,24 +40,19 @@ ICONS = {
 }
 
 
-def fetch_states():
-    load_dotenv(BIN / ".env")
-    client = HomeAssistant(url=os.environ["HA_URL"], token=os.environ["HA_TOKEN"])
-    try:
-        return client.states()
-    except requests.RequestException:
-        return {}
-
-
 def line_value(entity_ids, states):
-    try:
-        return sum(float(states[entity_id]["state"]) for entity_id in entity_ids)
-    except (KeyError, ValueError):
-        return None
+    """Sum of the entities; Unreadable names the first one that fails."""
+    # Home Assistant itself failed: same reason on every line
+    if isinstance(states, Unreadable):
+        raise states
+    return sum(
+        number(entity(states, entity_id)["state"], entity_id, "la valeur")
+        for entity_id in entity_ids
+    )
 
 
 def is_alert(name, value):
-    if value is None or name not in ALERT_BOUNDS:
+    if name not in ALERT_BOUNDS:
         return False
     low, high = ALERT_BOUNDS[name]
     # Compare the displayed (rounded) value, so "45°" is never shown in red
@@ -75,13 +62,15 @@ def is_alert(name, value):
 def build_line(name, reference, entities, states):
     names = [reference] if isinstance(reference, str) else reference
     entity_ids = [entities[entity]["entity_id"] for entity in names]
-    value = line_value(entity_ids, states)
-    return {
-        "name": name,
-        "icon": ICONS.get(name, ""),
-        "text": UNAVAILABLE if value is None else FORMATS[name](value),
+    line = {"name": name, "icon": ICONS.get(name, "")}
+    try:
+        value = line_value(entity_ids, states)
+    except Unreadable as error:
+        return line | {"text": BUG_ICON, "alert": True, "tooltip": f"{TOOLTIPS[name]} : {error}"}
+    return line | {
+        "text": FORMATS[name](value),
         "alert": is_alert(name, value),
-        "tooltip": UNAVAILABLE_TOOLTIP if value is None else TOOLTIPS[name],
+        "tooltip": TOOLTIPS[name],
     }
 
 
@@ -100,7 +89,10 @@ def build_block(display, entities, states):
 
 def main():
     document = json.loads((BIN / "ha_entities.json").read_text())
-    states = fetch_states()
+    try:
+        states = fetch_states()
+    except Unreadable as error:
+        states = error
     blocks = [
         build_block(display, document["entities"], states)
         for display in document["displays"]["eww"]
