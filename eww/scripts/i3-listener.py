@@ -7,10 +7,20 @@ import i3ipc
 BAR_WIDTH = 60
 
 last_geometry = None
+hidden = False
 
 
 def eww(*args):
     subprocess.run(["eww", *args], check=False)
+
+
+def xdotool_bar(command):
+    """Run an xdotool window command on the bar window (no-op if not open)."""
+    subprocess.run(
+        ["xdotool", "search", "--name", "^Eww - bar$", command, "%@"],
+        check=False,
+        stderr=subprocess.DEVNULL,
+    )
 
 
 def has_fullscreen(tree, focused):
@@ -30,20 +40,27 @@ def bar_geometry(tree, focused):
 
 
 def refresh(i3, _=None):
-    global last_geometry
+    global last_geometry, hidden
 
-    # The bar escapes i3 management: we must remove it in front of a fullscreen window
+    # The bar escapes i3 management: we must remove it in front of a fullscreen
+    # window. Unmapped rather than closed: once its data is loaded, a reopened
+    # bar also counts its hidden widgets and grows past the screen.
     tree = i3.get_tree()
     focused = next(ws for ws in i3.get_workspaces() if ws.focused)
-    geometry = None if has_fullscreen(tree, focused) else bar_geometry(tree, focused)
-    if geometry == last_geometry:
+    if has_fullscreen(tree, focused):
+        if not hidden:
+            xdotool_bar("windowunmap")
+            hidden = True
         return
-    if geometry is None:
-        eww("close", "bar")
-    else:
+    geometry = bar_geometry(tree, focused)
+    if geometry != last_geometry:
+        # xdotool cannot move it: reopened (new output or docks, rare)
         x, y, width, height = geometry
         eww("open", "bar", "--pos", f"{x}x{y}", "--size", f"{width}x{height}")
-    last_geometry = geometry
+        last_geometry = geometry
+    elif hidden:
+        xdotool_bar("windowmap")
+    hidden = False
 
 
 i3 = i3ipc.Connection(auto_reconnect=True)
