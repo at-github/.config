@@ -30,7 +30,7 @@
 
 (deflisten keyboard :initial `{"layout":"","caps":false}` "scripts/keyboard.py")
 (deflisten network :initial `{"icon":"","speed":""}` "scripts/network.py")
-(defpoll weather :initial `{"icon":"","temp":"","wind_icon":"","wind":"","tooltip":""}` :interval "3600s" "scripts/weather.py")
+(defpoll weather :initial `{"sky":{"icon":"","text":"","tooltip":"","alert":false},"probe":{"icon":"","text":"","tooltip":"","alert":false},"wind":{"icon":"","text":"","tooltip":"","alert":false}}` :interval "60s" "scripts/weather.py")
 (defpoll home_assistant :initial "[]" :interval "60s" "scripts/home-assistant.py")
 ; `date` rather than formattime, to get the day name in the system locale
 (defpoll datetime :initial `{"hour":"","minute":"","day":"","date":"","full":""}` :interval "30s"
@@ -76,11 +76,16 @@
         (label :text {datetime.date})))
     (box :class "separator")))
 
-; Between the clock and the workspaces, styled like the other infos
+; Between the clock and the workspaces, styled like the other infos:
+; Météo-France forecast, outdoor probe, wind (red bug icon when unreadable)
 (defwidget weather-info []
   (box :class "infos" :orientation "v" :space-evenly false
-    (info :icon {weather.icon} :text {weather.temp} :tooltip {weather.tooltip})
-    (info :icon {weather.wind_icon} :text {weather.wind} :tooltip "Vent : ${weather.wind} km/h")
+    (info :icon {weather.sky.icon} :text {weather.sky.text}
+          :tooltip {weather.sky.tooltip} :alert {weather.sky.alert})
+    (info :icon {weather.probe.icon} :text {weather.probe.text}
+          :tooltip {weather.probe.tooltip} :alert {weather.probe.alert})
+    (info :icon {weather.wind.icon} :text {weather.wind.text}
+          :tooltip {weather.wind.tooltip} :alert {weather.wind.alert})
     (box :class "separator above-clickable")))
 
 (defwidget infos []
