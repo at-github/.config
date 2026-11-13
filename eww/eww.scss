@@ -74,6 +74,13 @@ button.urgent {
   margin-top: 12px;
 }
 
+// Montréal time, under the date: smaller and dimmer than the local time
+.mtl {
+  color: $color1;
+  font-size: 15px;
+  margin-top: 9px;
+}
+
 // The workspace buttons already have space above their icon
 .clock .separator {
   margin: 0 15px;

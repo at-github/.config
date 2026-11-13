@@ -33,8 +33,9 @@
 (defpoll weather :initial `{"sky":{"icon":"","text":"","tooltip":"","alert":false},"probe":{"icon":"","text":"","tooltip":"","alert":false},"wind":{"icon":"","text":"","tooltip":"","alert":false}}` :interval "60s" "scripts/weather.py")
 (defpoll home_assistant :initial "[]" :interval "60s" "scripts/home-assistant.py")
 ; `date` rather than formattime, to get the day name in the system locale
-(defpoll datetime :initial `{"hour":"","minute":"","day":"","date":"","full":""}` :interval "30s"
-  `date +'{"hour":"%H","minute":"%M","day":"%a","date":"%d/%m","full":"%A %-d %B %Y"}'`)
+; Montréal: America/Toronto, the canonical zone (America/Montreal is a link to it)
+(defpoll datetime :initial `{"hour":"","minute":"","day":"","date":"","full":"","mtl":"","mtl_full":""}` :interval "30s"
+  `date +'{"hour":"%H","minute":"%M","day":"%a","date":"%d/%m","full":"%A %-d %B %Y",'; TZ=America/Toronto date +'"mtl":"%H:%M","mtl_full":"%A %-d %B, %H:%M"}'`)
 (defpoll updates :initial "[]" :interval "3600s" "scripts/updates.sh")
 (deflisten toggles :initial `{"redshift_active":false,"redshift_icon":"","mic_muted":false,"mic_icon":"","mic_in_use":false,"xscreensaver_active":false,"xscreensaver_icon":""}` "scripts/toggles.sh")
 
@@ -73,7 +74,11 @@
         (label :class "time" :text {datetime.hour})
         (label :class "time" :text {datetime.minute})
         (label :class "day" :text {datetime.day})
-        (label :text {datetime.date})))
+        (label :text {datetime.date})
+        ; Montréal time, more discreet: maple leaf above
+        (box :class "mtl" :orientation "v" :space-evenly false :tooltip "Montréal : ${datetime.mtl_full}"
+          (label :text "")
+          (label :text {datetime.mtl}))))
     (box :class "separator")))
 
 ; Between the clock and the workspaces, styled like the other infos:
