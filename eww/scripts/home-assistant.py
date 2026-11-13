@@ -105,6 +105,8 @@ def main():
         build_block(display, document["entities"], states)
         for display in document["displays"]["eww"]
     ]
+    # Untitled blocks (solar) last, below the rooms
+    blocks.sort(key=lambda block: block["label"] == "")
     print(json.dumps(blocks, ensure_ascii=False))
 
 

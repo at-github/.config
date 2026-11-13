@@ -80,8 +80,7 @@
 (defwidget weather-info []
   (box :class "infos" :orientation "v" :space-evenly false
     (info :icon {weather.icon} :text {weather.temp} :tooltip {weather.tooltip})
-    (box :visible {weather.wind != ""}
-      (info :icon {weather.wind_icon} :text {weather.wind} :tooltip "Vent : ${weather.wind} km/h"))
+    (info :icon {weather.wind_icon} :text {weather.wind} :tooltip "Vent : ${weather.wind} km/h")
     (box :class "separator above-clickable")))
 
 (defwidget infos []
@@ -92,12 +91,7 @@
     (toggles)
     (box :orientation "v" :space-evenly false
       (for block in home_assistant
-        (box :visible {block.label != ""}
-          (ha-block :block block))))
-    (box :orientation "v" :space-evenly false
-      (for block in home_assistant
-        (box :visible {block.label == ""}
-          (ha-block :block block))))
+        (ha-block :block block)))
     (label :class "icon cell ${toggles.mic_in_use ? "mic-in-use" : ""}" :text {toggles.mic_icon}
            :tooltip "${toggles.mic_muted ? "Micro coupé" : "Micro ouvert"}${toggles.mic_in_use ? " — utilisé par une application" : ""}")
     (info :icon "󰋊" :text "${round(EWW_DISK["/"].used_perc, 0)}%" :tooltip "Disque (/) utilisé")
