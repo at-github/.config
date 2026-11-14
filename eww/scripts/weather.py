@@ -1,20 +1,22 @@
 #!/usr/bin/env python3
 """Print the bar's weather cells from Home Assistant as JSON (for defpoll).
 
-Three cells: the Météo-France forecast (sky icon, day and night variants),
-the outdoor probe and the wind with its Beaufort force. A cell that cannot be
-read shows a red bug icon, the reason in its tooltip.
+Two cells: the sky (Météo-France sky icon, day and night variants, with the
+outdoor probe and the forecast temperatures on one line, "5/6°", the probe in
+bold) and the wind
+with its Beaufort force. A value that cannot be read shows a red bug icon, the
+reason in its tooltip.
 """
 import json
 
 from ha_errors import BUG_ICON, Unreadable, entity, fetch_states, number
 
-CITY = "Parly"
 FORECAST = "weather.meteo_france_forecast_for_city_parly_bourgogne_89_fr_parly"
 PROBE = "sensor.capteur_thermique_exterieur_sud_temperature"
 SUN = "sun.sun"
 
-PROBE_ICON = ""
+# Longer texts ("-12/-10°") overflow the bar width: shown smaller
+SMALL_TEXT_FROM = 7
 
 # Home Assistant condition: (day icon, night icon, French description)
 CONDITIONS = {
@@ -55,15 +57,25 @@ HURRICANE_ICON = ""
 
 
 def cell(icon, text, tooltip):
-    return {"icon": icon, "text": text, "tooltip": tooltip, "alert": False}
+    return {"icon": icon, "text": text, "tooltip": tooltip, "alert": False, "small": False, "markup": ""}
 
 
 def bug_cell(what, reason):
-    return {"icon": BUG_ICON, "text": "", "tooltip": f"{what} : {reason}", "alert": True}
+    return {"icon": BUG_ICON, "text": "", "tooltip": f"{what} : {reason}", "alert": True, "small": False, "markup": ""}
 
 
 def beaufort_icon(speed):
     return next((icon for highest, icon in BEAUFORT_ICONS if speed <= highest), HURRICANE_ICON)
+
+
+def probe_reading(states):
+    """Measured temperature and its tooltip line; the bug icon when unreadable."""
+    try:
+        temperature = number(entity(states, PROBE)["state"], PROBE, "la valeur")
+    except Unreadable as error:
+        return BUG_ICON, f"Sonde : {error}"
+    measured = f"{temperature:.1f}".replace(".", ",")
+    return str(round(temperature)), f"Sonde : {measured}°"
 
 
 def sky_cell(states):
@@ -74,17 +86,19 @@ def sky_cell(states):
     day_icon, night_icon, description = CONDITIONS.get(
         forecast["state"], (UNKNOWN_ICON, UNKNOWN_ICON, forecast["state"])
     )
+    probe, probe_tooltip = probe_reading(states)
+    # Measured (bold) / forecast; one degree sign to fit the bar width
+    forecast_text = f"{round(temperature)}°"
+    text = f"{probe}/{forecast_text}"
     return cell(
         night_icon if is_night else day_icon,
-        f"{round(temperature)}°",
-        f"Prévision Météo-France à {CITY} : {description}",
-    )
-
-
-def probe_cell(states):
-    probe = entity(states, PROBE)
-    temperature = number(probe["state"], PROBE, "la valeur")
-    return cell(PROBE_ICON, f"{round(temperature)}°", "Température mesurée par la sonde extérieure (sud)")
+        text,
+        f"{description[:1].upper()}{description[1:]}\n{probe_tooltip} / Prévision : {forecast_text}",
+    ) | {
+        "markup": f"<b>{probe}</b>/{forecast_text}",
+        "alert": probe == BUG_ICON,
+        "small": len(text) >= SMALL_TEXT_FROM,
+    }
 
 
 def wind_cell(states):
@@ -98,7 +112,6 @@ def wind_cell(states):
 # Key in the JSON: (name in the error tooltips, builder)
 CELLS = {
     "sky": ("Météo", sky_cell),
-    "probe": ("Sonde extérieure", probe_cell),
     "wind": ("Vent", wind_cell),
 }
 

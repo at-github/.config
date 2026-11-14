@@ -27,6 +27,11 @@ button,
   min-height: 60px;
 }
 
+// Info text too long for the bar width (sky: "-12/-10°")
+.small {
+  font-size: 14px;
+}
+
 button:hover {
   background: $color2;
   color: $color0;
