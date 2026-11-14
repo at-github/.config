@@ -68,6 +68,13 @@ tint2/tint2rc.backup*
 !wal
 !wal/templates
 !wal/templates/dunst.conf
+!wal/templates/gtk-colors.css
+!gtk-3.0
+!gtk-3.0/gtk.css
+!gtk-3.0/settings.ini
+!gtk-4.0
+!gtk-4.0/gtk.css
+!gtk-4.0/settings.ini
 zsh/.zsh_history
 zsh/.zcompdump*
 

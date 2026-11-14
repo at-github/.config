@@ -1,0 +1,231 @@
+/* pywal colors on top of Adwaita-dark (set in settings.ini).
+   Palette comes from the wal template wal/templates/gtk-colors.css. */
+@import url("../../.cache/wal/gtk-colors.css");
+
+@define-color wal_surface mix(@wal_bg, @wal_fg, 0.06);
+@define-color wal_raised mix(@wal_bg, @wal_fg, 0.12);
+@define-color wal_border mix(@wal_bg, @wal_fg, 0.20);
+
+/* Named colors used by apps drawing custom widgets */
+@define-color theme_bg_color @wal_bg;
+@define-color theme_fg_color @wal_fg;
+@define-color theme_base_color @wal_surface;
+@define-color theme_text_color @wal_fg;
+@define-color theme_selected_bg_color @wal_accent;
+@define-color theme_selected_fg_color @wal_bg;
+@define-color insensitive_fg_color @wal_muted;
+@define-color borders @wal_border;
+
+window,
+.background,
+dialog,
+messagedialog .dialog-action-box {
+  background-color: @wal_bg;
+  color: @wal_fg;
+}
+
+headerbar,
+.titlebar,
+toolbar,
+actionbar,
+statusbar {
+  background-color: @wal_surface;
+  background-image: none;
+  color: @wal_fg;
+  border-color: @wal_border;
+  box-shadow: none;
+}
+
+headerbar:backdrop,
+.titlebar:backdrop {
+  background-color: @wal_bg;
+}
+
+.view,
+textview text,
+iconview,
+treeview,
+list,
+row,
+sidebar,
+.sidebar,
+placessidebar,
+notebook > stack:not(:only-child) {
+  background-color: @wal_surface;
+  color: @wal_fg;
+}
+
+notebook > header {
+  background-color: @wal_bg;
+  border-color: @wal_border;
+}
+
+notebook > header tab:checked {
+  box-shadow: inset 0 -3px @wal_accent;
+}
+
+entry,
+spinbutton:not(.vertical),
+textview {
+  background-color: @wal_surface;
+  background-image: none;
+  color: @wal_fg;
+  border-color: @wal_border;
+  box-shadow: none;
+  padding: 6px;
+}
+
+entry:focus,
+spinbutton:focus {
+  border-color: @wal_accent;
+  box-shadow: inset 0 0 0 1px @wal_accent;
+}
+
+button {
+  background-color: @wal_raised;
+  background-image: none;
+  color: @wal_fg;
+  border-color: @wal_border;
+  box-shadow: none;
+  text-shadow: none;
+  -gtk-icon-shadow: none;
+  padding: 6px;
+}
+
+button:hover {
+  background-color: mix(@wal_raised, @wal_fg, 0.08);
+}
+
+button:active,
+button:checked {
+  background-color: mix(@wal_raised, @wal_accent, 0.35);
+}
+
+button:disabled {
+  background-color: @wal_surface;
+  color: @wal_muted;
+}
+
+button.flat {
+  background-color: transparent;
+  border-color: transparent;
+}
+
+button.flat:hover {
+  background-color: @wal_raised;
+}
+
+button.suggested-action,
+button.default {
+  background-color: @wal_accent;
+  color: @wal_bg;
+  border-color: @wal_accent;
+}
+
+button.suggested-action:hover,
+button.default:hover {
+  background-color: mix(@wal_accent, @wal_fg, 0.15);
+}
+
+button.destructive-action {
+  background-color: #c0392b;
+  color: @wal_fg;
+  border-color: #c0392b;
+}
+
+*:selected,
+selection,
+treeview:selected,
+row:selected {
+  background-color: @wal_accent;
+  color: @wal_bg;
+}
+
+menu,
+.menu,
+.context-menu,
+popover,
+popover.background,
+tooltip,
+tooltip.background {
+  background-color: @wal_surface;
+  color: @wal_fg;
+  border-color: @wal_border;
+}
+
+menuitem:hover,
+modelbutton:hover {
+  background-color: @wal_accent;
+  color: @wal_bg;
+}
+
+check,
+radio {
+  background-color: @wal_surface;
+  background-image: none;
+  border-color: @wal_border;
+  color: @wal_bg;
+}
+
+check:checked,
+radio:checked {
+  background-color: @wal_accent;
+  border-color: @wal_accent;
+}
+
+switch {
+  background-color: @wal_raised;
+  border-color: @wal_border;
+}
+
+switch:checked {
+  background-color: @wal_accent;
+  border-color: @wal_accent;
+}
+
+switch slider {
+  background-color: @wal_fg;
+  background-image: none;
+  border-color: @wal_border;
+}
+
+scale trough,
+progressbar trough,
+levelbar trough {
+  background-color: @wal_raised;
+  border-color: @wal_border;
+}
+
+scale highlight,
+progressbar progress,
+levelbar block.filled {
+  background-color: @wal_accent;
+  border-color: @wal_accent;
+}
+
+scrollbar {
+  background-color: transparent;
+  border-color: transparent;
+}
+
+scrollbar slider {
+  background-color: @wal_muted;
+}
+
+scrollbar slider:hover {
+  background-color: @wal_fg;
+}
+
+separator {
+  background-color: @wal_border;
+}
+
+label.dim-label,
+.dim-label {
+  color: @wal_muted;
+}
+
+link,
+*:link {
+  color: @wal_accent;
+}

@@ -1,0 +1,9 @@
+/* pywal template rendered to ~/.cache/wal/gtk-colors.css, imported by
+   ~/.config/gtk-3.0/gtk.css and ~/.config/gtk-4.0/gtk.css.
+   Restart GTK apps after `wal` to pick up the new palette. */
+
+@define-color wal_bg {background};
+@define-color wal_fg {foreground};
+@define-color wal_muted {color8};
+@define-color wal_accent {color5};
+@define-color wal_accent_alt {color2};

@@ -1,0 +1,37 @@
+/* pywal colors for GTK4 / libadwaita through their named colors.
+   Palette comes from the wal template wal/templates/gtk-colors.css. */
+@import url("../../.cache/wal/gtk-colors.css");
+
+@define-color wal_surface mix(@wal_bg, @wal_fg, 0.06);
+@define-color wal_raised mix(@wal_bg, @wal_fg, 0.12);
+
+@define-color accent_color @wal_accent;
+@define-color accent_bg_color @wal_accent;
+@define-color accent_fg_color @wal_bg;
+
+@define-color destructive_color #c0392b;
+@define-color destructive_bg_color #c0392b;
+@define-color destructive_fg_color @wal_fg;
+
+@define-color window_bg_color @wal_bg;
+@define-color window_fg_color @wal_fg;
+
+@define-color view_bg_color @wal_surface;
+@define-color view_fg_color @wal_fg;
+
+@define-color headerbar_bg_color @wal_surface;
+@define-color headerbar_fg_color @wal_fg;
+@define-color headerbar_backdrop_color @wal_bg;
+
+@define-color sidebar_bg_color @wal_surface;
+@define-color sidebar_fg_color @wal_fg;
+@define-color sidebar_backdrop_color @wal_bg;
+
+@define-color card_bg_color @wal_raised;
+@define-color card_fg_color @wal_fg;
+
+@define-color dialog_bg_color @wal_bg;
+@define-color dialog_fg_color @wal_fg;
+
+@define-color popover_bg_color @wal_surface;
+@define-color popover_fg_color @wal_fg;
