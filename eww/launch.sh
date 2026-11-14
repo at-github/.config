@@ -3,5 +3,7 @@
 
 pkill -f eww/scripts/i3-listener.py
 eww kill
-eww daemon
+# Classic scrollbars: always shown while the workspaces overflow (GTK hides
+# overlay scrollbars when idle)
+GTK_OVERLAY_SCROLLING=0 eww daemon
 exec "$HOME/.config/eww/scripts/i3-listener.py"

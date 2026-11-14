@@ -43,6 +43,31 @@ button.urgent,
   color: $color0;
 }
 
+// Thin scrollbar of the workspaces, shown only when they overflow. The GTK
+// theme gives scroll areas a background and a wide scrollbar: reset both
+scrolledwindow,
+viewport,
+scrollbar,
+scrollbar * {
+  background: transparent;
+  border: none;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+  min-height: 0;
+}
+
+// Drawn over the right edge of the buttons, so the bar keeps its 60px
+scrollbar {
+  margin-left: -3px;
+}
+
+scrollbar slider {
+  min-width: 3px;
+  min-height: 40px;
+  background: $color1;
+}
+
 .infos {
   color: lighten($color1, 20%);
   font-size: 18px;

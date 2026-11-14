@@ -1,5 +1,9 @@
-/* pywal colors on top of Adwaita dark (set in settings.ini).
+/* GTK3 theme "Adwaita-wal": pywal colors on top of Adwaita dark.
+   Loaded by ~/.local/share/themes/Adwaita-wal/gtk-3.0/gtk.css (selected in
+   settings.ini). A theme, not the user gtk.css: applications' own styles
+   (eww's bar) then take precedence over these rules.
    Palette comes from the wal template wal/templates/gtk-colors.css. */
+@import url("resource:///org/gtk/libgtk/theme/Adwaita/gtk-contained-dark.css");
 @import url("../../.cache/wal/gtk-colors.css");
 
 @define-color wal_surface mix(@wal_bg, @wal_fg, 0.06);

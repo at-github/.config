@@ -6,12 +6,13 @@
 (defwindow bar
   :geometry (geometry :width "60px" :height "100%")
   :anchor "top left"
-  (centerbox :orientation "v"
-    (box :orientation "v" :space-evenly false :valign "start"
-      (clock)
-      (weather-info)
+  (box :orientation "v" :space-evenly false
+    (clock)
+    (weather-info)
+    ; Workspaces take the free space and scroll when they overflow, so the
+    ; bar never grows past the screen
+    (scroll :vscroll true :hscroll false :vexpand true
       (workspaces))
-    (box)
     (infos)))
 
 ; Opened by a click on the clock, just left of the bar (x offset = bar width)
@@ -65,6 +66,8 @@
 
 (defwidget toggles []
   (box :orientation "v" :space-evenly false
+    ; Ends the (scrollable) workspaces list
+    (box :class "separator above-clickable")
     (eventbox :class "clickable" :onclick "scripts/toggles.sh redshift" :cursor "hand2"
               :tooltip {toggles.redshift_active ? "Redshift actif — clic pour le désactiver" : "Redshift désactivé — clic pour l'activer"}
       (label :class "icon cell" :text {toggles.redshift_icon}))
@@ -128,18 +131,18 @@
     (eventbox :class "clickable" :onclick "eww open --toggle power" :cursor "hand2" :tooltip "Menu d'arrêt"
       (label :class "icon cell" :text "󰐥"))))
 
+; The mouse wheel scrolls the list (see the bar), it does not switch workspaces
 (defwidget workspaces []
-  (eventbox :onscroll "i3-msg workspace $([ {} = up ] && echo prev_on_output || echo next_on_output)"
-    (box :class "workspaces"
-         :orientation "v"
-         :space-evenly false
-         :valign "start"
-      (for ws in workspaces
-        (eventbox :cursor "hand2"
-          (button :class "${ws.focused ? "focused" : ""} ${ws.urgent ? "urgent" : ""}"
-                  :onclick "i3-msg workspace number ${ws.num}"
-                  :tooltip "Workspace ${ws.num}"
-            "${ws.icon}"))))))
+  (box :class "workspaces"
+       :orientation "v"
+       :space-evenly false
+       :valign "start"
+    (for ws in workspaces
+      (eventbox :cursor "hand2"
+        (button :class "${ws.focused ? "focused" : ""} ${ws.urgent ? "urgent" : ""}"
+                :onclick "i3-msg workspace number ${ws.num}"
+                :tooltip "Workspace ${ws.num}"
+          "${ws.icon}")))))
 
 ; On-screen display for volume and media keys, centered on the screen.
 ; Driven by i3/scripts/osd.sh: it fills `osd` with `eww update`, opens the
