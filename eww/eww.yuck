@@ -39,9 +39,10 @@
 (defpoll updates :initial "[]" :interval "3600s" "scripts/updates.sh")
 (deflisten toggles :initial `{"redshift_active":false,"redshift_icon":"","mic_muted":false,"mic_icon":"","mic_in_use":false,"xscreensaver_active":false,"xscreensaver_icon":""}` "scripts/toggles.sh")
 
-; Square cell (bar width), content centered; red (`alert`) when ?alert is true
-(defwidget info [icon text tooltip ?alert]
-  (box :class "cell ${alert == true ? "alert" : ""}" :tooltip tooltip
+; Square cell (bar width), content centered; red text (`alert`, unreadable
+; value) when ?alert is true, urgent workspace colors when ?attention is true
+(defwidget info [icon text tooltip ?alert ?attention]
+  (box :class "cell ${alert == true ? "alert" : ""} ${attention == true ? "attention" : ""}" :tooltip tooltip
     (box :orientation "v" :space-evenly false :valign "center"
       (label :class "icon" :text icon)
       (label :text text))))
@@ -56,7 +57,7 @@
         (eventbox :class "${line.toggle != "" ? "clickable" : ""}"
                   :cursor "${line.toggle != "" ? "hand2" : "default"}"
                   :onclick "${line.toggle != "" ? "setsid -f scripts/ha-toggle.py ${line.toggle}" : ""}"
-          (box :class "${line.icon != "" ? "cell" : ""} ${line.active ? "active" : ""}" :tooltip {line.tooltip}
+          (box :class "${line.icon != "" ? "cell" : ""} ${line.active ? "active" : ""} ${line.attention ? "attention" : ""}" :tooltip {line.tooltip}
             (box :orientation "v" :space-evenly false :valign "center"
               (label :class "icon" :visible {line.icon != ""} :text {line.icon})
               (label :class "${line.alert ? "alert" : ""}" :visible {line.text != ""} :text {line.text}))))))
@@ -111,7 +112,7 @@
            :tooltip "${toggles.mic_muted ? "Micro coupé" : "Micro ouvert"}${toggles.mic_in_use ? " — utilisé par une application" : ""}")
     (info :icon "󰋊" :text "${round(EWW_DISK["/"].used_perc, 0)}%" :tooltip "Disque (/) utilisé")
     (info :icon "󰍛" :text "${round(EWW_RAM.used_mem_perc, 0)}%" :tooltip "Mémoire utilisée"
-          :alert {EWW_RAM.used_mem_perc > 85})
+          :attention {EWW_RAM.used_mem_perc > 85})
     (info :icon "󰻠" :text "${round(EWW_CPU.avg, 0)}%" :tooltip "Processeur utilisé")
     (label :class "icon cell caps" :visible {keyboard.caps} :text "󰌎" :tooltip "Majuscules verrouillées")
     (info :icon "" :text {keyboard.layout} :tooltip "Disposition du clavier")

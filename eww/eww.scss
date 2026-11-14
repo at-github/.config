@@ -2,6 +2,8 @@
 @import "/home/tarik/.cache/wal/colors.scss";
 
 $alert: #ff0000;
+// Urgent workspace, and any value that needs action (battery low, RAM…)
+$attention: #993333;
 
 * {
   all: unset;
@@ -35,8 +37,9 @@ button.focused {
   color: $color0;
 }
 
-button.urgent {
-  background: #993333;
+button.urgent,
+.attention {
+  background: $attention;
   color: $color0;
 }
 

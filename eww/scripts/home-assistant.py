@@ -97,7 +97,7 @@ def battery_thresholds(entities, states):
 
 
 def battery_colors(value, entities, states):
-    """alert, active and tooltip of the battery line."""
+    """attention, active and tooltip of the battery line."""
     try:
         low, high = battery_thresholds(entities, states)
     except Unreadable as error:
@@ -114,7 +114,7 @@ def build_plug_line(reference, entities, states):
     """Power of a plug, highlighted while switched on; a click toggles it."""
     power_id = entities[reference["power"]]["entity_id"]
     switch_id = entities[reference["switch"]]["entity_id"]
-    line = {"name": "plug", "icon": ICONS["plug"], "toggle": switch_id}
+    line = {"name": "plug", "icon": ICONS["plug"], "toggle": switch_id, "attention": False}
     try:
         power = line_value([power_id], states)
         switch = entity(states, switch_id)
@@ -144,7 +144,8 @@ def opened_since(last_changed):
 def build_window_line(reference, entities, states, display_name):
     """Open window icon, highlighted; None while closed (nothing shown)."""
     entity_id = entities[reference]["entity_id"]
-    line = {"name": "window", "icon": ICONS["window"], "toggle": "", "alert": False}
+    line = {"name": "window", "icon": ICONS["window"], "toggle": "", "alert": False,
+            "attention": False}
     try:
         if isinstance(states, Unreadable):
             raise states
@@ -168,7 +169,9 @@ def build_line(name, reference, entities, states, display_name):
         return build_window_line(reference, entities, states, display_name)
     names = [reference] if isinstance(reference, str) else reference
     entity_ids = [entities[entity]["entity_id"] for entity in names]
-    line = {"name": name, "icon": ICONS.get(name, ""), "toggle": ""}
+    # `alert`: unreadable value (red bug icon); `attention`: worrying value
+    # (whole cell like an urgent workspace)
+    line = {"name": name, "icon": ICONS.get(name, ""), "toggle": "", "attention": False}
     try:
         value = line_value(entity_ids, states)
     except Unreadable as error:
@@ -179,12 +182,13 @@ def build_line(name, reference, entities, states, display_name):
             "tooltip": f"{TOOLTIPS[name]} : {error}",
         }
     if name == "battery_level":
-        alert, active, tooltip = battery_colors(value, entities, states)
+        attention, active, tooltip = battery_colors(value, entities, states)
     else:
-        alert, active, tooltip = is_alert(name, value), is_active(name, value), TOOLTIPS[name]
+        attention, active, tooltip = is_alert(name, value), is_active(name, value), TOOLTIPS[name]
     return line | {
         "text": FORMATS[name](value),
-        "alert": alert,
+        "alert": False,
+        "attention": attention,
         "active": active,
         "tooltip": tooltip,
     }
