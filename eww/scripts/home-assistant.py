@@ -15,6 +15,7 @@ FORMATS = {
     "solar_power": lambda value: f"{value:.0f}W",
     "ac_input_power": lambda value: f"{value:.0f}W",
     "cell_temperature": lambda value: f"{value:.0f}°",
+    "plug": lambda value: f"{value:.0f}W",
 }
 TOOLTIPS = {
     "temperature": "Température",
@@ -24,6 +25,7 @@ TOOLTIPS = {
     "solar_power": "Puissance d'entrée solaire",
     "ac_input_power": "Puissance d'entrée secteur",
     "cell_temperature": "Température des cellules — rouge sous 5° ou au-dessus de 45°",
+    "plug": "clic pour basculer",
 }
 # (low, high) bounds outside of which a value is worrying.
 # Cell temperature: charging resumes above 5°C, 45°C is the manual's upper limit.
@@ -49,6 +51,7 @@ ICONS = {
     "output_power": "",
     "solar_power": "",
     "ac_input_power": "",
+    "plug": "\U000f1108",
 }
 
 
@@ -105,10 +108,35 @@ def battery_colors(value, entities, states):
     return shown <= low, shown >= high, tooltip
 
 
+def build_plug_line(reference, entities, states):
+    """Power of a plug, highlighted while switched on; a click toggles it."""
+    power_id = entities[reference["power"]]["entity_id"]
+    switch_id = entities[reference["switch"]]["entity_id"]
+    line = {"name": "plug", "icon": ICONS["plug"], "toggle": switch_id}
+    try:
+        power = line_value([power_id], states)
+        switch = entity(states, switch_id)
+    except Unreadable as error:
+        return line | {
+            "text": BUG_ICON,
+            "alert": True,
+            "active": False,
+            "tooltip": f"Prise ({TOOLTIPS['plug']}) : {error}",
+        }
+    return line | {
+        "text": FORMATS["plug"](power),
+        "alert": False,
+        "active": switch["state"] == "on",
+        "tooltip": f"{switch['attributes'].get('friendly_name', switch_id)} — {TOOLTIPS['plug']}",
+    }
+
+
 def build_line(name, reference, entities, states):
+    if name == "plug":
+        return build_plug_line(reference, entities, states)
     names = [reference] if isinstance(reference, str) else reference
     entity_ids = [entities[entity]["entity_id"] for entity in names]
-    line = {"name": name, "icon": ICONS.get(name, "")}
+    line = {"name": name, "icon": ICONS.get(name, ""), "toggle": ""}
     try:
         value = line_value(entity_ids, states)
     except Unreadable as error:

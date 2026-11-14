@@ -50,11 +50,16 @@
   (box :orientation "v" :space-evenly false
     (box :orientation "v" :space-evenly false
       (label :class "block-label" :visible {block.label != ""} :text {block.label} :tooltip {block.name})
+      ; Lines with a `toggle` entity (plugs) switch it on click. Detached:
+      ; eww kills onclick commands after a fraction of a second
       (for line in {block.lines}
-        (box :class "${line.icon != "" ? "cell" : ""} ${line.active ? "active" : ""}" :tooltip {line.tooltip}
-          (box :orientation "v" :space-evenly false :valign "center"
-            (label :class "icon" :visible {line.icon != ""} :text {line.icon})
-            (label :class "${line.alert ? "alert" : ""}" :text {line.text})))))
+        (eventbox :class "${line.toggle != "" ? "clickable" : ""}"
+                  :cursor "${line.toggle != "" ? "hand2" : "default"}"
+                  :onclick "${line.toggle != "" ? "setsid -f scripts/ha-toggle.py ${line.toggle}" : ""}"
+          (box :class "${line.icon != "" ? "cell" : ""} ${line.active ? "active" : ""}" :tooltip {line.tooltip}
+            (box :orientation "v" :space-evenly false :valign "center"
+              (label :class "icon" :visible {line.icon != ""} :text {line.icon})
+              (label :class "${line.alert ? "alert" : ""}" :text {line.text}))))))
     (box :class "separator")))
 
 (defwidget toggles []
