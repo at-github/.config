@@ -59,7 +59,7 @@
           (box :class "${line.icon != "" ? "cell" : ""} ${line.active ? "active" : ""}" :tooltip {line.tooltip}
             (box :orientation "v" :space-evenly false :valign "center"
               (label :class "icon" :visible {line.icon != ""} :text {line.icon})
-              (label :class "${line.alert ? "alert" : ""}" :text {line.text}))))))
+              (label :class "${line.alert ? "alert" : ""}" :visible {line.text != ""} :text {line.text}))))))
     (box :class "separator")))
 
 (defwidget toggles []

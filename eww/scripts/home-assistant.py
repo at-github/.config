@@ -4,6 +4,7 @@
 A line that cannot be read shows a red bug icon, the reason in its tooltip.
 """
 import json
+from datetime import datetime
 
 from ha_errors import BIN, BUG_ICON, Unreadable, entity, fetch_states, number
 
@@ -52,6 +53,7 @@ ICONS = {
     "solar_power": "",
     "ac_input_power": "",
     "plug": "\U000f1108",
+    "window": "\U000f11dc",
 }
 
 
@@ -131,9 +133,39 @@ def build_plug_line(reference, entities, states):
     }
 
 
-def build_line(name, reference, entities, states):
+def opened_since(last_changed):
+    """"14:32" today, "13/11 14:32" before."""
+    moment = datetime.fromisoformat(last_changed).astimezone()
+    if moment.date() == datetime.now().date():
+        return moment.strftime("%H:%M")
+    return moment.strftime("%d/%m %H:%M")
+
+
+def build_window_line(reference, entities, states, display_name):
+    """Open window icon, highlighted; None while closed (nothing shown)."""
+    entity_id = entities[reference]["entity_id"]
+    line = {"name": "window", "icon": ICONS["window"], "toggle": "", "alert": False}
+    try:
+        if isinstance(states, Unreadable):
+            raise states
+        state = entity(states, entity_id)
+    except Unreadable as error:
+        return line | {"text": BUG_ICON, "alert": True, "active": False,
+                       "tooltip": f"{display_name} : {error}"}
+    if state["state"] != "on":
+        return None
+    return line | {
+        "text": "",
+        "active": True,
+        "tooltip": f"{display_name} ouvert depuis {opened_since(state['last_changed'])}",
+    }
+
+
+def build_line(name, reference, entities, states, display_name):
     if name == "plug":
         return build_plug_line(reference, entities, states)
+    if name == "window":
+        return build_window_line(reference, entities, states, display_name)
     names = [reference] if isinstance(reference, str) else reference
     entity_ids = [entities[entity]["entity_id"] for entity in names]
     line = {"name": name, "icon": ICONS.get(name, ""), "toggle": ""}
@@ -160,10 +192,11 @@ def build_line(name, reference, entities, states):
 
 def build_block(display, entities, states):
     lines = [
-        build_line(name, reference, entities, states)
+        build_line(name, reference, entities, states, display.get("name", ""))
         for name, reference in display.items()
         if name not in ("label", "name")
     ]
+    lines = [line for line in lines if line is not None]
     return {
         "label": display.get("label", ""),
         "name": display.get("name", ""),
@@ -181,7 +214,9 @@ def main():
         build_block(display, document["entities"], states)
         for display in document["displays"]["eww"]
     ]
-    # Untitled blocks (solar) last, below the rooms
+    # Blocks with nothing to show (closed window) are hidden
+    blocks = [block for block in blocks if block["lines"]]
+    # Untitled blocks (solar, velux) last, below the rooms
     blocks.sort(key=lambda block: block["label"] == "")
     print(json.dumps(blocks, ensure_ascii=False))
 
