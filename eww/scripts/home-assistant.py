@@ -30,6 +30,16 @@ TOOLTIPS = {
 ALERT_BOUNDS = {
     "cell_temperature": (5, 45),
 }
+# Battery thresholds, read from the EcoFlow settings: red at or below the
+# backup reserve (the discharge limit when the reserve is off) plus a margin,
+# inverted colors from the charge limit up (maintenance charges reach 100%)
+BATTERY_LOW_MARGIN = 5
+BATTERY_SETTINGS = {
+    "discharge_limit": "delta2max_charge_limit_min",
+    "charge_limit": "delta2max_charge_limit_max",
+    "reserve": "delta2max_backup_reserve",
+    "reserve_enabled": "delta2max_backup_reserve_enabled",
+}
 # Lines highlighted (inverted colors) while their displayed value is not 0
 HIGHLIGHT_NONZERO = {"output_power", "solar_power", "ac_input_power"}
 # Line icons; the AC input one mirrors the output one
@@ -66,6 +76,35 @@ def is_active(name, value):
     return name in HIGHLIGHT_NONZERO and round(value) != 0
 
 
+def battery_thresholds(entities, states):
+    """(low, high) battery levels; Unreadable names the setting that fails."""
+    def state(setting):
+        entity_id = entities[BATTERY_SETTINGS[setting]]["entity_id"]
+        return entity_id, entity(states, entity_id)["state"]
+
+    def value(setting):
+        entity_id, raw = state(setting)
+        return number(raw, entity_id, "la valeur")
+
+    reserve_on = state("reserve_enabled")[1] == "on"
+    low = value("reserve" if reserve_on else "discharge_limit") + BATTERY_LOW_MARGIN
+    return low, value("charge_limit")
+
+
+def battery_colors(value, entities, states):
+    """alert, active and tooltip of the battery line."""
+    try:
+        low, high = battery_thresholds(entities, states)
+    except Unreadable as error:
+        return False, False, f"{TOOLTIPS['battery_level']} (seuils illisibles : {error})"
+    shown = round(value)
+    tooltip = (
+        f"{TOOLTIPS['battery_level']} — rouge à {low:.0f}% ou moins, "
+        f"couleurs inversées dès {high:.0f}%"
+    )
+    return shown <= low, shown >= high, tooltip
+
+
 def build_line(name, reference, entities, states):
     names = [reference] if isinstance(reference, str) else reference
     entity_ids = [entities[entity]["entity_id"] for entity in names]
@@ -79,11 +118,15 @@ def build_line(name, reference, entities, states):
             "active": False,
             "tooltip": f"{TOOLTIPS[name]} : {error}",
         }
+    if name == "battery_level":
+        alert, active, tooltip = battery_colors(value, entities, states)
+    else:
+        alert, active, tooltip = is_alert(name, value), is_active(name, value), TOOLTIPS[name]
     return line | {
         "text": FORMATS[name](value),
-        "alert": is_alert(name, value),
-        "active": is_active(name, value),
-        "tooltip": TOOLTIPS[name],
+        "alert": alert,
+        "active": active,
+        "tooltip": tooltip,
     }
 
 
