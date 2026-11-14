@@ -1,4 +1,4 @@
-/* pywal colors on top of Adwaita-dark (set in settings.ini).
+/* pywal colors on top of Adwaita dark (set in settings.ini).
    Palette comes from the wal template wal/templates/gtk-colors.css. */
 @import url("../../.cache/wal/gtk-colors.css");
 
@@ -228,4 +228,12 @@ label.dim-label,
 link,
 *:link {
   color: @wal_accent;
+}
+
+/* i3 does not support _GTK_FRAME_EXTENTS, so GTK draws a 4px "solid-csd"
+   resize frame around client-side decorated windows: remove it. */
+.solid-csd decoration {
+  padding: 0;
+  border: none;
+  box-shadow: none;
 }
