@@ -151,6 +151,13 @@ calendar:indeterminate {
   color: $alert;
 }
 
+// Power lines (solar, output, AC input) while not at 0: inverted colors,
+// like the caps lock indicator
+.active {
+  background: $color3;
+  color: $color0;
+}
+
 // Dark text on the light background, readable whatever the wallpaper
 .caps {
   background: $color3;

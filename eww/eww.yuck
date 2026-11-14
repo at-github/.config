@@ -51,7 +51,7 @@
     (box :orientation "v" :space-evenly false
       (label :class "block-label" :visible {block.label != ""} :text {block.label} :tooltip {block.name})
       (for line in {block.lines}
-        (box :class "${line.icon != "" ? "cell" : ""}" :tooltip {line.tooltip}
+        (box :class "${line.icon != "" ? "cell" : ""} ${line.active ? "active" : ""}" :tooltip {line.tooltip}
           (box :orientation "v" :space-evenly false :valign "center"
             (label :class "icon" :visible {line.icon != ""} :text {line.icon})
             (label :class "${line.alert ? "alert" : ""}" :text {line.text})))))

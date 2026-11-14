@@ -30,6 +30,8 @@ TOOLTIPS = {
 ALERT_BOUNDS = {
     "cell_temperature": (5, 45),
 }
+# Lines highlighted (inverted colors) while their displayed value is not 0
+HIGHLIGHT_NONZERO = {"output_power", "solar_power", "ac_input_power"}
 # Line icons; the AC input one mirrors the output one
 ICONS = {
     "battery_level": "\U000f0080",
@@ -59,6 +61,11 @@ def is_alert(name, value):
     return not low <= round(value) <= high
 
 
+def is_active(name, value):
+    # Compare the displayed (rounded) value, so "0W" is never highlighted
+    return name in HIGHLIGHT_NONZERO and round(value) != 0
+
+
 def build_line(name, reference, entities, states):
     names = [reference] if isinstance(reference, str) else reference
     entity_ids = [entities[entity]["entity_id"] for entity in names]
@@ -66,10 +73,16 @@ def build_line(name, reference, entities, states):
     try:
         value = line_value(entity_ids, states)
     except Unreadable as error:
-        return line | {"text": BUG_ICON, "alert": True, "tooltip": f"{TOOLTIPS[name]} : {error}"}
+        return line | {
+            "text": BUG_ICON,
+            "alert": True,
+            "active": False,
+            "tooltip": f"{TOOLTIPS[name]} : {error}",
+        }
     return line | {
         "text": FORMATS[name](value),
         "alert": is_alert(name, value),
+        "active": is_active(name, value),
         "tooltip": TOOLTIPS[name],
     }
 
